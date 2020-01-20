@@ -1,0 +1,15 @@
+Package: listdown
+Title: Create RMarkdown Code from Lists
+Version: 0.0.0.9000
+Authors@R: c(
+  person("Michael", "Kane",
+    role = c("aut", "cph", "cre"),
+    email = "mkane@presagia.ai",
+    comment = "http://orcid.org/0000-0003-1899-6662"
+    ))
+Description: Take a list output RMarkdown documents
+License: Apache License (>= 2.0)
+Encoding: UTF-8
+LazyData: true
+Suggests: 
+    testthat
