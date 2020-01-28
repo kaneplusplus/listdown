@@ -85,12 +85,8 @@ depth_first_concat <- function(print_list, ld, heading = "#",
       pll_name <- names(eval(parse(text = pll)))
       if (pll_name != "") {
         ret_str <<- c(ret_str, 
-          sprintf("```{r, echo = %s, message = %s, warning = %s}",
-                   eval(ld$echo), eval(ld$message), eval(ld$warning)),
           "",
           sprintf(paste0(heading, " %s"), pll_name), 
-          "",
-          "```",
           "")
       }
 
