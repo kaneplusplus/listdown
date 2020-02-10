@@ -1,7 +1,7 @@
 #' @title Create a listdown Object
 #'
 #' @description A listdown object provides information for how a presentation
-#' list should be used to create an RMarkdown document. It requires an
+#' list should be used to create an R Markdown document. It requires an
 #' unquoted expression indicating how the presentation list will be loaded.
 #' In addition, libraries required by the outputted document and other
 #' paraeters can be specified.
@@ -31,10 +31,10 @@ listdown <- function(load_ld_expr,
 #'
 #' @description After a presentation list and listdown object have been
 #' constructed the chunks can be rendered to a string, which can be appended
-#' to a file, with appropriate headers, resulting in a compilable RMarkdown
+#' to a file, with appropriate headers, resulting in a compilable R Markdown
 #' document.
 #' @param pres_list the presentation list. A named list of object to be
-#' displayed in the outputted RMarkdown document.
+#' displayed in the outputted R Markdown document.
 #' @param ld the listdown object that provides
 #' information on how a presentation object should be displayed in the
 #' output.

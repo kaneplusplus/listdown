@@ -1,18 +1,21 @@
 Package: listdown
-Title: Create RMarkdown Code from Lists
-Version: 0.0.0.9000
+Title: listdown: create R/Markdown from lists
+Version: 0.0.1
 Authors@R: c(
   person("Michael", "Kane",
     role = c("aut", "cph", "cre"),
     email = "mkane@presagia.ai",
     comment = "http://orcid.org/0000-0003-1899-6662"
     ))
-Description: Take a list output RMarkdown documents
+Description: Programmatically create R/Markdown documents from lists.
 License: Apache License (>= 2.0)
 Encoding: UTF-8
 LazyData: true
+Depends: R (>= 3.5.0)
+Imports:
+  crayon
 Suggests: 
-    testthat,
-    DT,
-    ggplot2
+  testthat,
+  DT,
+  ggplot2
 RoxygenNote: 7.0.2

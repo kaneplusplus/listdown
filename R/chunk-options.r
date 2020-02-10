@@ -57,9 +57,19 @@ chunk_option_list <- c(
   "sanitize"
   )
 
+#' @title Apply Chunk Options to a Presentation Object
+#' @description This function allows the user to set chunk options for 
+#' individual elements of a presentation list.
+#' @param pres_obj the presentation list element whose chunk options should
+#' be modified.
+#' @param chunk_name the name of the chunk. By default this is NULL, 
+#' correpsonding to no chunk name.
+#' @param ... named chunk options and their values.
+#' @param arg_list the list of chunk options can be specified. If ... 
+#' parameters are specified, then this option is ignored.
 #' @export
-ld_chunk_opts <- function(ld, chunk_name = NULL, ..., arg_list = NULL) {
-  a <- attributes(ld)
+ld_chunk_opts <- function(pres_obj, chunk_name = NULL, ..., arg_list = NULL) {
+  a <- attributes(pres_obj)
   dots <- list(...)
   if (length(dots) > 0) {
     for (i in seq_along(dots)) {
@@ -74,17 +84,17 @@ ld_chunk_opts <- function(ld, chunk_name = NULL, ..., arg_list = NULL) {
       name <- names(dots)[i]
       a$listdown[name] <- list(val)
     }
-    attributes(ld) <- a
+    attributes(pres_obj) <- a
   } else if (!is.null(arg_list)) {
     a$listdown <- arg_list
-    attributes(ld) <- a
+    attributes(pres_obj) <- a
   }
   if (!is.null(chunk_name)) {
-    a <- attributes(ld)
+    a <- attributes(pres_obj)
     a$listdown$chunk_name <- chunk_name
-    attributes(ld) <- a
+    attributes(pres_obj) <- a
   }
-  ld 
+  pres_obj
 }
 
 
