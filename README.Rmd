@@ -17,7 +17,7 @@ knitr::opts_chunk$set(
 
 <!-- badges: start -->
 [![Build Status](https://travis-ci.org/kaneplusplus/listdown.svg?branch=master)](https://travis-ci.org/kaneplusplus/listdown)
-[![Build status](https://ci.appveyor.com/api/projects/status/by1g0f07uqvehh8t/branch/master?svg=true)](https://ci.appveyor.com/project/kaneplusplus/listdown/branch/master)
+[![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/kaneplusplus/listdown?branch=master&svg=true)](https://ci.appveyor.com/project/kaneplusplus/listdown)
 [![Codecov test coverage](https://codecov.io/gh/kaneplusplus/listdown/branch/master/graph/badge.svg)](https://codecov.io/gh/kaneplusplus/listdown?branch=master)
 <!-- badges: end -->
 
