@@ -1,1 +1,4 @@
 ^LICENSE\.md$
+^\.travis\.yml$
+^README\.Rmd$
+^codecov\.yml$

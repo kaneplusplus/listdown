@@ -15,7 +15,8 @@ Depends: R (>= 3.5.0)
 Imports:
   crayon
 Suggests: 
-  testthat,
-  DT,
-  ggplot2
+    testthat,
+    DT,
+    ggplot2,
+    covr
 RoxygenNote: 7.0.2
