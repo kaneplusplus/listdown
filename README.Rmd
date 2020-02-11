@@ -21,10 +21,20 @@ knitr::opts_chunk$set(
 [![Codecov test coverage](https://codecov.io/gh/kaneplusplus/listdown/branch/master/graph/badge.svg)](https://codecov.io/gh/kaneplusplus/listdown?branch=master)
 <!-- badges: end -->
 
-The goal of listdown is to programmatically create R Markdown files from 
-named lists. The package currently supports the creation of workflowr, 
-pdf, word, html, and slide documents.
+## Overview 
 
+The listdown package provides functions to programmatically create R Markdown files from 
+named lists. It is intended for data analysis pipelines where the presentation of the results
+is separated from their creation. For this use case, a data processing (or analysis) is performed
+and the results are provided in a single named list, organized heirarchically. From the list, 
+listdown creates a workflowr, pdf, word, or html page. List element names denote sections, subsections,
+subsubsection, etc. and the list elements contain the data structure to be presented including
+graphs and tables. The goal of the package is not to provide a finished, readable document. It is to provide a document  with all tables and visualization that will appear. This serves as a starting point from which a user  can organize outputs, describe a study, discuss results, and provide conclusions.
+
+listdown provides a reproducible means for _analytical_ document elements. It is most compatible with
+data analysis pipelines where the data format is fixed but the analyses are either being updated, 
+which may affect _narrative_ elements including the result discussion and conclusion, or where the
+experiment is different, which affects all narrative elements.
 
 ## Installation
 
