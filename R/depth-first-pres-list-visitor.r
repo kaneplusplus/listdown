@@ -1,19 +1,4 @@
 
-# Utility functions for depth-first traversal of presentation lists.
-list_loc_dive <- function(ll) {
-  ll <- c(ll, 1)
-  ll
-}
-
-list_loc_inc <- function(ll) {
-  if (is.null(ll)) {
-    ll <- 1
-  } else {
-    ll[length(ll)] <- ll[length(ll)] + 1
-  }
-  ll
-}
-
 list_loc_string <- function(ll) {
   if (is.null(ll)) {
     NULL

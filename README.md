@@ -20,21 +20,25 @@ Markdown files from named lists. It is intended for data analysis
 pipelines where the presentation of the results is separated from their
 creation. For this use case, a data processing (or analysis) is
 performed and the results are provided in a single named list, organized
-heirarchically. From the list, listdown creates a workflowr, pdf, word,
-or html page. List element names denote sections, subsections,
+heirarchically. With the list and a listdown object a workflowr, pdf,
+word, or html page. List element names denote sections, subsections,
 subsubsection, etc. and the list elements contain the data structure to
 be presented including graphs and tables. The goal of the package is not
 to provide a finished, readable document. It is to provide a document
-with all tables and visualization that will appear. This serves as a
-starting point from which a user can organize outputs, describe a study,
-discuss results, and provide conclusions.
+with all tables and visualization that will appear (*computational*
+components). This serves as a starting point from which a user can
+organize outputs, describe a study, discuss results, and provide
+conclusions (*narrative* components).
 
-listdown provides a reproducible means for *analytical* document
-elements. It is most compatible with data analysis pipelines where the
-data format is fixed but the analyses are either being updated, which
-may affect *narrative* elements including the result discussion and
-conclusion, or where the experiment is different, which affects all
-narrative elements.
+listdown provides a reproducible means for producing a document with
+specified computational components. It is most compatible with data
+analysis pipelines where the data format is fixed but the analyses are
+either being updated, which may affect narrative components including
+the result discussion and conclusion, or where the experiment is
+different, which affects all narrative components If the narrative
+components are not changing with the data being pushed through your
+analysis pipeline, then you may be better off writing the R Markdown
+code manually.
 
 ## Installation
 
@@ -54,6 +58,95 @@ You can install the development version of listdown from
 ``` r
 # install.packages("devtools")
 devtools::install_github("kaneplusplus/listdown")
+```
+
+## Example
+
+As a toy example, suppose we would like to create an html document
+plotting Anscombe’s quartet with each plot having it’s own section. To
+construct the document, we will need to two objects. The first is a
+presentation list, whose names indicate section (or subsection) titles
+and whose elements are the objects to present. The second is a
+`listdown` object, which describes how the object should be rendered in
+the document.
+
+``` r
+library(listdown)
+library(ggplot2)
+
+data(anscombe)
+
+# Create the ggplot objects to display.
+pres_list <- list(
+  Linear = ggplot(anscombe, aes(x = x1, y = y1)) + geom_point() + theme_bw(),
+  `Non Linear` = ggplot(anscombe, aes(x = x2, y = y2)) + geom_point() + theme_bw(),
+  `Outlier Vertical`= ggplot(anscombe, aes(x = x3, y = y3)) + geom_point() + theme_bw(),
+  `Outlier Horizontal` = ggplot(anscombe, aes(x = x4, y = y4)) + geom_point() + theme_bw())
+
+# Save the pres_list object so that it can be used in the R Markdown document.
+saveRDS(pres_list, "pres-list.rds")
+
+# Create a listdown object.
+ld <- listdown(load_ld_expr = readRDS("pres-list.rds"), # The expression to load pres_list.
+               package = "ggplot2",                     # The packges needed to render plots.
+               decorator = list(ggplot = identity))     # What to do with the pres_list elements.
+
+# Output an html document to a string.
+doc <- c(
+  ld_rmarkdown_header("Anscombe's Quartet",
+                     author = "Francis Anscombe",
+                     date = "1973"),
+  ld_make_chunks(pres_list, ld))
+
+doc
+```
+
+    #>  [1] "---"                                    
+    #>  [2] "title: \"Anscombe's Quartet\""          
+    #>  [3] "author: \"Francis Anscombe\""           
+    #>  [4] "date: \"1973\""                         
+    #>  [5] "output: html_document"                  
+    #>  [6] "---"                                    
+    #>  [7] ""                                       
+    #>  [8] "```{r}"                                 
+    #>  [9] "library(ggplot2)"                       
+    #> [10] ""                                       
+    #> [11] "pres_list <- readRDS(\"pres-list.rds\")"
+    #> [12] "```"                                    
+    #> [13] ""                                       
+    #> [14] "# Linear"                               
+    #> [15] ""                                       
+    #> [16] "```{r}"                                 
+    #> [17] "identity(pres_list[[1]])"               
+    #> [18] "```"                                    
+    #> [19] ""                                       
+    #> [20] "# Non Linear"                           
+    #> [21] ""                                       
+    #> [22] "```{r}"                                 
+    #> [23] "identity(pres_list[[2]])"               
+    #> [24] "```"                                    
+    #> [25] ""                                       
+    #> [26] "# Outlier Vertical"                     
+    #> [27] ""                                       
+    #> [28] "```{r}"                                 
+    #> [29] "identity(pres_list[[3]])"               
+    #> [30] "```"                                    
+    #> [31] ""                                       
+    #> [32] "# Outlier Horizontal"                   
+    #> [33] ""                                       
+    #> [34] "```{r}"                                 
+    #> [35] "identity(pres_list[[4]])"               
+    #> [36] "```"
+
+The document can then be written to a file, rendered, and viewed with
+the following code.
+
+``` r
+library(rmarkdown)
+
+writeLines(doc, file("anscombe.Rmd"))
+render("anscombe.Rmd")
+browseURL("anscombe.html")
 ```
 
 <!-- 

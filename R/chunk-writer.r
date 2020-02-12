@@ -50,6 +50,7 @@ ld_make_chunks.default <- function(pres_list, ld) {
            paste(class(ld), collapse = ":"), ".", sep = ""))
 }
 
+#' @export
 ld_make_chunks.listdown <- function(pres_list, ld) {
 
   ret_string <- ""

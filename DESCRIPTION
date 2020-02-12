@@ -1,5 +1,5 @@
 Package: listdown
-Title: listdown: create R/Markdown from lists
+Title: listdown: create R Markdown from lists
 Version: 0.0.1
 Authors@R: c(
   person("Michael", "Kane",
@@ -7,7 +7,7 @@ Authors@R: c(
     email = "mkane@presagia.ai",
     comment = "http://orcid.org/0000-0003-1899-6662"
     ))
-Description: Programmatically create R/Markdown documents from lists.
+Description: Programmatically create R Markdown documents from lists.
 License: Apache License (>= 2.0)
 Encoding: UTF-8
 LazyData: true
@@ -15,8 +15,11 @@ Depends: R (>= 3.5.0)
 Imports:
   crayon
 Suggests: 
-    testthat,
-    DT,
-    ggplot2,
-    covr
+  testthat,
+  DT,
+  ggplot2,
+  covr,
+  rmarkdown
+URL: https://github.com/kaneplusplus/listdown
+BugReports: https://github.com/kaneplusplus/listdown/issues
 RoxygenNote: 7.0.2

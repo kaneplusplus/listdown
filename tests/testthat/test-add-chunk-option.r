@@ -14,6 +14,10 @@ ld <- listdown(readRDS(here("option-check.rds")),
                package = "knitr",
                decorator = list(data.frame = kable))
 
+test_that("Only listdown objects can be used to make chunks.", {
+  expect_error(ld_make_chunks(letters, 1:10))
+})
+
 if (make_reference) {
   saveRDS(ld_make_chunks(pres_list, ld),
           file.path("reference-data", "chunk-option-1.rds"))
@@ -61,3 +65,13 @@ test_that("Chunks can have names and options.", {
                readRDS(file.path("reference-data", "chunk-option-4.rds")))
 })
 
+test_that("Options can be NULL", {
+  plt <- ld_chunk_opts(pres_list$iris, results = NULL)
+  expect_equal(attributes(plt)$listdown$results, "NULL")
+})
+
+test_that("Arg liststs can be created.", {
+  arg_list = list(echo = FALSE, eval = TRUE)
+  plt <- ld_chunk_opts(pres_list$iris, arg_list = arg_list)
+  expect_equal(attributes(plt)$listdown, arg_list)
+})
