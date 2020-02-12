@@ -159,3 +159,10 @@ library(listdown)
 ## basic example code
 ```
 -->
+
+## Code of Conduct
+
+Please note that the listdown package is released with a [Contributor
+Code of
+Conduct](https://raw.githubusercontent.com/kaneplusplus/listdown/master/CODE_OF_CONDUCT.html).
+By contributing to this project, you agree to abide by its terms.
