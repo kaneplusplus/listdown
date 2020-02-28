@@ -14,12 +14,12 @@ status](https://ci.appveyor.com/api/projects/status/github/kaneplusplus/listdown
 
 ## Overview
 
-The listdown package provides functions to programmatically create R
+The {listdown} package provides functions to programmatically create R
 Markdown files from named lists. It is intended for data analysis
 pipelines where the presentation of the results is separated from their
 creation. For this use case, a data processing (or analysis) is
 performed and the results are provided in a single named list, organized
-heirarchically. With the list and a listdown object a workflowr, pdf,
+heirarchically. With the list and a {listdown} object a workflowr, pdf,
 word, or html page. List element names denote sections, subsections,
 subsubsection, etc. and the list elements contain the data structure to
 be presented including graphs and tables. The goal of the package is not
@@ -29,7 +29,7 @@ components). This serves as a starting point from which a user can
 organize outputs, describe a study, discuss results, and provide
 conclusions (*narrative* components).
 
-listdown provides a reproducible means for producing a document with
+{listdown} provides a reproducible means for producing a document with
 specified computational components. It is most compatible with data
 analysis pipelines where the data format is fixed but the analyses are
 either being updated, which may affect narrative components including
@@ -51,7 +51,7 @@ install.packages("listdown")
 And the development version from [GitHub](https://github.com/) with:
 -->
 
-You can install the development version of listdown from
+You can install the development version of {listdown} from
 [GitHub](https://github.com/) with:
 
 ``` r
@@ -162,6 +162,6 @@ library(listdown)
 
 ## Code of Conduct
 
-Please note that the ‘listdown’ project is released with a [Contributor
+Please note that the {listdown} project is released with a [Contributor
 Code of Conduct](CODE_OF_CONDUCT.md). By contributing to this project,
 you agree to abide by its terms.

@@ -11,17 +11,30 @@
 #' to a decorator function.
 #' @param init_expr an initial expression that will be added to the outputted
 #' document after the libraries have been called.
+#' @param default_decorator the decorator to use for list elements whos type
+#' is not inherited from the decorator list. If NULL then the those
+#' elements will not be included when the chunks are written. By default
+#' this is identity, meaning that the elements will be passed directly 
+#' (through the identity() function).
 #' @param ... default options sent to the chunks of the outputted document.
 #' @export
 listdown <- function(load_ld_expr,
                      package = NULL,
                      decorator = list(),
                      init_expr = NULL,
+                     default_decorator = identity,
                      ...) {
+
+  if ( !("default_decorator" %in% names(as.list(match.call))) ) {
+    default_decorator = as.symbol("identity")
+  } else {
+    default_decorator = as.list(match.call()$default_decorator)
+  }
   ret <- list(load_ld_expr = match.call()$load_ld_expr,
               decorator = as.list(match.call()$decorator)[-1],
               package = package,
               init_expr = match.call()$init_expr,
+              default_decorator = default_decorator,
               dots = list(...))
   class(ret) <- "listdown"
   ret

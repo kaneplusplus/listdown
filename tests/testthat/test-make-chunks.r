@@ -57,8 +57,7 @@ test_that("The listdown object is the same as before.", {
 
 ld2 <- listdown(load_ld_expr = readRDS("a/file"),
                 package = c("ggplot2", "DT", "purrr"),
-                decorator = list(ggplot = identity,
-                                  data.frame = datatable),
+                decorator = list(data.frame = datatable),
                 init_expr = {
                   datatable <- partial(DT::datatable,
                                        options = list(ordering = FALSE))},

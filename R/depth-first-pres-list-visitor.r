@@ -89,6 +89,17 @@ depth_first_concat <- function(pres_list, ld, heading = "#",
         depth_first_concat_impl(pres_list = pres_list, ld = ld,
                                 heading = paste0(heading, "#"),
                                 list_location = list_loc)
+      } else {
+        # It's not one of the decorators, and it's not a list. Use the
+        # default decorator.
+        if (!is.null(ld$default_decorator)) {
+          ret_str <<- c(ret_str,
+            sprintf("```{r%s}", 
+                    make_chunk_option_string(ld, eval(parse(text = pl)))),
+            paste0(as.character(ld$default_decorator), "(", pl, ")"),
+            "```",
+            "")
+        }
       }
     }
   }
