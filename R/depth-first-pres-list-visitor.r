@@ -47,22 +47,22 @@ make_chunk_option_string <- function(ld, pres_obj = NULL) {
   chunk_option_string
 }
 
-depth_first_concat <- function(pres_list, ld, heading = "#",
+depth_first_concat <- function(cc_list, ld, heading = "#",
                                list_location = c()) {
 
   ret_str <- ""
 
-  depth_first_concat_impl <- function(pres_list, ld, heading, list_location) {
+  depth_first_concat_impl <- function(cc_list, ld, heading, list_location) {
 
-    current_location <- paste0("pres_list", list_loc_string(list_location))
+    current_location <- paste0("cc_list", list_loc_string(list_location))
 
 
      list_locs <- lapply(seq_along(eval(parse(text = current_location))),
                          function(x) c(list_location, x))
 
     for (list_loc in list_locs) {
-      pll <- paste0("pres_list", list_loc_list_string(list_loc))
-      pl <- paste0("pres_list", list_loc_string(list_loc))
+      pll <- paste0("cc_list", list_loc_list_string(list_loc))
+      pl <- paste0("cc_list", list_loc_string(list_loc))
       pll_name <- names(eval(parse(text = pll)))
       if (pll_name != "") {
         ret_str <<- c(ret_str,
@@ -86,7 +86,7 @@ depth_first_concat <- function(pres_list, ld, heading = "#",
           "")
 
       } else if (inherits(eval(parse(text = pl)), "list")) {
-        depth_first_concat_impl(pres_list = pres_list, ld = ld,
+        depth_first_concat_impl(cc_list = cc_list, ld = ld,
                                 heading = paste0(heading, "#"),
                                 list_location = list_loc)
       } else {
@@ -103,7 +103,7 @@ depth_first_concat <- function(pres_list, ld, heading = "#",
       }
     }
   }
-  depth_first_concat_impl(pres_list = pres_list, ld = ld, heading = heading,
+  depth_first_concat_impl(cc_list = cc_list, ld = ld, heading = heading,
                           list_location = list_location)
   while(length(ret_str) > 0 && ret_str[length(ret_str)] == "") {
     ret_str <- ret_str[-length(ret_str)]

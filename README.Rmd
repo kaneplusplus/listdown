@@ -76,7 +76,7 @@ pres_list <- list(
 saveRDS(pres_list, "pres-list.rds")
 
 # Create a listdown object.
-ld <- listdown(load_ld_expr = readRDS("pres-list.rds"), # The expression to load pres_list.
+ld <- listdown(load_cc_expr = readRDS("pres-list.rds"), # The expression to load pres_list.
                package = "ggplot2",                     # The packges needed to render plots.
                decorator = list(ggplot = identity))     # What to do with the pres_list elements.
 
@@ -104,7 +104,7 @@ pres_list <- list(
   `Outlier Horizontal` = ggplot(anscombe, aes(x = x4, y = y4)) + geom_point() + theme_bw())
 
 # Create a listdown object.
-ld <- listdown(load_ld_expr = readRDS("pres-list.rds"), # The expression to load pres_list.
+ld <- listdown(load_cc_expr = readRDS("pres-list.rds"), # The expression to load pres_list.
                package = "ggplot2",                     # The packges needed to render plots.
                decorator = list(ggplot = identity))     # What to do with the plot types.
 
@@ -126,6 +126,10 @@ library(rmarkdown)
 writeLines(doc, file("anscombe.Rmd"))
 render("anscombe.Rmd")
 browseURL("anscombe.html")
+```
+
+```{r cleanup, echo = FALSE, warning = FALSE, error = FALSE}
+unlink("pres-list.rds")
 ```
 
 <!-- 

@@ -5,7 +5,7 @@
 #' unquoted expression indicating how the presentation list will be loaded.
 #' In addition, libraries required by the outputted document and other
 #' paraeters can be specified.
-#' @param load_ld_expr an unquoted expression to load the presentation list.
+#' @param load_cc_expr an unquoted expression to load the presentation list.
 #' @param package a quoted list of package required by the outputted document.
 #' @param decorator a named list mapping the potential types of list elements
 #' to a decorator function.
@@ -18,7 +18,7 @@
 #' (through the identity() function).
 #' @param ... default options sent to the chunks of the outputted document.
 #' @export
-listdown <- function(load_ld_expr,
+listdown <- function(load_cc_expr,
                      package = NULL,
                      decorator = list(),
                      init_expr = NULL,
@@ -30,7 +30,7 @@ listdown <- function(load_ld_expr,
   } else {
     default_decorator = as.list(match.call()$default_decorator)
   }
-  ret <- list(load_ld_expr = match.call()$load_ld_expr,
+  ret <- list(load_cc_expr = match.call()$load_cc_expr,
               decorator = as.list(match.call()$decorator)[-1],
               package = package,
               init_expr = match.call()$init_expr,
@@ -46,26 +46,25 @@ listdown <- function(load_ld_expr,
 #' constructed the chunks can be rendered to a string, which can be appended
 #' to a file, with appropriate headers, resulting in a compilable R Markdown
 #' document.
-#' @param pres_list the presentation list. A named list of object to be
-#' displayed in the outputted R Markdown document.
 #' @param ld the listdown object that provides
 #' information on how a presentation object should be displayed in the
 #' output.
 #' @seealso \code{\link{listdown}}
 #' @export
-ld_make_chunks <- function(pres_list, ld) {
+ld_make_chunks <- function(ld) {
   UseMethod("ld_make_chunks", ld)
 }
 
 #' @importFrom crayon red
-ld_make_chunks.default <- function(pres_list, ld) {
+ld_make_chunks.default <- function(ld) {
   stop(red("Don't know how to render an object of class ",
            paste(class(ld), collapse = ":"), ".", sep = ""))
 }
 
 #' @export
-ld_make_chunks.listdown <- function(pres_list, ld) {
+ld_make_chunks.listdown <- function(ld) {
 
+  cc_list <- eval(ld$load_cc_expr)
   ret_string <- ""
   if (length(ld$package) > 0) {
     ret_string <-
@@ -75,7 +74,7 @@ ld_make_chunks.listdown <- function(pres_list, ld) {
                      function(x) sprintf("library(%s)", as.character(x)),
                      NA_character_)),
         "",
-        sprintf("pres_list <- %s", deparse(ld$load_ld_expr)),
+        sprintf("cc_list <- %s", deparse(ld$load_cc_expr)),
         "```")
   }
   if (length(ld$init_expr)) {
@@ -91,6 +90,6 @@ ld_make_chunks.listdown <- function(pres_list, ld) {
         "```")
   }
   ret_string <- c(ret_string,
-    depth_first_concat(pres_list, ld))
+    depth_first_concat(cc_list, ld))
   ret_string
 }

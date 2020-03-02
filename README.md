@@ -86,7 +86,7 @@ pres_list <- list(
 saveRDS(pres_list, "pres-list.rds")
 
 # Create a listdown object.
-ld <- listdown(load_ld_expr = readRDS("pres-list.rds"), # The expression to load pres_list.
+ld <- listdown(load_cc_expr = readRDS("pres-list.rds"), # The expression to load pres_list.
                package = "ggplot2",                     # The packges needed to render plots.
                decorator = list(ggplot = identity))     # What to do with the pres_list elements.
 

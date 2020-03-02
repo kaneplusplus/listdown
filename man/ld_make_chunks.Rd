@@ -4,12 +4,9 @@
 \alias{ld_make_chunks}
 \title{Write a listdown Object to a String}
 \usage{
-ld_make_chunks(pres_list, ld)
+ld_make_chunks(ld)
 }
 \arguments{
-\item{pres_list}{the presentation list. A named list of object to be
-displayed in the outputted R Markdown document.}
-
 \item{ld}{the listdown object that provides
 information on how a presentation object should be displayed in the
 output.}

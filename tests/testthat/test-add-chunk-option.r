@@ -10,7 +10,9 @@ if (make_reference) {
 pres_list <- list(iris = iris, 
                   mtcars = mtcars)
 
-ld <- listdown(readRDS(here("option-check.rds")),
+saveRDS(pres_list, "reference-data/option-check.rds")
+
+ld <- listdown(readRDS("reference-data/option-check.rds"),
                package = "knitr",
                decorator = list(data.frame = kable))
 
@@ -19,12 +21,12 @@ test_that("Only listdown objects can be used to make chunks.", {
 })
 
 if (make_reference) {
-  saveRDS(ld_make_chunks(pres_list, ld),
+  saveRDS(ld_make_chunks(ld),
           file.path("reference-data", "chunk-option-1.rds"))
 }
 
 test_that("Output with no options works.", {
-  expect_equal(ld_make_chunks(pres_list, ld),
+  expect_equal(ld_make_chunks(ld),
                readRDS(file.path("reference-data", "chunk-option-1.rds")))
 })
 
@@ -32,36 +34,36 @@ pres_list$mtcars <- ld_chunk_opts(pres_list$mtcars,
                                   echo = FALSE, results = "as.is")
 
 if (make_reference) {
-  saveRDS(ld_make_chunks(pres_list, ld),
+  saveRDS(ld_make_chunks(ld),
           file.path("reference-data", "chunk-option-2.rds"))
 }
 
 test_that("Chunk options can be added.", {
-  expect_equal(ld_make_chunks(pres_list, ld),
+  expect_equal(ld_make_chunks(ld),
                readRDS(file.path("reference-data", "chunk-option-2.rds")))
 })
 
 pres_list$iris <- ld_chunk_opts(pres_list$iris, chunk_name = "iris_chunk")
 
 if (make_reference) {
-  saveRDS(ld_make_chunks(pres_list, ld),
+  saveRDS(ld_make_chunks(ld),
           file.path("reference-data", "chunk-option-3.rds"))
 }
 
 test_that("Chunk names can be added.", {
-  expect_equal(ld_make_chunks(pres_list, ld),
+  expect_equal(ld_make_chunks(ld),
                readRDS(file.path("reference-data", "chunk-option-3.rds")))
 })
 
 pres_list$iris <- ld_chunk_opts(pres_list$iris, echo = TRUE)
 
 if (make_reference) {
-  saveRDS(ld_make_chunks(pres_list, ld),
+  saveRDS(ld_make_chunks(ld),
           file.path("reference-data", "chunk-option-4.rds"))
 }
 
 test_that("Chunks can have names and options.", {
-  expect_equal(ld_make_chunks(pres_list, ld),
+  expect_equal(ld_make_chunks(ld),
                readRDS(file.path("reference-data", "chunk-option-4.rds")))
 })
 

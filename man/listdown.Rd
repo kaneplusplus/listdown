@@ -5,7 +5,7 @@
 \title{Create a listdown Object}
 \usage{
 listdown(
-  load_ld_expr,
+  load_cc_expr,
   package = NULL,
   decorator = list(),
   init_expr = NULL,
@@ -14,7 +14,7 @@ listdown(
 )
 }
 \arguments{
-\item{load_ld_expr}{an unquoted expression to load the presentation list.}
+\item{load_cc_expr}{an unquoted expression to load the presentation list.}
 
 \item{package}{a quoted list of package required by the outputted document.}
 
