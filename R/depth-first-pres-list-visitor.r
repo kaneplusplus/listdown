@@ -64,7 +64,7 @@ depth_first_concat <- function(cc_list, ld, heading = "#",
       pll <- paste0("cc_list", list_loc_list_string(list_loc))
       pl <- paste0("cc_list", list_loc_string(list_loc))
       pll_name <- names(eval(parse(text = pll)))
-      if (pll_name != "") {
+      if (length(pll_name) && pll_name != "") {
         ret_str <<- c(ret_str,
           sprintf(paste0(heading, " %s"), pll_name),
           "")
