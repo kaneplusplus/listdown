@@ -10,21 +10,18 @@ if (make_reference) {
 }
 
 # The list we'll make an RMarkdown document from.
-test_list <- list(iris = iris,
-     list(Sepal.Length =
-          list(Sepal.Width = ggplot(iris,
-                                    aes(x = Sepal.Length, y = Sepal.Width)) +
-                 geom_point()),
-          list(Petal.Length = ggplot(iris,
-                                     aes(x = Sepal.Length, y = Sepal.Width))),
-          list(Colored = list(Sepal.Width = ggplot(iris,
-                                    aes(x = Sepal.Length, y = Sepal.Width,
-                                        color = Species)) +
-                                geom_point(),
-                              Petal.Length = ggplot(iris,
-                                    aes(x = Sepal.Length, y = Petal.Length,
-                                        color = Species)) +
-                                geom_point()))))
+test_list <- list(
+    iris = iris,
+     Sepal.Length = list(
+          Sepal.Width = ggplot(iris, aes(x = Sepal.Length, y = Sepal.Width)) +
+            geom_point(),
+          Petal.Length = ggplot(iris, aes(x = Sepal.Length, y = Sepal.Width)) +
+            geom_point(),
+     Colored = list(
+          Sepal.Width = ggplot(iris, aes(x = Sepal.Length, y = Sepal.Width,
+            color = Species)) + geom_point(),
+          Petal.Length = ggplot(iris, aes(x = Sepal.Length, y = Petal.Length,
+            color = Species)) + geom_point())))
 
 # The listdown object. It needs the libraries to load, the decorators,
 # and, coming soon, arbitrary code.

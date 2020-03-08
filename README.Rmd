@@ -103,6 +103,9 @@ pres_list <- list(
   `Outlier Vertical`= ggplot(anscombe, aes(x = x3, y = y3)) + geom_point() + theme_bw(),
   `Outlier Horizontal` = ggplot(anscombe, aes(x = x4, y = y4)) + geom_point() + theme_bw())
 
+# Save the pres_list object so that it can be used in the R Markdown document.
+saveRDS(pres_list, "pres-list.rds")
+
 # Create a listdown object.
 ld <- listdown(load_cc_expr = readRDS("pres-list.rds"), # The expression to load pres_list.
                package = "ggplot2",                     # The packges needed to render plots.
@@ -113,7 +116,7 @@ doc <- c(
   ld_rmarkdown_header("Anscombe's Quartet",
                       author = "Francis Anscombe",
                       date = "1973"),
-  ld_make_chunks(pres_list, ld))
+  ld_make_chunks(ld))
 
 doc
 ```
