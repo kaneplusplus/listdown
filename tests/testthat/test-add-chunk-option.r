@@ -67,6 +67,10 @@ test_that("Chunks can have names and options.", {
                readRDS(file.path("reference-data", "chunk-option-4.rds")))
 })
 
+test_that("Bad options can't be added.", {
+  expect_error(ld_chunk_opts(pres_list$iris, no_way_jose = FALSE))
+})
+
 test_that("Options can be NULL", {
   plt <- ld_chunk_opts(pres_list$iris, results = NULL)
   expect_equal(attributes(plt)$listdown$results, "NULL")

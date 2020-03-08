@@ -57,6 +57,10 @@ chunk_option_list <- c(
   "sanitize"
   )
 
+opt_not_r_chunk <- function(x) {
+  x[!(vapply(x, function(opt) opt %in% chunk_option_list, FALSE))]
+}
+
 #' @title Apply Chunk Options to a Presentation Object
 #' @description This function allows the user to set chunk options for 
 #' individual elements of a presentation list.
@@ -71,6 +75,12 @@ chunk_option_list <- c(
 ld_chunk_opts <- function(pres_obj, chunk_name = NULL, ..., arg_list = NULL) {
   a <- attributes(pres_obj)
   dots <- list(...)
+  not_r_chunk_opts <- opt_not_r_chunk(names(dots))
+  if (length(not_r_chunk_opts) > 0) {
+    stop(red("Unrecognized options:\n\t",
+             paste(not_r_chunk_opts, collapse = "\n\t"),
+             "\n", sep = ""))
+  }
   if (length(dots) > 0) {
     for (i in seq_along(dots)) {
       val <- dots[[i]]

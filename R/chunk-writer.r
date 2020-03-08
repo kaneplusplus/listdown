@@ -17,6 +17,7 @@
 #' this is identity, meaning that the elements will be passed directly 
 #' (through the identity() function).
 #' @param ... default options sent to the chunks of the outputted document.
+#' @importFrom crayon red
 #' @export
 listdown <- function(load_cc_expr,
                      package = NULL,
@@ -30,12 +31,20 @@ listdown <- function(load_cc_expr,
   } else {
     default_decorator = as.list(match.call()$default_decorator)
   }
+  dots <- list(...)
+  not_r_chunk_opts <- opt_not_r_chunk(names(dots))
+  if (length(not_r_chunk_opts) > 0) {
+    stop(red("Unrecognized options:\n\t",
+             paste(not_r_chunk_opts, collapse = "\n\t"),
+             "\n", sep = ""))
+  }
   ret <- list(load_cc_expr = match.call()$load_cc_expr,
               decorator = as.list(match.call()$decorator)[-1],
               package = package,
               init_expr = match.call()$init_expr,
               default_decorator = default_decorator,
-              dots = list(...))
+              dots = dots)
+
   class(ret) <- "listdown"
   ret
 }

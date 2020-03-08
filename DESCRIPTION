@@ -4,7 +4,7 @@ Version: 0.0.1
 Authors@R: c(
   person("Michael", "Kane",
     role = c("aut", "cph", "cre"),
-    email = "mkane@presagia.ai",
+    email = "michael.kane@yale.edu",
     comment = "http://orcid.org/0000-0003-1899-6662"
     ))
 Description: Programmatically create R Markdown documents from lists.
@@ -15,12 +15,12 @@ Depends: R (>= 3.5.0)
 Imports:
   crayon,
 Suggests: 
-    testthat,
-    DT,
-    ggplot2,
-    covr,
-    rmarkdown,
-    knitr
+  testthat,
+  DT,
+  ggplot2,
+  covr,
+  rmarkdown,
+  knitr
 URL: https://github.com/kaneplusplus/listdown
 BugReports: https://github.com/kaneplusplus/listdown/issues
 RoxygenNote: 7.0.2
