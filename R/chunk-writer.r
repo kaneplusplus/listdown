@@ -92,7 +92,7 @@ ld_make_chunks.listdown <- function(ld) {
         "",
         sprintf("```{r%s}", make_chunk_option_string(ld)),
         if (deparse(ld$init_expr[[1]]) == "{") {
-          deparse(ld$init_expr[[-1]])
+          unlist(lapply(ld$init_expr[-1], function(x) c("", deparse(x))))
         } else {
           deparse(ld$init_expr)
         },

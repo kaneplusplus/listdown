@@ -35,7 +35,12 @@ ld <- listdown(load_cc_expr = readRDS("reference-data/test_list.rds"),
                                 data.frame = datatable),
                init_expr = {
                  datatable <- partial(DT::datatable,
-                                      options = list(ordering = FALSE))})
+                                      options = list(ordering = FALSE))
+                 add_one <- function(x) {
+                   x + 1
+                 }
+               })
+
 
 test_that("A listdown object can be created.", {
   expect_true(inherits(ld, "listdown"))

@@ -23,5 +23,5 @@ Suggests:
   knitr
 URL: https://github.com/kaneplusplus/listdown
 BugReports: https://github.com/kaneplusplus/listdown/issues
-RoxygenNote: 7.0.2
+RoxygenNote: 7.1.0
 VignetteBuilder: knitr
