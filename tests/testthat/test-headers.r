@@ -20,25 +20,3 @@ test_that("The workflowr header hasn't changed.", {
                        "test-workflowr-header.rds")))
 })
 
-if (make_reference) {
-  saveRDS(ld_rmarkdown_header("R Markdown", "Author", "Date"),
-          file.path("reference-data", "test-rmarkdown-header.rds"))
-}
-
-test_that("The R Markdown header hasn't changed.", {
-  expect_equal(ld_rmarkdown_header("R Markdown", "Author", "Date"),
-               readRDS(file.path("reference-data", 
-                       "test-rmarkdown-header.rds")))
-})
-
-if (make_reference) {
-  saveRDS(ld_ioslides_header("R Markdown", "Author", "Date"),
-          file.path("reference-data", "test-ioslides-header.rds"))
-}
-
-test_that("The ioslides header hasn't changed.", {
-  expect_equal(ld_ioslides_header("R Markdown", "Author", "Date"),
-               readRDS(file.path("reference-data", 
-                       "test-ioslides-header.rds")))
-})
-

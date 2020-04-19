@@ -7,7 +7,7 @@
 ld_cc_dendro(x)
 }
 \arguments{
-\item{x}{a possibly named list of computational components}
+\item{x}{a named list of computational components}
 }
 \description{
 This function creates text dendrograms from 
