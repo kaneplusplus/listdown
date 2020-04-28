@@ -10,7 +10,7 @@ as_ld_yml(x)
 \item{x}{a named list of computational components.}
 }
 \description{
-Create an object of type ymlthis::yml from a list of
+Create an object of type yaml::yml from a list of
 computational components. The function recursively descends into the list
 and when an element type is not a list the class information substituted
 for the object.

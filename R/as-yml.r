@@ -15,12 +15,12 @@ last_index_as_list <- function(loc) {
 
 #' @title Turn a Computational Component List into YAML with Class Information
 #'
-#' @description Create an object of type ymlthis::yml from a list of
+#' @description Create an object of type yaml::yml from a list of
 #' computational components. The function recursively descends into the list
 #' and when an element type is not a list the class information substituted
 #' for the object.
 #' @param x a named list of computational components.
-#' @importFrom ymlthis as_yml
+#' @importFrom yaml as.yaml
 #' @examples
 #'  library(ggplot2)
 #'  cc_list <- list(
@@ -58,6 +58,6 @@ as_ld_yml <- function(x) {
     }
   }
   depth_first_copy()
-  as_yml(x)
+  as.yaml(x)
 }
 

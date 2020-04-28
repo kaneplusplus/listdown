@@ -59,6 +59,7 @@ make_chunk_option_string <- function(chunk_opts) {
   ret
 }
 
+#' @importFrom crayon yellow
 depth_first_concat <- function(cc_list, ld, heading = "#",
                                list_location = c()) {
 
