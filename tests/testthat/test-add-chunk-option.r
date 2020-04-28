@@ -80,5 +80,5 @@ test_that("Arg liststs can be created.", {
   chunk_opts <- list(echo = FALSE, eval = TRUE)
   plt <- ld_chunk_opts(pres_list$iris, chunk_opts = chunk_opts)
   attributes(plt)$listdown$chunk_name <- NULL
-  expect_equal(attributes(plt)$listdown, chunk_opts)
+  expect_equal(attributes(plt)$listdown, list(echo = "FALSE", eval = "TRUE"))
 })

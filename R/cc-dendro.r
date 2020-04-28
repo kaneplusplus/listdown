@@ -51,6 +51,6 @@ ld_cc_dendro <- function(x) {
 
 #' @export
 print.ld_cc_dendro <- function(x, ...) {
-  cat("\n", paste(x, collapse = "\n"), "\n", "\n")
-
+  cat("\n", paste(x, sep = "", collapse = "\n"), "\n", "\n", sep = "")
+  invisible(x)
 }

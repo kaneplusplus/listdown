@@ -86,16 +86,16 @@ ld_chunk_opts <- function(pres_obj, chunk_name = NULL, ..., chunk_opts = NULL) {
   }
   if (length(chunk_opts) > 0) {
     for (i in seq_along(chunk_opts)) {
-      val <- chunk_opts[[i]]
-      if (is.character(val)) {
-        val <- sprintf('"%s"', val)
-      } else if (is.null(val)) {
-        val <- "NULL"
-      } else if (is.logical(val)) {
-        val <- val
-      } else {
-        val <- as.character(val)
-      }
+      val <- deparse(chunk_opts[[i]])
+#      if (is.character(val)) {
+#        val <- sprintf('"%s"', val)
+#      } else if (is.null(val)) {
+#        val <- "NULL"
+#      } else if (is.logical(val)) {
+#        val <- val
+#      } else {
+#        val <- as.character(val)
+#      }
       name <- names(chunk_opts)[i]
       a$listdown[name] <- list(val)
     }
