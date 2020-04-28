@@ -54,10 +54,11 @@ chunk_option_list <- c(
   "out.width",
   "resize.height",
   "resize.width",
-  "sanitize"
+  "sanitize",
+  ""
   )
 
-opt_not_r_chunk <- function(x) {
+not_r_chunk_opts <- function(x) {
   x[!(vapply(x, function(opt) opt %in% chunk_option_list, FALSE))]
 }
 
@@ -69,34 +70,38 @@ opt_not_r_chunk <- function(x) {
 #' @param chunk_name the name of the chunk. By default this is NULL, 
 #' correpsonding to no chunk name.
 #' @param ... named chunk options and their values.
-#' @param arg_list the list of chunk options can be specified. If ... 
-#' parameters are specified, then this option is ignored.
+#' @param chunk_opts list of chunk options can be specified. Takes priority
+#' over arguments provided to ...
 #' @export
-ld_chunk_opts <- function(pres_obj, chunk_name = NULL, ..., arg_list = NULL) {
+ld_chunk_opts <- function(pres_obj, chunk_name = NULL, ..., chunk_opts = NULL) {
   a <- attributes(pres_obj)
-  dots <- list(...)
-  not_r_chunk_opts <- opt_not_r_chunk(names(dots))
+  if (is.null(chunk_opts)) {
+    chunk_opts <- list(...)
+  }
+  not_r_chunk_opts <- not_r_chunk_opts(names(chunk_opts))
   if (length(not_r_chunk_opts) > 0) {
     stop(red("Unrecognized options:\n\t",
              paste(not_r_chunk_opts, collapse = "\n\t"),
              "\n", sep = ""))
   }
-  if (length(dots) > 0) {
-    for (i in seq_along(dots)) {
-      val <- dots[[i]]
+  if (length(chunk_opts) > 0) {
+    for (i in seq_along(chunk_opts)) {
+      val <- chunk_opts[[i]]
       if (is.character(val)) {
         val <- sprintf('"%s"', val)
       } else if (is.null(val)) {
         val <- "NULL"
+      } else if (is.logical(val)) {
+        val <- val
       } else {
         val <- as.character(val)
       }
-      name <- names(dots)[i]
+      name <- names(chunk_opts)[i]
       a$listdown[name] <- list(val)
     }
     attributes(pres_obj) <- a
-  } else if (!is.null(arg_list)) {
-    a$listdown <- arg_list
+  } else if (!is.null(chunk_opts)) {
+    a$listdown <- chunk_opts
     attributes(pres_obj) <- a
   }
   if (!is.null(chunk_name)) {

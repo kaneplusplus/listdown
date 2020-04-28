@@ -77,7 +77,8 @@ test_that("Options can be NULL", {
 })
 
 test_that("Arg liststs can be created.", {
-  arg_list = list(echo = FALSE, eval = TRUE)
-  plt <- ld_chunk_opts(pres_list$iris, arg_list = arg_list)
-  expect_equal(attributes(plt)$listdown, arg_list)
+  chunk_opts <- list(echo = FALSE, eval = TRUE)
+  plt <- ld_chunk_opts(pres_list$iris, chunk_opts = chunk_opts)
+  attributes(plt)$listdown$chunk_name <- NULL
+  expect_equal(attributes(plt)$listdown, chunk_opts)
 })

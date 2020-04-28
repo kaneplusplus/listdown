@@ -76,30 +76,30 @@ Creating a document from the `computational_components` will require two steps. 
 ```{r}
 library(listdown)
 
-ld <- listdown(load_cc_expr = readRDS("comp-comp.rds"), # The expression to load pres_list in the .Rmd.
-               package = "ggplot2")                     # The packges needed to render plots.
+ld <- listdown(load_cc_expr = readRDS("comp-comp.rds"),
+               package = "ggplot2")
 ```
 
 The `ld` object, along with the computational components in the `comp-comp.rds` file are sufficient to to create the sections, subsections, and R chunks of a document. The only other thing requires to create the document is the header. The listdown package currently supports regular R Markdown, workflowr, and ioslides headers. A complete document can then be written to the console using the code shown below. It could easily be written to a file for rendering using the `writeLines()` function, for example.
 
 ```{r}
 doc <- c(
-  ld_rmarkdown_header("Anscombe's Quartet",
-                     author = "Francis Anscombe",
-                     date = "1973"),
+  as.character(ld_rmarkdown_header("Anscombe's Quartet",
+                                   author = "Francis Anscombe",
+                                   date = "1973")),
   ld_make_chunks(ld))
 
-doc
+cat("\n", paste(doc, collapse = "\n"))
 ```
 
-The `listdown()` function provides {\em document-wide} R chunk options for displaying computational components. The chunk options are exactly the same as those in the R markdown document and can be used to tailor the default presentation for a variety of needs. The complete set of options can be found in the [R Markdown Reference Guide](https://rstudio.com/wp-content/uploads/2015/03/rmarkdown-reference.pdf). As a concrete example, the code used to create present the plots could be hidden in the output document using the following code.
+The `listdown()` function provides *document-wide* R chunk options for displaying computational components. The chunk options are exactly the same as those in the R markdown document and can be used to tailor the default presentation for a variety of needs. The complete set of options can be found in the [R Markdown Reference Guide](https://rstudio.com/wp-content/uploads/2015/03/rmarkdown-reference.pdf). As a concrete example, the code used to create present the plots could be hidden in the output document using the following code.
 
 ```{r}
 ld <- listdown(load_cc_expr = readRDS("comp-comp.rds"), 
                package = "ggplot2",
                echo = FALSE)
 
-ld_make_chunks(ld)
+cat(paste(ld_make_chunks(ld), collapse = "\n"))
 ```
 
 ## Decorators
@@ -109,18 +109,19 @@ The first example is simple in part because the ggplot objects both contain the 
 ```{r}
 computational_components$Data <- anscombe
 saveRDS(computational_components, "comp-comp.rds")
-ld_make_chunks(ld)
+cat(paste(ld_make_chunks(ld), collapse = "\n"))
 ```
 
 In this case, the {listdown} package will show the entire data set as is the default specified. However, suppose we do not want to show the entire data set in the document. This is common, especially when the data set is large and requires too much vertical space in the outputted document resulting in too much or irrelevant data being shown. Instead, we would like to output to an html document where the data is shown in a datatable thereby controlling the amount of real-estate needed to present the data and, at the same time, providing the user with interactivity to sort and search the data set.
 
-In {listdown} a function or method that implments the presentation of a computational component is referred to as a {\em decorator} since if follows the classic decorator pattern described in <GoF Design Patterns>. A decorator takes the element that will be presented as an argument and returns an object for presentation in the output directory. A decorator is specified using the `decorator` parameter of the `listdown()` function using a named list where the name corresponds to the type and the element correspond to the function or method that will decorate an object of that type. For example, the `anscombe` data set can be decorated with the `DT::datatable()` function as:
+In {listdown} a function or method that implments the presentation of a computational component is referred to as a {\em decorator} since if follows the decorator pattern described in the classic software engineering text "Design Patterns" by Gamma et al. A decorator takes the element that will be presented as an argument and returns an object for presentation in the output directory. A decorator is specified using the `decorator` parameter of the `listdown()` function using a named list where the name corresponds to the type and the element correspond to the function or method that will decorate an object of that type. For example, the `anscombe` data set can be decorated with the `DT::datatable()` function as follow. It should be noted that the `DT` library both *loaded* in the following code *and* specified as a package options. This allows `ld_make_chunks()` to verify the existence of decorators before generating the chunks.
 
 ```{r}
+library(DT)
 ld <- listdown(load_cc_expr = readRDS("comp-comp.rds"), 
                package = c("ggplot2", "DT"),
                decorator = list(data.frame = datatable))
-ld_make_chunks(ld)
+cat(paste(ld_make_chunks(ld), collapse = "\n"))
 ```
 
 List names in the `decorator` argument provide a key to which a function or method is mapped. The underlying decorator resolution is implemented for a given computational component by going through decorator names sequentially to see if the component inherits from the name using the `inherits()` function. The function or method is selected from the corresponding name which the element first inherits from. This means that when customizing the presentation of objects that inherit from a common class, the more abstract classes should appear at the end of the list. This will ensure that specialized classes will be encountered first in the resolution process.
@@ -150,17 +151,20 @@ pres_list <- list(
 ```
 
 ```{r}
-saveRDS(pres_list, "pres-list.rds")   # Write to a file that can be read by the .Rmd file.
+saveRDS(pres_list, "pres-list.rds")
 
-ld <- listdown(load_cc_expr = readRDS("pres-list.rds"), # The expression to load pres_list in the .Rmd.
-               package = "ggplot2",                     # The packges needed to render plots.
-               decorator = list(ggplot = identity))     # What to do with the pres_list elements.
+ld <- listdown(load_cc_expr = readRDS("pres-list.rds"),
+               package = "ggplot2",
+               decorator = list(ggplot = identity))
 
 # Output an html document to a string.
 doc <- c(
-  ld_rmarkdown_header("Anscombe's Quartet",
-                     author = "Francis Anscombe",
-                     date = "1973"),
+  "---",
+  "author: Francis Anscombe",
+  "date: '1973'",
+  "title: Anscombe's Quartet",
+  "output: html_document",
+  "---",
   ld_make_chunks(ld))
 ```
 
@@ -168,7 +172,7 @@ doc <- c(
 library(rmarkdown)
 
 writeLines(doc, file("anscombe.Rmd"))
-render("anscombe.Rmd")
+render("anscombe.Rmd", quiet = TRUE)
 browseURL("anscombe.html")
 ```
 

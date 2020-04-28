@@ -23,13 +23,34 @@ ld_cc_dendro <- function(x) {
   if (!is.list(x)) {
     stop(red("Argument should be a list type."))
   }
-  tree_yml <- as_ld_yml(x)
-  class(tree_str) <- c("ld_cc_dendro", class(tree_str))
+
+  tdt_impl <- function(x, prefix_string) {
+    for (i in seq_along(x)) {
+      list_name <- names(x[i])
+      if (is.null(list_name)) {
+        list_name <- '""'
+      }
+      vert_sep <- ifelse(i == length(x), " o-- ", " |-- ")
+      tree_str <<- c(tree_str, paste0(prefix_string, vert_sep, list_name))
+      if (!class(x[[i]])[1] == "list") {
+        in_sep <- ifelse(i == length(x), "  ", " |")
+        tree_str <<- c(tree_str, 
+                       paste0(prefix_string, in_sep, "  o-- ",
+                             "object of type(s):", 
+                             paste0(class(x[[i]]), collapse = " ")))
+      } else {
+        tdt_impl(x[[i]], paste0(prefix_string, " "))
+      }
+    }
+  }
+  tree_str <- as.character(as.list(match.call())$x)
+  tdt_impl(x, " ")
+  class(tree_str) <- "ld_cc_dendro"
   tree_str
 }
 
-#' importFom ymlthis draw_yml_tree
 #' @export
 print.ld_cc_dendro <- function(x, ...) {
-  draw_yml_tree(x, ...)
+  cat("\n", paste(x, collapse = "\n"), "\n", "\n")
+
 }

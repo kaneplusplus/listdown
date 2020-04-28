@@ -1,6 +1,6 @@
 Package: listdown
 Title: listdown: create R Markdown from lists
-Version: 0.1.0
+Version: 0.2.0
 Authors@R: c(
   person("Michael", "Kane",
     role = c("aut", "cph", "cre"),
@@ -14,14 +14,14 @@ LazyData: true
 Depends: R (>= 3.5.0)
 Imports:
   crayon,
-  ymlthis
+  yaml
 Suggests: 
-  testthat,
+  covr,
   DT,
   ggplot2,
-  covr,
+  knitr,
   rmarkdown,
-  knitr
+  testthat,
 URL: https://github.com/kaneplusplus/listdown
 BugReports: https://github.com/kaneplusplus/listdown/issues
 RoxygenNote: 7.1.0

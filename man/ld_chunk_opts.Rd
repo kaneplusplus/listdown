@@ -4,7 +4,7 @@
 \alias{ld_chunk_opts}
 \title{Apply Chunk Options to a Presentation Object}
 \usage{
-ld_chunk_opts(pres_obj, chunk_name = NULL, ..., arg_list = NULL)
+ld_chunk_opts(pres_obj, chunk_name = NULL, ..., chunk_opts = NULL)
 }
 \arguments{
 \item{pres_obj}{the presentation list element whose chunk options should
@@ -15,8 +15,8 @@ correpsonding to no chunk name.}
 
 \item{...}{named chunk options and their values.}
 
-\item{arg_list}{the list of chunk options can be specified. If ... 
-parameters are specified, then this option is ignored.}
+\item{chunk_opts}{list of chunk options can be specified. Takes priority
+over arguments provided to ...}
 }
 \description{
 This function allows the user to set chunk options for 

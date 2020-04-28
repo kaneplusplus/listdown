@@ -54,33 +54,46 @@ without narrative components a document has no context. Quantitative
 analyses require research questions, hypotheses, reviews,
 interpretations, and conclusions. Computational components are necessary
 but not sufficient for constructing an analysis. Second, it is not
-possible to construct computational components for an arbitary set of
-distinct analyses. An analysis itself has a context and it is built with
-a set of assumptions and goals. Computational components are constructed
-for a narrow class of problems.
+possible to construct computational components for an arbitary analyses.
+Analyses themselves have context and are built with a set of assumptions
+and goals. Computational components are constructed for a narrow class
+of problems.
 
 However, this is not to say the programmatic creation of R Markdown
-documents is unwarranted or not useful. In fact it has at least two
-appealing characteristics. The first is convenience. \textless FILL THIS
-IN - TALK ABOUT REUSE TO MOTIVATE LARGER PIPELINES\textgreater. The
-second is that for fixed analysis pipelines processing
-uniformly-formatted but domain-distinct data, automated document
-generation enforces uniformity across those domains being serviced. .
+documents is unwarranted or not useful. In fact, it has at least two
+appealing characteristics. The first is that it allows us to distinguish
+the presentation of analytical results from other steps in a data
+science or data processing pipeline. These other steps including
+cleaning and analysis often require their own environment and
+configuration with requirements very different than the computational
+needs of creating a presentation. By separating these components each
+can be developed independently. At the same time, by specifying that the
+output of those objects are organized hierarchically, we are essentially
+creating a contract by which processed data can be passed to the
+presentation as well as providing a way to organize the results. The
+second reason for programmatic creation of R Markdown documents is
+convenience. In collaborative environments, especially in the early
+stages, large numbers of graphs and tables are generated and discussed.
+By collecting these artifacts hierarchicaly as a list, they can be
+quickly iterated upon and restructured to more clearly present the data
+without needing to spend time on the creation of the presentation
+document.
 
 The \pkg{listdown} package provides functions to programmatically create
 R Markdown files from named lists. It is intended for data analysis
 pipelines where the presentation of the results is separated from their
 creation. For this use case, a data processing (or analysis) is
 performed and the results are provided in a single named list, organized
-heirarchically. With the list and a \pkg{listdown} object a workflowr
-\citep{blischak2019}, pdf, word, or html page. List element names denote
-sections, subsections, subsubsection, etc. and the list elements contain
-the data structure to be presented including graphs and tables. The goal
-of the package is not to provide a finished, readable document. It is to
-provide a document with all tables and visualization that will appear
-(\emph{computational} components). This serves as a starting point from
-which a user can organize outputs, describe a study, discuss results,
-and provide conclusions (\emph{narrative} components).
+heirarchically. With the list and a \pkg{listdown} object a
+\pkg{workflowr} \citep{blischak2019}, pdf, word, or html page. List
+element names denote sections, subsections, subsubsection, etc. and the
+list elements contain the data structure to be presented including
+graphs and tables. The goal of the package is not to provide a finished,
+readable document. It is to provide a document with all tables and
+visualization that will appear (\emph{computational} components). This
+serves as a starting point from which a user can organize outputs,
+describe a study, discuss results, and provide conclusions
+(\emph{narrative} components).
 
 \pkg{listdown} provides a reproducible means for producing a document
 with specified computational components. It is most compatible with data
@@ -92,20 +105,49 @@ components are not changing with the data being pushed through your
 analysis pipeline, then you may be better off writing the R Markdown
 code manually.
 
-The package itself is relatively simple with 6 distinct methods that can
-be easily incorporated into existing analysis pipelines for
-automatically creating documents that can be used for data exploration
-and reviewing analysis results as well as a starting point for a more
-formal write up. These methods include:
+One area where we have found \pkg{listdown} is particuarly useful is in
+the reporting and research of clinical trial data. These collaborations
+tend to be between (bio)statisticians and clinicians either analyzing
+past trial data to formulate a new trial or in trial monitoring where
+trial telemetry (enrollment, responses, etc.) is reported and initial
+analyses are conveyed to a clinician. The associated presentations
+require very little context - clinicians often have a better
+understanding of the data collected than the statistician - often
+eliminating the need for narrative components. At the same time, a large
+number of hierarchical, heterogenous artifacts (tables and multiple
+types of plots) need to be conveyed thereby making the manual creation
+of R Markdown documents inconvenient.
+
+Furthermore, data processing can be fixed across trials. This is
+especially true in the initial stages, which focus on patient
+demographics and enrollment. This has made it convenient for our group
+to quickly generate standardize and complete reports for multiple trials
+concurrently. To date, we have used listdown to report on five clinical
+trials, with another two currently in process. Results are disseminated
+using the \pkg{workflowr} package, usually with nine tabs conveying
+aspects of the data from collection through several different analyses,
+and each tab containing approxiately five to thirty tables, plots, or
+other artifacts including \pkg{trelliscopejs} \citep{trelliscopejs}
+environments which may hold hundreds of graphs. By generating many
+presentation artifacts we are able to address data-drive questions and
+issues during collaborative sessions and by carefully structuring these
+elements we allowing all members to participate in the process.
+
+The \pkg{listdown} package itself is relatively simple with 6 distinct
+methods that can be easily incorporated into existing analysis pipelines
+for automatically creating documents that can be used for data
+exploration and reviewing analysis results as well as a starting point
+for a more formal write up. These methods include:
 
 \begin{itemize}
+\item{\bf as\_ld\_yml() }{- turn a computational component list into YAML with class information}
+\item{\bf ld\_cc\_dendro() }{- create a dendrogram from a list of computational components}
 \item{\bf ld\_chunk\_opts() }{- apply chunk options to a presentation object}
 \item{\bf ld\_ioslides\_header() }{- create an ioslides presentation header}
 \item{\bf ld\_make\_chunks() }{- write a listdown object to a string}
-\item{\bf ld\_workflowr\_header() }{- create a worflowr header}
 \item{\bf ld\_rmarkdown\_header() }{- create an R Markdown header}
+\item{\bf ld\_workflowr\_header() }{- create a worflowr header}
 \item{\bf listdown() }{- create a listdown object to create an R Markdown document}
-\item{\bf to\_data\_tree() }{- create a data.tree object from a list of computational components}
 \end{itemize}
 
 The rest of this paper is structured as follow. The next section goes
@@ -129,11 +171,11 @@ is not always how computational components derived from data analyses
 are collated. Often individual components are stored in multiple
 locations on a single machine or across machines. However, it is
 important to realize that even for analyses on large-scale data, the
-digital artifact that will be presented will be relatively small.
-Centralizing them makes it easier to access them, since they don't need
-to be found in mulitple locations. Also, storing them as a list provides
-a hierarchical structure that translates directly to a document as we
-will see below.
+digital artifacts to be presented are relatively small. Centralizing
+them makes it easier to access them, since they don't need to be found
+in mulitple locations. Also, storing them as a list provides a
+hierarchical structure that translates directly to a document as we will
+see below.
 
 As a first example, we will consider the a list of visualizations from
 the anscombe data set. The list is composed of four \pkg{ggplot2}
@@ -172,15 +214,15 @@ Creating a document from the \texttt{computational\_components} will
 require two steps. First, we will create a \texttt{listdown} object that
 specifies how the \texttt{computational\_components} object will be
 loaded into the document, which libraries and code needs to be included,
-the options for the R chunks, and how the list elements will be
-presented in the output R markdown document.
+and how the list elements will be presented in the output R markdown
+document.
 
 \begin{Schunk}
 \begin{Sinput}
 library(listdown)
 
-ld <- listdown(load_cc_expr = readRDS("comp-comp.rds"), # The expression to load pres_list in the .Rmd.
-               package = "ggplot2")                     # The packges needed to render plots.
+ld <- listdown(load_cc_expr = readRDS("comp-comp.rds"),
+               package = "ggplot2")
 \end{Sinput}
 \end{Schunk}
 
@@ -188,26 +230,29 @@ The \texttt{ld} object, along with the computational components in the
 \texttt{comp-comp.rds} file are sufficient to to create the sections,
 subsections, and R chunks of a document. The only other thing requires
 to create the document is the header. The listdown package currently
-supports regular R Markdown, workflowr, and ioslides headers. A complete
-document can then be written to the console using the code shown below.
-It could easily be written to a file for rendering using the
-\texttt{writeLines()} function, for example.
+supports regular R Markdown and \pkg{workflowr} as \code{yml} objects
+from the \pkg{yaml} package \citep{yaml}. These objects are stored as
+named lists in R and are easily modified to accomodate document
+parameters. A complete document can then be written to the console using
+the code shown below. It could easily be written to a file for rendering
+using the \texttt{writeLines()} as in the following example.
 
 \begin{Schunk}
 \begin{Sinput}
 doc <- c(
-  ld_rmarkdown_header("Anscombe's Quartet",
-                     author = "Francis Anscombe",
-                     date = "1973"),
+  as.character(
+    ld_rmarkdown_header("Anscombe's Quartet",
+                        author = "Francis Anscombe",
+                        date = "1973")),
   ld_make_chunks(ld))
 
 cat(paste(doc, collapse = "\n"))
 \end{Sinput}
 \begin{Soutput}
 #> ---
-#> title: "Anscombe's Quartet"
-#> author: "Francis Anscombe"
-#> date: "1973"
+#> title: Anscombe's Quartet
+#> author: Francis Anscombe
+#> date: '1973'
 #> output: html_document
 #> ---
 #> 
@@ -220,25 +265,25 @@ cat(paste(doc, collapse = "\n"))
 #> # Linear
 #> 
 #> ```{r}
-#> identity(cc_list[[1]])
+#> cc_list$Linear
 #> ```
 #> 
 #> # Non Linear
 #> 
 #> ```{r}
-#> identity(cc_list[[2]])
+#> cc_list$`Non Linear`
 #> ```
 #> 
 #> # Outlier Vertical
 #> 
 #> ```{r}
-#> identity(cc_list[[3]])
+#> cc_list$`Outlier Vertical`
 #> ```
 #> 
 #> # Outlier Horizontal
 #> 
 #> ```{r}
-#> identity(cc_list[[4]])
+#> cc_list$`Outlier Horizontal`
 #> ```
 \end{Soutput}
 \end{Schunk}
@@ -279,7 +324,7 @@ contain the data we want to display and, at the same time, provide the
 mechanism for presenting them - rendering them in a graph. However, this
 is not always the case. The objects being stored in the list of
 computational components may not translate directly to the presentation
-in a document. In these cases a function is needed that takes the list
+in a document. In these cases, a function is needed that takes the list
 component and returns an object to be displayed. For example, suppose
 that, along with showing graphs from the Anscombe Quartet, we would like
 to include the data themselves. We could add the data to the
@@ -296,7 +341,7 @@ cat(paste(ld_make_chunks(ld)[32:36], collapse = "\n"))
 #> # Data
 #> 
 #> ```{r echo=FALSE}
-#> identity(cc_list[[5]])
+#> cc_list$Data
 #> ```
 \end{Soutput}
 \end{Schunk}
@@ -311,7 +356,7 @@ datatable thereby controlling the amount of real-estate needed to
 present the data and, at the same time, providing the user with
 interactivity to sort and search the data set.
 
-In \pkg{listdown} a function or method that implments the presentation
+In \pkg{listdown}, a function or method that implements the presentation
 of a computational component is referred to as a \emph{decorator} since
 if follows the classic decorator pattern described in \citet{gamma1995}.
 A decorator takes the element that will be presented as an argument and
@@ -334,7 +379,7 @@ cat(paste(ld_make_chunks(ld)[33:37], collapse = "\n"))
 #> # Data
 #> 
 #> ```{r}
-#> datatable(cc_list[[5]])
+#> datatable(cc_list$Data)
 #> ```
 \end{Soutput}
 \end{Schunk}
@@ -348,7 +393,10 @@ selected from the corresponding name which the element first inherits
 from. This means that when customizing the presentation of objects that
 inherit from a common class, the more abstract classes should appear at
 the end of the list. This will ensure that specialized classes will be
-encountered first in the resolution process.
+encountered first in the resolution process. It should be noted that an
+object's type is first checked against the decorator name list and then
+checked to see if it is a list. This allows a user to both decorate a
+list and retain \texttt{"list"} in its class attributes.
 
 A separate argument, \texttt{default\_decorator}, allows the user to
 specify the default decorator for an object whose type does not appear
@@ -393,17 +441,17 @@ ld_cc_dendro(comp_comp2)
 #> 
 #>  comp_comp2
 #>   |-- Iris
-#>   |  °-- object of type(s):data.frame
-#>   °-- Sepal.Length
+#>   |  o-- object of type(s):data.frame
+#>   o-- Sepal.Length
 #>    |-- Sepal.Width
-#>    |  °-- object of type(s):gg ggplot
+#>    |  o-- object of type(s):gg ggplot
 #>    |-- Petal.Length
-#>    |  °-- object of type(s):gg ggplot
-#>    °-- Colored
+#>    |  o-- object of type(s):gg ggplot
+#>    o-- Colored
 #>     |-- Sepal.Width
-#>     |  °-- object of type(s):gg ggplot
-#>     °-- Petal.Length
-#>        °-- object of type(s):gg ggplot 
+#>     |  o-- object of type(s):gg ggplot
+#>     o-- Petal.Length
+#>        o-- object of type(s):gg ggplot 
 #> 
 \end{Soutput}
 \end{Schunk}
@@ -417,21 +465,36 @@ same procedure is called on the child list through a recursive call. If
 the element is not a list, then it is outputted inside an R Markdown
 chunk in the return string using the appropropriate decorator.
 
-\hypertarget{advanced-usage}{%
-\section{Advanced usage}\label{advanced-usage}}
+\hypertarget{r-code-chunk-customization}{%
+\section{R code chunk customization}\label{r-code-chunk-customization}}
 
-Along with the basic usage, the \pkg{listdown} package supports methods
-to further customize the presentation. Two specific areas of
-customization are addressed. The first is where custom code is required
-either to modify decorators or even define the decorators. In this case,
-we would to add a small portion of code, immediately after loading
-required libraries. In the second case, rather than changing the R code
-inside of a chunk, we would like to change the options for an individual
-chunk. Both of these features are supported in the package and are
-presented below.
+Along with the basic usage, the \pkg{listdown} package supports two
+other capabilities to further customize the presentation. The first is
+where custom code is required either to modify decorators or even define
+a decorators. In this case, we would to add a small portion of code,
+immediately after loading required libraries. In the second case, rather
+than changing the R code inside of a chunk, we would like to change the
+options for an individual chunk. Both of these features are supported in
+the package and are presented below.
 
 \hypertarget{initialization-code}{%
 \subsection{Initialization code}\label{initialization-code}}
+
+The \texttt{listdown()} function facilitates the insertion of
+initialization code through the \texttt{init\_expr} argument. Code is
+inserted immediately after the libraries are loaded in the R Markdown
+document. In general, it is suggested that the number of initial
+expressions be kept small so that the R Markdown document is easy to
+read. If a large number of functions are required by the target R
+Markdown document then they can be put into a file and sourced using the
+initial expression. As an example, suppose we are creating an html
+document and presenting data using the \texttt{datatable()} function.
+However, we do not want to include the search capabilities provided.
+This can be easily accomplished by creating a new function,
+\texttt{datatable\_no\_search()}, created using the \texttt{partial()}
+function \cite{purrr} to partially apply
+\texttt{list(dom\ =\ \textquotesingle{}t\textquotesingle{})} to the
+\texttt{options} argument of \texttt{datatable}.
 
 \begin{Schunk}
 \begin{Sinput}
@@ -439,10 +502,10 @@ saveRDS(comp_comp2, "comp-comp2.rds")
 ld <- listdown(load_cc_expr = readRDS("comp-comp2.rds"),
                package = c("ggplot2", "DT", "purrr"),
                decorator = list(ggplot = identity,
-                                data.frame = datatable),
+                                data.frame = datatable_no_search),
                init_expr = {
-                 datatable <- partial(datatable,
-                                      options = list(dom = 't'))
+                 datatable_no_search <- partial(datatable,
+                                                options = list(dom = 't'))
                  },
                echo = FALSE)
 
@@ -459,7 +522,8 @@ cat(paste(ld_make_chunks(ld)[1:13], collapse = "\n"))
 #> ```
 #> 
 #> ```{r echo=FALSE}
-#> datatable <- partial(datatable, options = list(dom = "t"))
+#> 
+#> datatable_no_search <- partial(datatable, options = list(dom = "t"))
 #> ```
 \end{Soutput}
 \end{Schunk}
@@ -488,19 +552,141 @@ cat(paste(ld_make_chunks(ld)[1:19], collapse = "\n"))
 #> ```
 #> 
 #> ```{r echo=FALSE}
-#> datatable <- partial(datatable, options = list(dom = "t"))
+#> 
+#> datatable_no_search <- partial(datatable, options = list(dom = "t"))
 #> ```
 #> 
 #> # Iris
 #> 
 #> ```{r echo = TRUE}
-#> datatable(cc_list[[1]])
+#> datatable_no_search(cc_list$Iris)
 #> ```
 \end{Soutput}
 \end{Schunk}
 
-\hypertarget{conclusion}{%
-\section{Conclusion}\label{conclusion}}
+\hypertarget{a-simple-example-reporting-on-the-gtsummarytrial-dataset}{%
+\section{\texorpdfstring{A simple example: Reporting on the
+\texttt{gtsummary::trial}
+dataset}{A simple example: Reporting on the gtsummary::trial dataset}}\label{a-simple-example-reporting-on-the-gtsummarytrial-dataset}}
+
+\label{sect:simple-example}
+
+\begin{Schunk}
+\begin{Sinput}
+library(gtsummary)
+library(dplyr)
+library(glue)
+library(survival)
+library(survminer)
+library(rmarkdown)
+
+# Function to create the computational components.
+make_surv_cc <- function(trial, treat, surv_cond_chars) {
+  # Create Table 1 by treatment
+  table_1 <- trial %>%
+    tbl_summary(by = all_of(treat)) %>%
+    gtsummary::as_flextable()
+
+  # Create survival plots base on survival characteristics
+  scs <- lapply(c("1", surv_cond_chars),
+                function(sc) {
+                  glue("Surv(ttdeath, death) ~ {treat} + {sc}") %>%
+                    as.formula() %>%
+                    surv_fit(trial) %>%
+                    ggsurvplot()
+                })
+  names(scs) <- c("Overall", tools::toTitleCase(surv_cond_chars))
+  list(`Table 1` = table_1, `Survival Plots` = scs)
+}
+
+# Create the computational components and write to surv-cc.rds.
+make_surv_cc(trial, treat = "trt",
+             surv_cond_chars = c("stage", "grade")) %>%
+  saveRDS("surv-cc.rds")
+
+# Create the listdown object with appropriate dependencies
+# and presentation parameters.
+ld_surv <- listdown(load_cc_expr = readRDS("surv-cc.rds"),
+                    package = c("gtsummary", "survminer"),
+                    decorator = list(ggsurvplot = identity,
+                                     tbl_summary = identity),
+                    echo = FALSE,
+                    message = FALSE,
+                    warning = FALSE,
+                    fig.width = 7,
+                    fig.height = 4.5)
+
+# Write an RMarkdown header and chunks derived from the 
+# computational components and listdown object to trial-report.rmd.
+writeLines(
+  paste(c(
+    as.character(ld_rmarkdown_header("Simple Trial Report")),
+    ld_make_chunks(ld_surv))),
+  "trial-report.rmd")
+
+# Render the RMarkdown file to html.
+render("trial-report.rmd", quiet = TRUE, pdf_document(keep_tex = TRUE))  
+\end{Sinput}
+\end{Schunk}
+
+\hypertarget{using-in-practice-for-clinical-trial-reporting}{%
+\section{\texorpdfstring{Using \pkg{listdown} in practice for clinical
+trial
+reporting}{Using  in practice for clinical trial reporting}}\label{using-in-practice-for-clinical-trial-reporting}}
+
+\pagebreak
+
+\hypertarget{appendix-1-rmarkdown-produced-in-the-simple-example}{%
+\section{Appendix 1: RMarkdown produced in the simple
+example}\label{appendix-1-rmarkdown-produced-in-the-simple-example}}
+
+\begin{Schunk}
+\begin{Sinput}
+---
+title: Simple Trial Report
+output: html_document
+---
+
+\```{r echo=FALSE}
+library(gtsummary)
+library(survminer)
+
+cc_list <- readRDS("surv-cc.rds")
+\```
+
+# Table 1
+
+\```{r echo=FALSE}
+cc_list$`Table 1`
+\```
+
+# Survival Plots
+
+## Overall
+
+\```{r echo=FALSE}
+cc_list$`Survival Plots`$Overall
+\```
+
+## Stage
+
+\```{r echo=FALSE}
+cc_list$`Survival Plots`$Stage
+\```
+
+## Grade
+
+\```{r echo=FALSE}
+cc_list$`Survival Plots`$Grade
+\```
+\end{Sinput}
+\end{Schunk}
+
+\pagebreak
+
+\hypertarget{appendix-2-the-document-produced-by-the-simple-example}{%
+\section{Appendix 2: The document produced by the simple
+example}\label{appendix-2-the-document-produced-by-the-simple-example}}
 
 \bibliography{RJreferences}
 

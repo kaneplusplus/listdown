@@ -63,7 +63,8 @@ ld2 <- listdown(load_cc_expr = readRDS("reference-data/test_list.rds"),
                 decorator = list(data.frame = datatable),
                 init_expr = {
                   datatable <- partial(DT::datatable,
-                                       options = list(ordering = FALSE))},
+                                       options = list(ordering = FALSE))
+                },
                 echo = FALSE,
                 warning = FALSE,
                 message = FALSE)

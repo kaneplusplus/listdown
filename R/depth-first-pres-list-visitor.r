@@ -15,36 +15,48 @@ list_loc_list_string <- function(ll) {
   }
 }
 
-make_chunk_option_string <- function(ld, pres_obj = NULL) {
-  chunk_option_string <- ""
-  if (!is.null(pres_obj) && "listdown" %in% names(attributes(pres_obj))) {
-    lda <- attributes(pres_obj)$listdown
-    name_ind <- which(names(lda) == "chunk_name")
-    chunk_name <- NULL
-    if (length(name_ind)) {
-      chunk_name <- lda[[name_ind]]
-      lda <- lda[-name_ind]
-    } 
-    chunk_option_string <-
-      if (length(lda) > 0 && !is.null(chunk_name)) {
-        paste0(" ", paste(chunk_name,
-               paste(names(lda), "=", as.character(lda), collapse = ", ")))
-      } else if (length(lda) > 0) {
-        paste(chunk_name,
-              paste(names(lda), "=", as.character(lda), collapse = ", "))
-    
-      } else {
-        paste0(" ", chunk_name) 
-      }
-  } else {
-    # Use the default chunk options.
-    if (length(ld$dots) > 0) {
-      chunk_option_string <-
-        paste0(" ", names(ld$dots), "=", as.character(ld$dots), 
-               collapse = ", ")
+list_loc_ind_to_name <- function(pl, env = parent.frame(n = 2)) {
+  ret <- gsub("\\[\\[[0-9]\\]\\]", "", pl)
+  re <- gregexpr('\\[\\[[0-9]+\\]\\]', pl)[[1]]
+  re_len <- attr(re, "match.length")
+  for (i in seq_along(re)) {
+    idx <- substr(pl, re[i], re[i] + re_len[i] - 1)
+    idx_name <- names(epp(ret, last_index_as_list(idx)))
+    # Wrap in backticks if the names isn't a valid variable name.
+    if (idx_name != make.names(idx_name)) {
+      idx_name <- paste0("`", idx_name, "`")
     }
+    ret <- paste0(
+      ret, 
+      ifelse(!is.null(idx_name), 
+             paste0("$", idx_name),
+             idx))
   }
-  chunk_option_string
+  ret
+}
+
+get_attribute_options <- function(ld, pres_obj = NULL) {
+  ret <- list()
+  if (!is.null(pres_obj) && "listdown" %in% names(attributes(pres_obj))) {
+    ret <- attributes(pres_obj)$listdown
+  }
+  ret
+}
+
+make_chunk_option_string <- function(chunk_opts) {
+  named_elements <- chunk_opts[names(chunk_opts) != ""]
+  unnamed_element <- chunk_opts[names(chunk_opts) == ""]
+  ret <- ""
+  if (length(unnamed_element) > 0) {
+    ret <- paste(ret, unnamed_element[[1]])
+  }
+  for (i in seq_along(named_elements)) {
+    ret <- paste(
+      ret, 
+      paste(names(named_elements)[i], "=", deparse(named_elements[[i]])),
+      collapse = " ")
+  }
+  ret
 }
 
 depth_first_concat <- function(cc_list, ld, heading = "#",
@@ -70,18 +82,67 @@ depth_first_concat <- function(cc_list, ld, heading = "#",
           "")
       }
 
+      decorator_index <- which(
+        vapply(names(ld$decorator), 
+               function(x) inherits(eval(parse(text = pl)), x), NA))
+
+      if (length(decorator_index) > 1) {
+        warning(yellow("Multiple matches to decorator of types:",
+                       paste(names(decorator_index), collapse = " "),
+                       ".\n\nUsing the first.", sep = " "))
+      }
+
+      chunk_opts <- ld$chunk_opts
+      
+      chunk_option_index <- which(
+        vapply(names(ld$elem_chunk_opts),
+               function(x) inherits(eval(parse(text = pl)), x), NA))
+
+      if (length(chunk_option_index) > 1) {
+        warning(yellow("Multiple matches to chunk elemet option of types:",
+                       paste(names(decorator_index), collapse = " "),
+                       ".\n\nUsing the first.", sep = " "))
+      }
+      
+      if (length(chunk_option_index) == 1) {
+        new_chunk_opts <- ld$elem_chunk_opts[[chunk_option_index]]
+        for (i in seq_along(new_chunk_opts)) {
+          chunk_opts[[names(new_chunk_opts)[i]]] <- new_chunk_opts[[i]]
+        }
+      }
+
+      # Keep the last unnamed element (chunk name).
+      unnamed_element <- which(names(chunk_opts) == "")
+      if (length(unnamed_element) > 1) {
+        chunk_opts <- chunk_opts[-unnamed_element[1]]
+      }
+
+      att_chunk_opts <- get_attribute_options(ld, eval(parse(text = pl)))
+
+      for (i in seq_along(att_chunk_opts)) {
+        chunk_opts[[names(att_chunk_opts)[i]]] <- att_chunk_opts[[i]]
+      }
+
+      # Keep the last unnamed element (chunk name).
+      unnamed_element <- which(names(chunk_opts) == "")
+      if (length(unnamed_element) > 1) {
+        chunk_opts <- chunk_opts[-unnamed_element[1]]
+      }
+
+      chunk_opts_string <- make_chunk_option_string(chunk_opts)
+
       # Check to see if we have a decorator for the element.
       if (any(
         vapply(names(ld$decorator),
                function(x) inherits(eval(parse(text = pl)), x), NA))) {
 
-        ind <- which(vapply(names(ld$decorator),
-                     function(x) inherits(eval(parse(text = pl)), x), NA))
-
-        ret_str <<- c(ret_str,
-          sprintf("```{r%s}", 
-                  make_chunk_option_string(ld, eval(parse(text = pl)))),
-          paste0(as.character(ld$decorator[ind]), "(", pl, ")"),
+        ret_str <<- c(
+          ret_str,
+          sprintf("```{r%s}", chunk_opts_string),
+            ifelse(as.character(ld$decorator[[decorator_index]]) == "identity",
+                   list_loc_ind_to_name(pl),
+                   paste0(as.character(ld$decorator[decorator_index]), 
+                          "(", list_loc_ind_to_name(pl), ")")),
           "```",
           "")
 
@@ -93,12 +154,15 @@ depth_first_concat <- function(cc_list, ld, heading = "#",
         # It's not one of the decorators, and it's not a list. Use the
         # default decorator.
         if (!is.null(ld$default_decorator)) {
-          ret_str <<- c(ret_str,
-            sprintf("```{r%s}", 
-                    make_chunk_option_string(ld, eval(parse(text = pl)))),
-            paste0(as.character(ld$default_decorator), "(", pl, ")"),
-            "```",
-            "")
+          ret_str <<- c(
+            ret_str,
+            sprintf("```{r%s}", chunk_opts_string),
+                    ifelse(as.character(ld$default_decorator) == "identity",
+                           list_loc_ind_to_name(pl),
+                           paste0(as.character(ld$default_decorator),
+                                  "(", list_loc_ind_to_name(pl), ")")),
+                    "```",
+                    "")
         }
       }
     }

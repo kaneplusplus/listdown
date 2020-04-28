@@ -9,8 +9,10 @@ listdown(
   package = NULL,
   decorator = list(),
   init_expr = NULL,
+  elem_chunk_opts = list(),
   default_decorator = identity,
-  ...
+  ...,
+  chunk_opts = NULL
 )
 }
 \arguments{
@@ -24,6 +26,9 @@ to a decorator function.}
 \item{init_expr}{an initial expression that will be added to the outputted
 document after the libraries have been called.}
 
+\item{elem_chunk_opts}{a named list mapping the potential types of list
+elements to chunk options that should be included for those types.}
+
 \item{default_decorator}{the decorator to use for list elements whos type
 is not inherited from the decorator list. If NULL then the those
 elements will not be included when the chunks are written. By default
@@ -31,6 +36,9 @@ this is identity, meaning that the elements will be passed directly
 (through the identity() function).}
 
 \item{...}{default options sent to the chunks of the outputted document.}
+
+\item{chunk_opts}{a named list of options sent to the chunks of outputted
+documents. Note: takes priority over argument provided to ...}
 }
 \description{
 A listdown object provides information for how a presentation
