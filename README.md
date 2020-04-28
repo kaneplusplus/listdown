@@ -100,42 +100,42 @@ doc <- c(
 doc
 ```
 
-    #>  [1] "---"                                  
-    #>  [2] "title: \"Anscombe's Quartet\""        
-    #>  [3] "author: \"Francis Anscombe\""         
-    #>  [4] "date: \"1973\""                       
-    #>  [5] "output: html_document"                
-    #>  [6] "---"                                  
-    #>  [7] ""                                     
-    #>  [8] "```{r}"                               
-    #>  [9] "library(ggplot2)"                     
-    #> [10] ""                                     
-    #> [11] "cc_list <- readRDS(\"pres-list.rds\")"
-    #> [12] "```"                                  
-    #> [13] ""                                     
-    #> [14] "# Linear"                             
-    #> [15] ""                                     
-    #> [16] "```{r}"                               
-    #> [17] "identity(cc_list[[1]])"               
-    #> [18] "```"                                  
-    #> [19] ""                                     
-    #> [20] "# Non Linear"                         
-    #> [21] ""                                     
-    #> [22] "```{r}"                               
-    #> [23] "identity(cc_list[[2]])"               
-    #> [24] "```"                                  
-    #> [25] ""                                     
-    #> [26] "# Outlier Vertical"                   
-    #> [27] ""                                     
-    #> [28] "```{r}"                               
-    #> [29] "identity(cc_list[[3]])"               
-    #> [30] "```"                                  
-    #> [31] ""                                     
-    #> [32] "# Outlier Horizontal"                 
-    #> [33] ""                                     
-    #> [34] "```{r}"                               
-    #> [35] "identity(cc_list[[4]])"               
-    #> [36] "```"
+    #> ---
+    #> title: Anscombe's Quartet
+    #> author: Francis Anscombe
+    #> date: '1973'
+    #> output: html_document
+    #> ---
+    #> 
+    #> ```{r}
+    #> library(ggplot2)
+    #> 
+    #> cc_list <- readRDS("pres-list.rds")
+    #> ```
+    #> 
+    #> # Linear
+    #> 
+    #> ```{r}
+    #> cc_list$Linear
+    #> ```
+    #> 
+    #> # Non Linear
+    #> 
+    #> ```{r}
+    #> cc_list$`Non Linear`
+    #> ```
+    #> 
+    #> # Outlier Vertical
+    #> 
+    #> ```{r}
+    #> cc_list$`Outlier Vertical`
+    #> ```
+    #> 
+    #> # Outlier Horizontal
+    #> 
+    #> ```{r}
+    #> cc_list$`Outlier Horizontal`
+    #> ```
 
 The document can then be written to a file, rendered, and viewed with
 the following code.

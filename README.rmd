@@ -113,12 +113,13 @@ ld <- listdown(load_cc_expr = readRDS("pres-list.rds"), # The expression to load
 
 # Output an html document to a string.
 doc <- c(
-  ld_rmarkdown_header("Anscombe's Quartet",
-                      author = "Francis Anscombe",
-                      date = "1973"),
+  as.character(
+    ld_rmarkdown_header("Anscombe's Quartet",
+                        author = "Francis Anscombe",
+                        date = "1973")),
   ld_make_chunks(ld))
 
-doc
+cat(paste(doc, collapse = "\n"))
 ```
 
 The document can then be written to a file, rendered, and viewed with the following code.
