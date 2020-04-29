@@ -16,7 +16,7 @@ list_loc_list_string <- function(ll) {
 }
 
 list_loc_ind_to_name <- function(pl, env = parent.frame(n = 2)) {
-  ret <- gsub("\\[\\[[0-9]\\]\\]", "", pl)
+  ret <- gsub("\\[\\[[0-9]+\\]\\]", "", pl)
   re <- gregexpr("\\[\\[[0-9]+\\]\\]", pl)[[1]]
   re_len <- attr(re, "match.length")
   for (i in seq_along(re)) {
@@ -140,7 +140,6 @@ depth_first_concat <- function(cc_list, ld, heading = "#",
       if (any(
         vapply(names(ld$decorator),
                function(x) inherits(eval(parse(text = pl)), x), NA))) {
-
         ret_str <<- c(
           ret_str,
           sprintf("```{r%s}", chunk_opts_string),
