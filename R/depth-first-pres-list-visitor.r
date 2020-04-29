@@ -60,6 +60,9 @@ make_chunk_option_string <- function(chunk_opts) {
   if (length(ret) > 0 && nchar(ret) > 0 && substr(ret, 1, 1) != " ") {
     ret <- paste0(" ", ret)
   }
+  if (length(ret) == 0) {
+    ret <- ""
+  }
   ret
 }
 
