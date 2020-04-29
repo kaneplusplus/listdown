@@ -50,11 +50,12 @@ make_chunk_option_string <- function(chunk_opts) {
   if (length(unnamed_element) > 0) {
     ret <- paste(ret, unnamed_element[[1]])
   }
-  for (i in seq_along(named_elements)) {
-    ret <- paste(
-      ret,
-      paste(names(named_elements)[i], "=", deparse(named_elements[[i]])),
-      collapse = " ")
+  if (length(named_elements)) {
+    opt_strings <- 
+      paste(names(named_elements), 
+            vapply(named_elements, deparse, NA_character_),
+            sep = " = ")
+    ret <- paste(c(ret, opt_strings), collapse = ", ")
   }
   ret
 }
