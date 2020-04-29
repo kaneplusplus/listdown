@@ -46,8 +46,8 @@ get_attribute_options <- function(ld, pres_obj = NULL) {
 make_chunk_option_string <- function(chunk_opts) {
   named_elements <- chunk_opts[names(chunk_opts) != ""]
   unnamed_element <- chunk_opts[names(chunk_opts) == ""]
-  ret <- ""
-  if (length(unnamed_element) > 0) {
+  ret <- character()
+  if (length(unnamed_element) > 0 && unnamed_element != "") {
     ret <- paste(ret, unnamed_element[[1]])
   }
   if (length(named_elements)) {
@@ -56,6 +56,9 @@ make_chunk_option_string <- function(chunk_opts) {
             vapply(named_elements, deparse, NA_character_),
             sep = " = ")
     ret <- paste(c(ret, opt_strings), collapse = ", ")
+  }
+  if (length(ret) > 0 && nchar(ret) > 0 && substr(ret, 1, 1) != " ") {
+    ret <- paste0(" ", ret)
   }
   ret
 }
