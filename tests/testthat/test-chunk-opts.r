@@ -13,4 +13,3 @@ test_that("Bad chunk options fail.", {
                decorators = list(data.frame = kable),
                bunk = letters))
 })
-

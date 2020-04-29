@@ -7,7 +7,7 @@ if (make_reference) {
   dir.create("reference-data", showWarnings = FALSE)
 }
 
-pres_list <- list(iris = iris, 
+pres_list <- list(iris = iris,
                   mtcars = mtcars)
 
 saveRDS(pres_list, "reference-data/option-check.rds")
@@ -30,7 +30,7 @@ test_that("Output with no options works.", {
                readRDS(file.path("reference-data", "chunk-option-1.rds")))
 })
 
-pres_list$mtcars <- ld_chunk_opts(pres_list$mtcars, 
+pres_list$mtcars <- ld_chunk_opts(pres_list$mtcars,
                                   echo = FALSE, results = "as.is")
 
 if (make_reference) {

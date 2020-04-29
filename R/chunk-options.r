@@ -63,12 +63,12 @@ not_r_chunk_opts <- function(x) {
 }
 
 #' @title Apply Chunk Options to a Presentation Object
-#' @description This function allows the user to set chunk options for 
+#' @description This function allows the user to set chunk options for
 #' individual elements of a presentation list.
 #' @param pres_obj the presentation list element whose chunk options should
 #' be modified.
-#' @param chunk_name the name of the chunk. By default this is NULL, 
-#' correpsonding to no chunk name.
+#' @param chunk_name the name of the chunk. By default this is NULL,
+#' corresponding to no chunk name.
 #' @param ... named chunk options and their values.
 #' @param chunk_opts list of chunk options can be specified. Takes priority
 #' over arguments provided to ...
@@ -87,15 +87,6 @@ ld_chunk_opts <- function(pres_obj, chunk_name = NULL, ..., chunk_opts = NULL) {
   if (length(chunk_opts) > 0) {
     for (i in seq_along(chunk_opts)) {
       val <- deparse(chunk_opts[[i]])
-#      if (is.character(val)) {
-#        val <- sprintf('"%s"', val)
-#      } else if (is.null(val)) {
-#        val <- "NULL"
-#      } else if (is.logical(val)) {
-#        val <- val
-#      } else {
-#        val <- as.character(val)
-#      }
       name <- names(chunk_opts)[i]
       a$listdown[name] <- list(val)
     }
@@ -111,5 +102,3 @@ ld_chunk_opts <- function(pres_obj, chunk_name = NULL, ..., chunk_opts = NULL) {
   }
   pres_obj
 }
-
-

@@ -1,7 +1,7 @@
 
 #' @title Show the list of Computational Components as a Dendrogram
-#' 
-#' @description This function creates text dendrograms from 
+#'
+#' @description This function creates text dendrograms from
 #' a list of computational components. It is useful for
 #' creating a dendrogram of the the computational components of a listdown
 #' object allowing the user to view the components hierarchically.
@@ -9,12 +9,12 @@
 #' @importFrom crayon red
 #' @examples
 #' library(ggplot2)
-#' 
+#'
 #' cc_list <- list(
 #'   Linear = ggplot(anscombe, aes(x = x1, y = y1)) + geom_point(),
 #'  `Non Linear` = ggplot(anscombe, aes(x = x2, y = y2)) + geom_point(),
 #'  `Outlier Vertical`= ggplot(anscombe, aes(x = x3, y = y3)) + geom_point(),
-#'  `Outlier Horizontal` =  ggplot(anscombe, aes(x = x4, y = y4)) + 
+#'  `Outlier Horizontal` =  ggplot(anscombe, aes(x = x4, y = y4)) +
 #'    geom_point())
 #'
 #' ld_cc_dendro(cc_list)
@@ -34,9 +34,9 @@ ld_cc_dendro <- function(x) {
       tree_str <<- c(tree_str, paste0(prefix_string, vert_sep, list_name))
       if (!class(x[[i]])[1] == "list") {
         in_sep <- ifelse(i == length(x), "  ", " |")
-        tree_str <<- c(tree_str, 
+        tree_str <<- c(tree_str,
                        paste0(prefix_string, in_sep, "  o-- ",
-                             "object of type(s):", 
+                             "object of type(s):",
                              paste0(class(x[[i]]), collapse = " ")))
       } else {
         tdt_impl(x[[i]], paste0(prefix_string, " "))

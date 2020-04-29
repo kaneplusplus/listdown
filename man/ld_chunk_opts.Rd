@@ -10,8 +10,8 @@ ld_chunk_opts(pres_obj, chunk_name = NULL, ..., chunk_opts = NULL)
 \item{pres_obj}{the presentation list element whose chunk options should
 be modified.}
 
-\item{chunk_name}{the name of the chunk. By default this is NULL, 
-correpsonding to no chunk name.}
+\item{chunk_name}{the name of the chunk. By default this is NULL,
+corresponding to no chunk name.}
 
 \item{...}{named chunk options and their values.}
 
@@ -19,6 +19,6 @@ correpsonding to no chunk name.}
 over arguments provided to ...}
 }
 \description{
-This function allows the user to set chunk options for 
+This function allows the user to set chunk options for
 individual elements of a presentation list.
 }

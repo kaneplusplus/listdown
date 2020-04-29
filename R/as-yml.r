@@ -29,35 +29,33 @@ last_index_as_list <- function(loc) {
 #'   `Outlier Vertical`= ggplot(anscombe, aes(x = x3, y = y3)) + geom_point(),
 #'   `Outlier Horizontal` =  ggplot(anscombe, aes(x = x4, y = y4)) +
 #'     geom_point())
-#' 
+#'
 #'  as_ld_yml(cc_list)
 #' @export
 as_ld_yml <- function(x) {
 
   depth_first_copy <- function(loc = "") {
-    elem <- epp("x", loc) 
+    elem <- epp("x", loc)
     locs <- vapply(seq_along(elem),
                   function(i) paste0(loc, "[[", i, "]]"), NA_character_)
     for (loc in locs) {
-      elem <- epp("x", loc) 
+      elem <- epp("x", loc)
 
       if (inherits(elem, "list")) {
         depth_first_copy(loc)
       } else {
         loc_list <- last_index_as_list(loc)
         if (is.null(names(epp("x", loc_list)))) {
-          eval(parse(text = paste("x", loc, " <<- paste(", 
+          eval(parse(text = paste("x", loc, " <<- paste(",
                      deparse(class(elem)), ", collapse = \":\")")))
         } else {
           # Wrap in a list for formatting.
-          eval(parse(text = paste("x", loc, " <<- list(paste(", 
+          eval(parse(text = paste("x", loc, " <<- list(paste(",
                      deparse(class(elem)), ", collapse = \":\"))")))
         }
-      
       }
     }
   }
   depth_first_copy()
   as.yaml(x)
 }
-

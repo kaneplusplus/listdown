@@ -32,8 +32,8 @@ ld_rmarkdown_header <- function(title,
 ld_workflowr_header <- function(title, toc = FALSE) {
   ret <- list(title = title,
        site = "workflowr::wflow_site",
-       output = 
-         list(`workflowr::wflow_html` = 
+       output =
+         list(`workflowr::wflow_html` =
               list(toc = toc)),
        editor_options = list(chunk_output_type = "console"))
   class(ret) <- c("listdown_header", "list")

@@ -17,7 +17,7 @@ list_loc_list_string <- function(ll) {
 
 list_loc_ind_to_name <- function(pl, env = parent.frame(n = 2)) {
   ret <- gsub("\\[\\[[0-9]\\]\\]", "", pl)
-  re <- gregexpr('\\[\\[[0-9]+\\]\\]', pl)[[1]]
+  re <- gregexpr("\\[\\[[0-9]+\\]\\]", pl)[[1]]
   re_len <- attr(re, "match.length")
   for (i in seq_along(re)) {
     idx <- substr(pl, re[i], re[i] + re_len[i] - 1)
@@ -27,8 +27,8 @@ list_loc_ind_to_name <- function(pl, env = parent.frame(n = 2)) {
       idx_name <- paste0("`", idx_name, "`")
     }
     ret <- paste0(
-      ret, 
-      ifelse(!is.null(idx_name), 
+      ret,
+      ifelse(!is.null(idx_name),
              paste0("$", idx_name),
              idx))
   }
@@ -52,7 +52,7 @@ make_chunk_option_string <- function(chunk_opts) {
   }
   for (i in seq_along(named_elements)) {
     ret <- paste(
-      ret, 
+      ret,
       paste(names(named_elements)[i], "=", deparse(named_elements[[i]])),
       collapse = " ")
   }
@@ -84,7 +84,7 @@ depth_first_concat <- function(cc_list, ld, heading = "#",
       }
 
       decorator_index <- which(
-        vapply(names(ld$decorator), 
+        vapply(names(ld$decorator),
                function(x) inherits(eval(parse(text = pl)), x), NA))
 
       if (length(decorator_index) > 1) {
@@ -94,7 +94,7 @@ depth_first_concat <- function(cc_list, ld, heading = "#",
       }
 
       chunk_opts <- ld$chunk_opts
-      
+
       chunk_option_index <- which(
         vapply(names(ld$elem_chunk_opts),
                function(x) inherits(eval(parse(text = pl)), x), NA))
@@ -104,7 +104,7 @@ depth_first_concat <- function(cc_list, ld, heading = "#",
                        paste(names(decorator_index), collapse = " "),
                        ".\n\nUsing the first.", sep = " "))
       }
-      
+
       if (length(chunk_option_index) == 1) {
         new_chunk_opts <- ld$elem_chunk_opts[[chunk_option_index]]
         for (i in seq_along(new_chunk_opts)) {
@@ -142,7 +142,7 @@ depth_first_concat <- function(cc_list, ld, heading = "#",
           sprintf("```{r%s}", chunk_opts_string),
             ifelse(as.character(ld$decorator[[decorator_index]]) == "identity",
                    list_loc_ind_to_name(pl),
-                   paste0(as.character(ld$decorator[decorator_index]), 
+                   paste0(as.character(ld$decorator[decorator_index]),
                           "(", list_loc_ind_to_name(pl), ")")),
           "```",
           "")
@@ -170,7 +170,7 @@ depth_first_concat <- function(cc_list, ld, heading = "#",
   }
   depth_first_concat_impl(cc_list = cc_list, ld = ld, heading = heading,
                           list_location = list_location)
-  while(length(ret_str) > 0 && ret_str[length(ret_str)] == "") {
+  while (length(ret_str) > 0 && ret_str[length(ret_str)] == "") {
     ret_str <- ret_str[-length(ret_str)]
   }
   ret_str

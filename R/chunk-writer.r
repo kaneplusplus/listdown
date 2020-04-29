@@ -4,7 +4,7 @@
 #' list should be used to create an R Markdown document. It requires an
 #' unquoted expression indicating how the presentation list will be loaded.
 #' In addition, libraries required by the outputted document and other
-#' paraeters can be specified.
+#' parameters can be specified.
 #' @param load_cc_expr an unquoted expression to load the presentation list.
 #' @param package a quoted list of package required by the outputted document.
 #' @param decorator a named list mapping the potential types of list elements
@@ -13,10 +13,10 @@
 #' document after the libraries have been called.
 #' @param elem_chunk_opts a named list mapping the potential types of list
 #' elements to chunk options that should be included for those types.
-#' @param default_decorator the decorator to use for list elements whos type
+#' @param default_decorator the decorator to use for list elements whose type
 #' is not inherited from the decorator list. If NULL then the those
 #' elements will not be included when the chunks are written. By default
-#' this is identity, meaning that the elements will be passed directly 
+#' this is identity, meaning that the elements will be passed directly
 #' (through the identity() function).
 #' @param ... default options sent to the chunks of the outputted document.
 #' @param chunk_opts a named list of options sent to the chunks of outputted
@@ -33,15 +33,15 @@ listdown <- function(load_cc_expr,
                      chunk_opts = NULL) {
 
   if ( !("default_decorator" %in% names(as.list(match.call))) ) {
-    default_decorator = as.symbol("identity")
+    default_decorator <- as.symbol("identity")
   } else {
-    default_decorator = as.list(match.call()$default_decorator)
+    default_decorator <- as.list(match.call()$default_decorator)
   }
 
   if (is.null(chunk_opts)) {
-    chunk_opts <- list(...) 
+    chunk_opts <- list(...)
   }
- 
+
   not_r_chunk_opts <- not_r_chunk_opts(names(chunk_opts))
   if (length(not_r_chunk_opts) > 0) {
     stop(red("Unrecognized options:\n\t",
@@ -53,7 +53,7 @@ listdown <- function(load_cc_expr,
   for (i in seq_along(elem_chunk_opts)) {
     not_r_chunk_opts <- not_r_chunk_opts(names(elem_chunk_opts[[i]]))
     if (length(not_r_chunk_opts) > 0) {
-      stop(red("Unrecognized options for element type", 
+      stop(red("Unrecognized options for element type",
                names(elem_chunk_opts)[i], ":\n\t",
                paste(not_r_chunk_opts, collapse = "\n\t"),
                "\n", sep = ""))
@@ -102,7 +102,7 @@ ld_make_chunks.listdown <- function(ld) {
       c(ret_string,
         sprintf("```{r%s}", make_chunk_option_string(ld$chunk_opts)))
     if (length(ld$package) > 0) {
-      ret_string <- 
+      ret_string <-
         c(ret_string,
           as.character(vapply(eval(ld$package),
                        function(x) sprintf("library(%s)", as.character(x)),

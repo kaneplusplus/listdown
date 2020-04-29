@@ -19,7 +19,7 @@ Markdown files from named lists. It is intended for data analysis
 pipelines where the presentation of the results is separated from their
 creation. For this use case, a data processing (or analysis) is
 performed and the results are provided in a single named list, organized
-heirarchically. With the list and a {listdown} object a workflowr, pdf,
+hierarchically. With the list and a {listdown} object a workflowr, pdf,
 word, or html page. List element names denote sections, subsections,
 subsubsection, etc. and the list elements contain the data structure to
 be presented including graphs and tables. The goal of the package is not

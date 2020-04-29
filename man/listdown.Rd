@@ -29,10 +29,10 @@ document after the libraries have been called.}
 \item{elem_chunk_opts}{a named list mapping the potential types of list
 elements to chunk options that should be included for those types.}
 
-\item{default_decorator}{the decorator to use for list elements whos type
+\item{default_decorator}{the decorator to use for list elements whose type
 is not inherited from the decorator list. If NULL then the those
 elements will not be included when the chunks are written. By default
-this is identity, meaning that the elements will be passed directly 
+this is identity, meaning that the elements will be passed directly
 (through the identity() function).}
 
 \item{...}{default options sent to the chunks of the outputted document.}
@@ -45,5 +45,5 @@ A listdown object provides information for how a presentation
 list should be used to create an R Markdown document. It requires an
 unquoted expression indicating how the presentation list will be loaded.
 In addition, libraries required by the outputted document and other
-paraeters can be specified.
+parameters can be specified.
 }
