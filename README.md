@@ -87,17 +87,17 @@ saveRDS(pres_list, "pres-list.rds")
 
 # Create a listdown object.
 ld <- listdown(load_cc_expr = readRDS("pres-list.rds"), # The expression to load pres_list.
-               package = "ggplot2",                     # The packges needed to render plots.
-               decorator = list(ggplot = identity))     # What to do with the pres_list elements.
+               package = "ggplot2"))                    # The packges needed to render plots.
 
 # Output an html document to a string.
 doc <- c(
-  ld_rmarkdown_header("Anscombe's Quartet",
-                     author = "Francis Anscombe",
-                     date = "1973"),
-  ld_make_chunks(pres_list, ld))
+  as.character(
+    ld_rmarkdown_header("Anscombe's Quartet",
+                        author = "Francis Anscombe",
+                        date = "1973")),
+  ld_make_chunks(ld))
 
-doc
+cat(paste(doc, collapse = "\n"))
 ```
 
     #> ---
