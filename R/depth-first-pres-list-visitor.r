@@ -55,7 +55,7 @@ make_chunk_option_string <- function(chunk_opts) {
       paste(names(named_elements), 
             vapply(named_elements, deparse, NA_character_),
             sep = " = ")
-    ret <- paste(c(ret, opt_strings), collapse = ", ")
+    ret <- paste(opt_strings, collapse = ", ")
   }
   if (length(ret) > 0 && nchar(ret) > 0 && substr(ret, 1, 1) != " ") {
     ret <- paste0(" ", ret)

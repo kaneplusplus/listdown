@@ -84,21 +84,7 @@ ld_chunk_opts <- function(pres_obj, chunk_name = NULL, ..., chunk_opts = NULL) {
              paste(not_r_chunk_opts, collapse = "\n\t"),
              "\n", sep = ""))
   }
-  if (length(chunk_opts) > 0) {
-    for (i in seq_along(chunk_opts)) {
-      val <- deparse(chunk_opts[[i]])
-      name <- names(chunk_opts)[i]
-      a$listdown[name] <- list(val)
-    }
-    attributes(pres_obj) <- a
-  } else if (!is.null(chunk_opts)) {
-    a$listdown <- chunk_opts
-    attributes(pres_obj) <- a
-  }
-  if (!is.null(chunk_name)) {
-    a <- attributes(pres_obj)
-    a$listdown$chunk_name <- chunk_name
-    attributes(pres_obj) <- a
-  }
+  a$listdown <- c(chunk_name, chunk_opts)
+  attributes(pres_obj) <- a
   pres_obj
 }
