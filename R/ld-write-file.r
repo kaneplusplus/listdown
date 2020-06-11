@@ -10,7 +10,7 @@
 #' output.
 #' @param file_name the output file to write to.
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' library(ggplot2)
 #'
 #' cc_list <- list(

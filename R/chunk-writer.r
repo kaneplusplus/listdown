@@ -11,7 +11,7 @@
 #' to a decorator function.
 #' @param init_expr an initial expression that will be added to the outputted
 #' document after the libraries have been called.
-#' @param elem_chunk_opts a named list mapping the potential types of list
+#' @param decorator_chunk_opts a named list mapping the potential types of list
 #' elements to chunk options that should be included for those types.
 #' @param default_decorator the decorator to use for list elements whose type
 #' is not inherited from the decorator list. If NULL then the those
@@ -27,7 +27,7 @@ listdown <- function(load_cc_expr,
                      package = NULL,
                      decorator = list(),
                      init_expr = NULL,
-                     elem_chunk_opts = list(),
+                     decorator_chunk_opts = list(),
                      default_decorator = identity,
                      ...,
                      chunk_opts = NULL) {
@@ -49,21 +49,26 @@ listdown <- function(load_cc_expr,
              "\n", sep = ""))
   }
 
-  # Check the chunk options of elem_chunk_opts.
-  for (i in seq_along(elem_chunk_opts)) {
-    not_r_chunk_opts <- not_r_chunk_opts(names(elem_chunk_opts[[i]]))
+  # Check the chunk options of decorator_chunk_opts.
+  for (i in seq_along(decorator_chunk_opts)) {
+    not_r_chunk_opts <- not_r_chunk_opts(names(decorator_chunk_opts[[i]]))
     if (length(not_r_chunk_opts) > 0) {
       stop(red("Unrecognized options for element type",
-               names(elem_chunk_opts)[i], ":\n\t",
+               names(decorator_chunk_opts)[i], ":\n\t",
                paste(not_r_chunk_opts, collapse = "\n\t"),
                "\n", sep = ""))
     }
   }
+  if ( !("decorator" %in% names(match.call())) ) {
+    decorator <- NULL
+  } else {
+    decorator <- as.list(match.call()$decorator)[-1]
+  }
   ret <- list(load_cc_expr = match.call()$load_cc_expr,
-              decorator = as.list(match.call()$decorator)[-1],
+              decorator = decorator,
               package = package,
               init_expr = match.call()$init_expr,
-              elem_chunk_opts = elem_chunk_opts,
+              decorator_chunk_opts = decorator_chunk_opts,
               default_decorator = default_decorator,
               chunk_opts = chunk_opts)
 
@@ -117,7 +122,7 @@ ld_make_chunks.listdown <- function(ld) {
       ret_string <-
         c(ret_string,
           if (deparse(ld$init_expr[[1]]) == "{") {
-            unlist(lapply(ld$init_expr[-1], function(x) c("", deparse(x))))
+            unlist(lapply(ld$init_expr[-1], function(x) c(deparse(x))))
           } else {
             deparse(ld$init_expr)
           })

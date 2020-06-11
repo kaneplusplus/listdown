@@ -103,7 +103,7 @@ depth_first_concat <- function(cc_list, ld, heading = "#",
       chunk_opts <- ld$chunk_opts
 
       chunk_option_index <- which(
-        vapply(names(ld$elem_chunk_opts),
+        vapply(names(ld$decorator_chunk_opts),
                function(x) inherits(eval(parse(text = pl)), x), NA))
 
       if (length(chunk_option_index) > 1) {
@@ -113,7 +113,7 @@ depth_first_concat <- function(cc_list, ld, heading = "#",
       }
 
       if (length(chunk_option_index) == 1) {
-        new_chunk_opts <- ld$elem_chunk_opts[[chunk_option_index]]
+        new_chunk_opts <- ld$decorator_chunk_opts[[chunk_option_index]]
         for (i in seq_along(new_chunk_opts)) {
           chunk_opts[[names(new_chunk_opts)[i]]] <- new_chunk_opts[[i]]
         }

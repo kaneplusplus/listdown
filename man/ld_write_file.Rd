@@ -21,7 +21,7 @@ This function takes header information and a listdown
 object and writes to a specified file.
 }
 \examples{
-\donttest{
+\dontrun{
 library(ggplot2)
 
 cc_list <- list(

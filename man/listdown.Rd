@@ -9,7 +9,7 @@ listdown(
   package = NULL,
   decorator = list(),
   init_expr = NULL,
-  elem_chunk_opts = list(),
+  decorator_chunk_opts = list(),
   default_decorator = identity,
   ...,
   chunk_opts = NULL
@@ -26,7 +26,7 @@ to a decorator function.}
 \item{init_expr}{an initial expression that will be added to the outputted
 document after the libraries have been called.}
 
-\item{elem_chunk_opts}{a named list mapping the potential types of list
+\item{decorator_chunk_opts}{a named list mapping the potential types of list
 elements to chunk options that should be included for those types.}
 
 \item{default_decorator}{the decorator to use for list elements whose type
