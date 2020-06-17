@@ -1,11 +1,11 @@
 Package: listdown
 Title: listdown: create R Markdown from lists
-Version: 0.2.7
+Version: 0.2.8
 Authors@R: c(
   person("Michael J.", "Kane",
     role = c("aut", "cph", "cre"),
     email = "michael.kane@yale.edu",
-    comment = "http://orcid.org/0000-0003-1899-6662"
+    comment = c(ORCID = "http://orcid.org/0000-0003-1899-6662")
     ))
 Description: Programmatically create R Markdown documents from lists.
 License: Apache License (>= 2.0)
