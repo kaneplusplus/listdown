@@ -21,7 +21,7 @@ Suggests:
   ggplot2,
   knitr,
   rmarkdown,
-  testthat,
+  testthat
 URL: https://github.com/kaneplusplus/listdown
 BugReports: https://github.com/kaneplusplus/listdown/issues
 RoxygenNote: 7.1.0
