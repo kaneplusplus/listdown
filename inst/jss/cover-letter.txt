@@ -1,0 +1,21 @@
+﻿Dear Editors,
+
+Please find the attached submission, "On the Programmatic Generation of Reproducible 
+Documents," which explores the use and appropriateness of programmatically generating 
+reproducible documents, identifies key concepts for understanding their use, and introduces a 
+new R package, listdown, that implements the generation of R Markdown documents, and 
+explores it's use in a clinical trial reporting context.
+
+We believe this paper provides a novel take on the relationship between reproducibility and 
+automated reporting, and we expect that this article will see broad readership in this 
+increasingly popular area of statistics and data science.
+
+The package's interface is now stable and the associated code is available on CRAN, it is being 
+actively maintained, and it is also being used regularly.
+
+This manuscript has not been published elsewhere and neither of the authors have a conflict of 
+interest to declare.
+
+Sincerely,
+
+Michael Kane and Simon Urbanek 
