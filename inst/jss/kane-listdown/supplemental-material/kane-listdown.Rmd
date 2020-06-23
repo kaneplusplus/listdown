@@ -6,7 +6,13 @@ author:
     address:
     - 60 College Street
     - New Haven, CT 06510, USA
-    email:  michael.kane@yale.edu
+    email: michael.kane@yale.edu
+  - name: Simon Urbanek
+    affiliation: The University of Aukland
+    address:
+    - 38 Princes Street
+    - Auckland Central, Aukland 1010, NZ
+    email: s.urbanek@auckland.ac.nz
 title:
   formatted: "On the Programmatic Generation of Reproducible Documents"
   # If you use tex in the formatted title, also supply version without
@@ -32,9 +38,7 @@ The integration of narrative and computational components was identified as "Lit
 
 \proglang{R} Markdown is particularly popular with its success likely being driven by two factors. The first is the relative ease with which these documents can be constructed. While \LaTeX \ is more expressive, it is relatively technical and requires an investment in time to become proficient. By contrast \proglang{R} Markdown documents are easier to create and format and, when the document is used to create \LaTeX, formatting can be passed through to the underlying .tex file. The second factor driving adoption is likely its support for creating _modifiable_ documents, namely Microsoft Word documents. Researchers and analysts, especially those creating applied statistical analyses, often collaborate with domain experts with less technical knowledge. In these cases, the analyst focuses on creating the computational components and narrative components related to results and interpretation. After this initial document is created, the domain expert is free to develop narrative components directly in the document without needing to go through the analyst.
 
-Since computational components are, by definition, computationally derived objects and R Markdown is a well-defined standard, it is possible to programmatically create \proglang{R} Markdown documents with computational components, which is the focus of this paper. However, before proceeding down this avenue, we would like to highlight two fundamental limitations to automated R Markdown document construction. First and foremost, without narrative components a document has very little context. Quantitative analyses require research questions, hypotheses, reviews, interpretations, and conclusions. Computational components are necessary but generally not sufficient for constructing an analysis. Second, it is difficult if not impossible to construct computational components for an arbitary analyses. Analyses themselves have context and are built with a set of assumptions and goals. 
-
-This is not to say the programmatic creation of \proglang{R} Markdown documents is unwarranted or not useful. In fact, it has at least two appealing characteristics. First, it allows us to distinguish the presentation of analytical results from other steps in a data science or data processing pipeline. These other steps including cleaning and analysis often require their own environment and configuration with requirements very different than the computational needs of creating a presentation. By separating these components each can be developed independently. At the same time, by specifying a contract for the output of those objects, we can establish a consistent means by which processed data can be passed to systems for presentating those data in a structured way. The second reason for programmatic creation of R Markdown documents is convenience. In collaborative environments, especially in the early stages, large numbers of graphs and tables are generated and discussed. By collecting these artifacts and structuring them consistently, we can quickly iterate upon and restructure the resulting documents to more clearly present the data without needing to spend time on the creation of the presentation document.
+Since computational components are, by definition, computationally derived objects and \proglang{R} Markdown is a well-defined standard, it is possible to programmatically create \proglang{R} Markdown documents with computational components, which is the focus of this paper. Generating documents in this manner has two appealing characteristics. First, it allows us to distinguish the presentation of analytical results from other steps in a data science or data processing pipeline. These other steps including cleaning and analysis often require their own environment and configuration with requirements very different than the computational needs of creating a presentation. By separating these components each can be developed independently. At the same time, by specifying a contract for the output of those objects, we can establish a consistent means by which processed data can be passed to systems for presentating those data in a structured way. The second reason for programmatic creation of R Markdown documents is convenience. In collaborative environments, especially in the early stages, large numbers of graphs and tables are generated and discussed. By collecting these artifacts and structuring them consistently, we can quickly iterate upon and restructure the resulting documents to more clearly present the data without needing to spend time on the creation of the presentation document.
 
 The \pkg{listdown} package provides functions to programmatically create \proglang{R} Markdown files from named lists. It is intended for data analysis pipelines where the presentation of the results
 is separated from their creation. For this use case, a data processing (or analysis) is performed
@@ -59,7 +63,7 @@ The \pkg{listdown} package itself is relatively simple with 6 distinct methods t
 \item{\bf listdown() }{- create a listdown object to create an R Markdown document}
 \end{itemize}
 
-The rest of this paper is structured as follow. The next section goes over basic usage and commentary. This section is meant to convey the basic approach used by the package and shows how to describe an output document using \pkg{listdown}, create a document, and change how the presentation of computational components can be specialized using \pkg{listdown} decorators. With the user accustomed to the package's basic usage, section 3 describes the design of the package. Section 4 goes over advanced usage of the package including adding initialization code to and outputted document as well as how to control chunk-level options. Section 5 concludes the paper with a few final remarks.
+The rest of this paper is structured as follow. The next section goes over basic usage and commentary. This section is meant to convey the basic approach used by the package and shows how to describe an output document using \pkg{listdown}, create a document, and change how the presentation of computational components can be specialized using \pkg{listdown} decorators. With the user accustomed to the package's basic usage, section 3 describes the design of the package. Section 4 goes over advanced usage of the package including adding initialization code to and outputted document as well as how to control chunk-level options. Section 5 provides a simplified case study of how the package is currently being used in clinical trial reporting. Section 6 concludes the paper with a few final remarks on the general types of applications where \pkg{listdown} has been shown effective.
 
 # Basic usage and overview
 
@@ -102,10 +106,9 @@ The `ld` object, along with the computational components in the `comp-comp.rds` 
 
 ```{r}
 doc <- c(
-  unlist(strsplit(as.character(ld_rmarkdown_header("Anscombe's Quartet",
-                               author = "Francis Anscombe",
-                               date = "1973")),
-                  "\n", fixed = TRUE)),
+  as.character(ld_rmarkdown_header("Anscombe's Quartet",
+                                   author = "Francis Anscombe",
+                                   date = "1973")),
   ld_make_chunks(ld))
 
 doc
@@ -176,7 +179,9 @@ ld_cc_dendro(comp_comp2)
 
 Both the `ld_cc_dendro()` and `ld_make_chunks()` functions work by recursively descending the computational components list depth-first. If the list containing and element has a name, it is written to the output as a section, subsection, subsubsection, etc. to a return string. If the visited list element is itself a list, then the same procedure is called on the child list through a recursive call. If the element is not a list, then it is outputted inside an R Markdown chunk in the return string using the appropropriate decorator.
 
-# Initialization code
+# Advanced usage
+
+## Initialization code
 
 The `listdown()` function facilitates the insertion of initialization code through the `init_expr` argument. Code is inserted immediately after the libraries are loaded in the R Markdown document. In general, it is suggested that the number of initial expressions be kept small so that the \proglang{R} Markdown document is easy to read. If a large number of functions are required by the target \proglang{R} Markdown document then they can be put into a file and sourced using the initial expression. As an example, suppose we are creating an html document and presenting data using the `datatable()` function. However, we do not want to include the search capabilities provided. This can be easily accomplished by creating a new function, `datatable_no_search()`, created using the `partial()` function \cite{purrr} to partially apply `list(dom = 't')` to the `options` argument of `datatable`.
 
@@ -195,7 +200,7 @@ ld <- listdown(load_cc_expr = readRDS("comp-comp2.rds"),
 ld_make_chunks(ld)[2:10]
 ```
 
-# R code chunk customization
+## R code chunk customization
 
 The \pkg{listdown} package supports also supports capabilities to further customize the presentation by specifying \proglang{R} code chunk options in the \proglang{R} Markdown document in two distinct ways. The first is used when the options we would like to specify is tied to type of the object being presented. This can be though of as a chunk-option decorator. The second is use for changing the options for an individual chunk in an ad-hoc manner.
 
@@ -242,7 +247,6 @@ The code creates a computational component list containing a table of the patien
 ```{r, eval = TRUE, message=FALSE, warning=FALSE}
 library(gtsummary)
 library(dplyr)
-library(glue)
 library(survival)
 library(survminer)
 library(rmarkdown)
@@ -257,7 +261,7 @@ make_surv_cc <- function(trial, treat, surv_cond_chars) {
   # Create survival plots base on survival characteristics
   scs <- lapply(c("1", surv_cond_chars),
                 function(sc) {
-                  glue("Surv(ttdeath, death) ~ {treat} + {sc}") %>%
+                  sprintf("Surv(ttdeath, death) ~ %s + %s", treat, sc) %>%
                     as.formula() %>%
                     surv_fit(trial) %>%
                     ggsurvplot()
@@ -275,16 +279,34 @@ ld_cc_dendro(surv_cc)
 
 As shown before, the report is created by saving the computational components, creating a listdown object, writing the \proglang{R} Markdown document, and rendering it. The resulting document, trial-report.html, can then be placed in a shared space where it can be viewed and interpreted by stakeholders in the clincial trial. The \proglang{R} Markdown document created by this code is shown in Appendix 1.
 
-```{r eval = FALSE}
+```{r eval = TRUE, message = FALSE, warning = FALSE}
+# Turn the survplots into a list to show the individual components.
+class(surv_cc$`Survival Plots`$Overall) <- 
+  class(surv_cc$`Survival Plots`$Stage) <-
+  class(surv_cc$`Survival Plots`$Grade) <- "list"
+
+# Create a tab for each element of the survplot.
+names(surv_cc$`Survival Plots`) <- 
+  paste(names(surv_cc$`Survival Plots`), "{.tabset}")
+
+# Rename the elements
+names(surv_cc$`Survival Plots`$`Overall {.tabset}`) <- 
+  names(surv_cc$`Survival Plots`$`Stage {.tabset}`) <- 
+  names(surv_cc$`Survival Plots`$`Grade {.tabset}`) <- 
+  c("Plot", "Data", "Table")
+  
+# Save the updated object for presentation.
 saveRDS(surv_cc, "surv-cc.rds")
 
 # Create the listdown object with appropriate dependencies
 # and presentation parameters.
 ld_surv <- listdown(load_cc_expr = readRDS("surv-cc.rds"),
-                    package = c("gtsummary", "survminer", "flextable"),
+                    package = c("gtsummary", "flextable", "DT", 
+                                "ggplot2"),
                     decorator_chunk_opts = 
-                      list(ggsurvplot = list(fig.width = 100,
-                                             fig.height = 200)),
+                      list(gg = list(fig.width = 8,
+                                     fig.height = 6)),
+                    decorator = list(data.frame = datatable),
                     echo = FALSE,
                     message = FALSE,
                     warning = FALSE,
@@ -299,9 +321,19 @@ writeLines(
     ld_make_chunks(ld_surv))),
   "trial-report.rmd")
 
-# Render the RMarkdown file to html
-render("trial-report.rmd", quiet = TRUE, html_document(keep_tex = TRUE))  
+# Render the RMarkdown file to html and show it.
+render("trial-report.rmd", quiet = TRUE)
+browseURL("trial-report.html")
+
 ```
+
+# Conclusion
+
+While the programmtic generation of reproducible documents has appealing qualities, it also has fundamental limitations that should be kept in mind when deciding if tools like \pkg{listdown} should be employed. First and foremost, without narrative components a document has very little context. Quantitative analyses require research questions, hypotheses, reviews, interpretations, and conclusions. Computational components are necessary but generally not sufficient for constructing an analysis. This means that if narrative components must be conveyed in a document, then \pkg{listdown} may make the generation of their presentation more convenient. However, it does not relieve the burden of the author to create prose developing a narrative.
+
+Second, it is difficult if not impossible to construct computational components for an arbitary analyses. Analyses themselves have context and are built with a set of assumptions and goals. Our experience shows that \pkg{listdown} is easiest to used for a fixed data format. This means a standard set of table and visualizations for similarly formatted data. In particular, data that is periodicaly updated, without changes to the format, is a case that is particularly amenable to document generation reuse.
+
+Keeping these limitations in mind, \pkg{listdown} can be used to effectively reduce the the difficulty of generating documents in a variety of contexts and fits readily in data processing and analysis pipelines.
 
 \bibliography{../references}
 
@@ -314,40 +346,80 @@ title: Simple Trial Report
 output: html_document
 ---
 
-\```{r echo = FALSE, message = FALSE, warning = FALSE}
+\```{r echo = FALSE, message = FALSE, warning = FALSE, fig.width = 7, fig.height = 4.5}
 library(gtsummary)
-library(survminer)
 library(flextable)
+library(DT)
+library(ggplot2)
 
 cc_list <- readRDS("surv-cc.rds")
 \```
 
 # Table 1
 
-\```{r echo = FALSE, message = FALSE, warning = FALSE}
+\```{r echo = FALSE, message = FALSE, warning = FALSE, fig.width = 7, fig.height = 4.5}
 cc_list$`Table 1`
 \```
 
 # Survival Plots
 
-## Overall
+## Overall {.tabset}
 
-\```{r echo = FALSE, message = FALSE, warning = FALSE, fig.width = 7, 
-     fig.height = 4.5}
-cc_list$`Survival Plots`$Overall
+### Plot
+
+\```{r echo = FALSE, message = FALSE, warning = FALSE, fig.width = 8, fig.height = 6}
+cc_list$`Survival Plots`$`Overall {.tabset}`$Plot
 \```
 
-## Stage
+### Data
 
-\```{r echo = FALSE, message = FALSE, warning = FALSE, fig.width = 7, 
-     fig.height = 4.5}
-cc_list$`Survival Plots`$Stage
+\```{r echo = FALSE, message = FALSE, warning = FALSE, fig.width = 7, fig.height = 4.5}
+datatable(cc_list$`Survival Plots`$`Overall {.tabset}`$Data)
 \```
 
-## Grade
+### Table
 
-\```{r echo = FALSE, message = FALSE, warning = FALSE, fig.width = 7, 
-     fig.height = 4.5}
-cc_list$`Survival Plots`$Grade
+\```{r echo = FALSE, message = FALSE, warning = FALSE, fig.width = 7, fig.height = 4.5}
+datatable(cc_list$`Survival Plots`$`Overall {.tabset}`$Table)
+\```
+
+## Stage {.tabset}
+
+### Plot
+
+\```{r echo = FALSE, message = FALSE, warning = FALSE, fig.width = 8, fig.height = 6}
+cc_list$`Survival Plots`$`Stage {.tabset}`$Plot
+\```
+
+### Data
+
+\```{r echo = FALSE, message = FALSE, warning = FALSE, fig.width = 7, fig.height = 4.5}
+datatable(cc_list$`Survival Plots`$`Stage {.tabset}`$Data)
+\```
+
+### Table
+
+\```{r echo = FALSE, message = FALSE, warning = FALSE, fig.width = 7, fig.height = 4.5}
+datatable(cc_list$`Survival Plots`$`Stage {.tabset}`$Table)
+\```
+
+## Grade {.tabset}
+
+### Plot
+
+\```{r echo = FALSE, message = FALSE, warning = FALSE, fig.width = 8, fig.height = 6}
+cc_list$`Survival Plots`$`Grade {.tabset}`$Plot
+\```
+
+### Data
+
+\```{r echo = FALSE, message = FALSE, warning = FALSE, fig.width = 7, fig.height = 4.5}
+datatable(cc_list$`Survival Plots`$`Grade {.tabset}`$Data)
+\```
+
+### Table
+
+\```{r echo = FALSE, message = FALSE, warning = FALSE, fig.width = 7, fig.height = 4.5}
+datatable(cc_list$`Survival Plots`$`Grade {.tabset}`$Table)
 \```
 ```

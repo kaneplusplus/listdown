@@ -9,6 +9,9 @@ if (make_reference) {
   dir.create("reference-data", showWarnings = FALSE)
 }
 
+as.character(ld_rmarkdown_header("Workflow R", author = "Some Dude",
+                              date = "2020"))
+
 if (make_reference) {
   saveRDS(ld_rmarkdown_header("Workflow R", author = "Some Dude",
                               date = "2020"),

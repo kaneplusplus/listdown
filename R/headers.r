@@ -50,7 +50,7 @@ print.listdown_header <- function(x, ...) {
 #' @export
 #' @importFrom yaml as.yaml
 as.character.listdown_header <- function(x, ...) {
-  paste0("---\n",
-         as.yaml(x, ...),
-         "---", collapse = "\n")
+  c("---",
+    unlist(strsplit(as.yaml(x, ...), "\n")),
+    "---")
 }
