@@ -1,6 +1,7 @@
 ^LICENSE\.md$
 ^\.travis\.yml$
 ^README\.Rmd$
+^README\.md$
 ^codecov\.yml$
 ^appveyor\.yml$
 ^CODE_OF_CONDUCT\.md$

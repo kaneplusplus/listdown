@@ -5,3 +5,7 @@
 # listdown 0.2.9
 
 * Minor updates for JSS submission based on comments.
+
+# listdown 0.2.10
+
+* Added CODE_OF_CONDUCT.md to .Rbuildignore

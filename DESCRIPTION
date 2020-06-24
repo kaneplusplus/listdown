@@ -1,6 +1,6 @@
 Package: listdown
 Title: listdown: create R Markdown from lists
-Version: 0.2.9
+Version: 0.2.10
 Authors@R: c(
   person("Michael J.", "Kane",
     role = c("aut", "cph", "cre"),
