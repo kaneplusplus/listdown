@@ -13,3 +13,7 @@
 # listdown 0.2.11
 
 * Removed the package name from the description title.
+
+# listdown 0.2.12
+
+* Title was put into title case.
