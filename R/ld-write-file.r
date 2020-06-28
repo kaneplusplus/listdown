@@ -10,7 +10,7 @@
 #' output.
 #' @param file_name the output file to write to.
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' library(ggplot2)
 #'
 #' cc_list <- list(
@@ -20,17 +20,20 @@
 #'  `Outlier Horizontal` =  ggplot(anscombe, aes(x = x4, y = y4)) +
 #'    geom_point())
 #'
-#' saveRDS(cc_list, "cc-list.rds")
 #'
-#' ld <- listdown(readRDS("cc-list.rds"),
-#'                package = "ggplot2")
-#'
-#' ld_write_file(ld_rmarkdown_header(title = "The Anscombe Quartet",
-#'                                   author = "Francis Anscombe",
-#'                                   date = "1973"),
-#'               ld,
-#'               "anscombe-quartet.rmd")
-#' }
+#' # Uncomment the following code if you want to write the files.
+#' #
+#' # saveRDS(cc_list, "cc-list.rds")
+#' #
+#' # ld <- listdown(readRDS("cc-list.rds"),
+#' #                package = "ggplot2")
+#' # 
+#' # ld_write_file(ld_rmarkdown_header(title = "The Anscombe Quartet",
+#' #                                   author = "Francis Anscombe",
+#' #                                   date = "1973"),
+#' #               ld,
+#' #               "anscombe-quartet.rmd")
+#' # }
 #' @importFrom crayon red
 #' @export
 ld_write_file <- function(rmd_header, ld, file_name) {

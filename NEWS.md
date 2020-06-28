@@ -17,3 +17,7 @@
 # listdown 0.2.12
 
 * Title was put into title case.
+
+# listdown 0.2.13
+
+* dontrun was turned into donttest per CRAN feedback.
