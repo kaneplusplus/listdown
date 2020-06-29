@@ -51,7 +51,25 @@ Suppose we have just completed and analysis and have collected all of the result
 
 As a first example, we will consider the a list of visualizations from the anscombe data set. The list is composed of four elements (named Linear, Non Linear, Outlier Vertical, and Outlier Horizontal) each containing a scatter plot from the famous Anscomb Quartet. From the `computational_components` list, we would like to create a document with four sections with names corresponding to the list names, each containing their respective visualizations.
 
-```{r}
+```{r echo = FALSE}
+# Use ggplot2 to create the visualizations.
+library(ggplot2)
+
+# Load the Anscombe Quartet.
+data(anscombe)
+
+# Create the ggplot objects to display.
+computational_components <- list(
+  Linear = ggplot(anscombe, aes(x = x1, y = y1)) + geom_point() + theme_bw(),
+  `Non Linear` = ggplot(anscombe, aes(x = x2, y = y2)) + geom_point() + theme_bw(),
+  `Outlier Vertical`= ggplot(anscombe, aes(x = x3, y = y3)) + geom_point() + theme_bw(),
+  `Outlier Horizontal` = ggplot(anscombe, aes(x = x4, y = y4)) + geom_point() + theme_bw())
+
+# Save the file to disk to be read by the output R Markdown document.
+#saveRDS(computational_components, "comp-comp.rds")
+```
+
+```{r eval = FALSE}
 # Use ggplot2 to create the visualizations.
 library(ggplot2)
 
@@ -106,7 +124,13 @@ cat(paste(ld_make_chunks(ld), collapse = "\n"))
 
 The first example is simple in part because the ggplot objects both contain the data we want to display and, at the same time, provide the mechanism for presenting them - rendering them in a graph. However, this is not always the case. The objects being stored in the list of computational components may not translate directly to the presentation in a document. In these cases a function is needed that takes the list component and returns an object to be displayed. For example, suppose that, along with showing graphs from the Anscombe Quartet, we would like to include the data themselves. We could add the data to the `computational_components` list and then create the document with:
 
-```{r}
+```{r echo = FALSE}
+computational_components$Data <- anscombe
+#saveRDS(computational_components, "comp-comp.rds")
+cat(paste(ld_make_chunks(ld), collapse = "\n"))
+```
+
+```{r eval = FALSE}
 computational_components$Data <- anscombe
 saveRDS(computational_components, "comp-comp.rds")
 cat(paste(ld_make_chunks(ld), collapse = "\n"))
@@ -127,54 +151,4 @@ cat(paste(ld_make_chunks(ld), collapse = "\n"))
 List names in the `decorator` argument provide a key to which a function or method is mapped. The underlying decorator resolution is implemented for a given computational component by going through decorator names sequentially to see if the component inherits from the name using the `inherits()` function. The function or method is selected from the corresponding name which the element first inherits from. This means that when customizing the presentation of objects that inherit from a common class, the more abstract classes should appear at the end of the list. This will ensure that specialized classes will be encountered first in the resolution process.
 
 A separate argument, `default_decorator`, allows the user to specify the default decorator for an object whose type does not appear in the `decorator` list. This allows the user to specify any class name for the decorator and avoids a potential type name collision with a default decorator whose name is determined by convention. By default, this argument is set to `identity` but it can be use to not display a computational component by default if the argument is set to `NULL`.
-
-# Design
-
-# Advanced Usage
-
-## Initialization Code
-
-## Controlling Chunk-Level Options
-
-```{r}
-library(listdown)
-library(ggplot2)
-
-data(anscombe)
-
-# Create the ggplot objects to display.
-pres_list <- list(
-  Linear = ggplot(anscombe, aes(x = x1, y = y1)) + geom_point() + theme_bw(),
-  `Non Linear` = ggplot(anscombe, aes(x = x2, y = y2)) + geom_point() + theme_bw(),
-  `Outlier Vertical`= ggplot(anscombe, aes(x = x3, y = y3)) + geom_point() + theme_bw(),
-  `Outlier Horizontal` = ggplot(anscombe, aes(x = x4, y = y4)) + geom_point() + theme_bw())
-```
-
-```{r}
-saveRDS(pres_list, "pres-list.rds")
-
-ld <- listdown(load_cc_expr = readRDS("pres-list.rds"),
-               package = "ggplot2",
-               decorator = list(ggplot = identity))
-
-# Output an html document to a string.
-doc <- c(
-  "---",
-  "author: Francis Anscombe",
-  "date: '1973'",
-  "title: Anscombe's Quartet",
-  "output: html_document",
-  "---",
-  ld_make_chunks(ld))
-```
-
-```{r eval = FALSE}
-library(rmarkdown)
-
-writeLines(doc, file("anscombe.Rmd"))
-render("anscombe.Rmd", quiet = TRUE)
-browseURL("anscombe.html")
-```
-
-
 
