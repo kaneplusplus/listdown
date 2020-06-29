@@ -21,3 +21,9 @@
 # listdown 0.2.13
 
 * dontrun was turned into donttest per CRAN feedback.
+
+# listdown 0.2.14
+
+* donttest was turned into dontrun per CRAN feedback.
+* vignette no longer writes new files.
+* listdown() function can take a strig literal for read expression.

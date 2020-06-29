@@ -5,7 +5,9 @@
 #' unquoted expression indicating how the presentation list will be loaded.
 #' In addition, libraries required by the outputted document and other
 #' parameters can be specified.
-#' @param load_cc_expr an unquoted expression to load the presentation list.
+#' @param load_cc_expr either an unquoted expression or a character string
+#' that will be turned into an unquoted expression via str2lang to load the 
+#' presentation list.
 #' @param package a quoted list of package required by the outputted document.
 #' @param decorator a named list mapping the potential types of list elements
 #' to a decorator function.
@@ -64,7 +66,12 @@ listdown <- function(load_cc_expr,
   } else {
     decorator <- as.list(match.call()$decorator)[-1]
   }
-  ret <- list(load_cc_expr = match.call()$load_cc_expr,
+  if (is.character(match.call()$load_cc_expr)) {
+    load_cc_expr <- str2lang(match.call()$load_cc_expr)
+  } else {
+    load_cc_expr <- match.call()$load_cc_expr
+  }
+  ret <- list(load_cc_expr = load_cc_expr,
               decorator = decorator,
               package = package,
               init_expr = match.call()$init_expr,

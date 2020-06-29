@@ -71,7 +71,7 @@ saveRDS(computational_components, "comp-comp.rds")
 
 ## Creating a Document with listdown
 
-Creating a document from the `computational_components` will require two steps. First, we will create a `listdown` object that specifies how the `comuptational_components` object will be loaded into the document,  which libraries and code needs to be included, the options for the R chunks, and how the list elements will be presented in the output R markdown document.
+Creating a document from the `computational_components` will require two steps. First, we will create a `listdown` object that specifies how the `computational_components` object will be loaded into the document,  which libraries and code needs to be included, the options for the R chunks, and how the list elements will be presented in the output R markdown document.
 
 ```{r}
 library(listdown)
@@ -168,7 +168,7 @@ doc <- c(
   ld_make_chunks(ld))
 ```
 
-```{r}
+```{r eval = FALSE}
 library(rmarkdown)
 
 writeLines(doc, file("anscombe.Rmd"))

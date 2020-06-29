@@ -16,7 +16,9 @@ listdown(
 )
 }
 \arguments{
-\item{load_cc_expr}{an unquoted expression to load the presentation list.}
+\item{load_cc_expr}{either an unquoted expression or a character string
+that will be turned into an unquoted expression via str2lang to load the 
+presentation list.}
 
 \item{package}{a quoted list of package required by the outputted document.}
 

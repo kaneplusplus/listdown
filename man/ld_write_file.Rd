@@ -21,7 +21,7 @@ This function takes header information and a listdown
 object and writes to a specified file.
 }
 \examples{
-\donttest{
+\dontrun{
 library(ggplot2)
 
 cc_list <- list(
@@ -32,17 +32,15 @@ cc_list <- list(
    geom_point())
 
 
-# Uncomment the following code if you want to write the files.
-#
-# saveRDS(cc_list, "cc-list.rds")
-#
-# ld <- listdown(readRDS("cc-list.rds"),
-#                package = "ggplot2")
-# 
-# ld_write_file(ld_rmarkdown_header(title = "The Anscombe Quartet",
-#                                   author = "Francis Anscombe",
-#                                   date = "1973"),
-#               ld,
-#               "anscombe-quartet.rmd")
-# }
+saveRDS(cc_list, "cc-list.rds")
+
+ld <- listdown(readRDS("cc-list.rds"),
+               package = "ggplot2")
+
+ld_write_file(ld_rmarkdown_header(title = "The Anscombe Quartet",
+                                  author = "Francis Anscombe",
+                                  date = "1973"),
+              ld,
+              "anscombe-quartet.rmd")
+}
 }
