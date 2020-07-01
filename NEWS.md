@@ -31,3 +31,7 @@
 # listdown 0.2.16
 
 * example fiddling for CRAN
+
+# listdown 0.2.17
+
+* Gave up on ld_write_file. 
