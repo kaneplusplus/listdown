@@ -67,9 +67,21 @@ listdown <- function(load_cc_expr,
     decorator <- as.list(match.call()$decorator)[-1]
   }
   if (is.character(match.call()$load_cc_expr)) {
+    # If it's a string literal, then call str2lang on it.
     load_cc_expr <- str2lang(match.call()$load_cc_expr)
   } else {
-    load_cc_expr <- match.call()$load_cc_expr
+    load_cc_expr <- tryCatch( {
+        lce <- eval(match.call()$load_cc_expr)
+        if (is.character(lce)) {
+          # It's a variable holding a string. Call str2lang on it.
+          str2lang(lce)
+        } else {
+          # It's a bare expression.
+          match.call()$load_cc_expr
+        }
+      },
+      # It's a bare expression.
+      finally = match.call()$load_cc_expr)
   }
   ret <- list(load_cc_expr = load_cc_expr,
               decorator = decorator,
@@ -108,6 +120,9 @@ ld_make_chunks.default <- function(ld) {
 ld_make_chunks.listdown <- function(ld) {
 
   cc_list <- eval(ld$load_cc_expr)
+  if (is.character(cc_list)) {
+    cc_list <- eval(parse(text = cc_list))
+  }
   ret_string <- ""
   if (length(ld$package) > 0 || length(ld$init_expr)) {
     ret_string <-

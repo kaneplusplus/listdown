@@ -16,13 +16,15 @@ and when an element type is not a list the class information substituted
 for the object.
 }
 \examples{
- library(ggplot2)
- cc_list <- list(
-   Linear = ggplot(anscombe, aes(x = x1, y = y1)) + geom_point(),
-  `Non Linear` = ggplot(anscombe, aes(x = x2, y = y2)) + geom_point(),
-  `Outlier Vertical`= ggplot(anscombe, aes(x = x3, y = y3)) + geom_point(),
-  `Outlier Horizontal` =  ggplot(anscombe, aes(x = x4, y = y4)) +
-    geom_point())
+if (require("ggplot2")) {
 
- as_ld_yml(cc_list)
+  cc_list <- list(
+    Linear = ggplot(anscombe, aes(x = x1, y = y1)) + geom_point(),
+   `Non Linear` = ggplot(anscombe, aes(x = x2, y = y2)) + geom_point(),
+   `Outlier Vertical`= ggplot(anscombe, aes(x = x3, y = y3)) + geom_point(),
+   `Outlier Horizontal` =  ggplot(anscombe, aes(x = x4, y = y4)) +
+     geom_point())
+
+  as_ld_yml(cc_list)
+}
 }

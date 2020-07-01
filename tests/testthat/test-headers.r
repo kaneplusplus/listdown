@@ -1,6 +1,3 @@
-library(ggplot2)
-library(DT)
-
 context("Headers")
 
 source("make-reference.r")

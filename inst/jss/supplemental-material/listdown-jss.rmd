@@ -7,6 +7,12 @@ author:
     - 60 College Street
     - New Haven, CT 06510, USA
     email: michael.kane@yale.edu
+  - name: Xun (Tony) Jian
+    affiliation: Amgen Inc
+    address:
+    - One Amgen Center Drive
+    - Thousand Oaks, CA 91320-1799, USA
+    email: xunj@amgen.com
   - name: Simon Urbanek
     affiliation: The University of Aukland
     address:
@@ -42,7 +48,7 @@ Since computational components are, by definition, computationally derived objec
 
 The \pkg{listdown} package provides functions to programmatically create \proglang{R} Markdown files from named lists. It is intended for data analysis pipelines where the presentation of the results
 is separated from their creation. For this use case, a data processing (or analysis) is performed
-and the results are provided in a single named list, organized heirarchically. List element names denote sections, subsections, subsubsection, etc. and the list elements contain the data structure to be presented including graphs and tables.  The package has native support for \pkg{workflowr} [@blischak2019], pdf, word, or html document along with functions allowing a user to easily extend to other types of supported documents. The goal of the package is to create a documents with all tables and visualization that will appear (computational components). This serves as a starting point from which a user can organize outputs, describe a study, discuss results, and provide conclusions (narrative components).
+and the results are provided in a single named list, organized hierarchically. List element names denote sections, subsections, subsubsection, etc. and the list elements contain the data structure to be presented including graphs and tables.  The package has native support for \pkg{workflowr} [@blischak2019], pdf, word, or html document along with functions allowing a user to easily extend to other types of supported documents. The goal of the package is to create a documents with all tables and visualization that will appear (computational components). This serves as a starting point from which a user can organize outputs, describe a study, discuss results, and provide conclusions (narrative components).
 
 \pkg{listdown} therefore provides a reproducible means for producing a document with specified computational components. It is most compatible with data analysis pipelines where the data format is fixed but the analyses are either being updated, which may affect narrative components including the result discussion and conclusion, or where the experiment is different, which affects all narrative components, but the data format and processing is consistent. An example of the former is provided later in this paper.
 

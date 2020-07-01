@@ -1,0 +1,48 @@
+---
+title: The Anscombe Quartet
+author: Francis Anscombe
+date: '1973'
+output: html_document
+---
+
+```{r}
+library(ggplot2)
+
+cc_list <- readRDS("cc-list.rds")
+```
+
+# Linear
+
+```{r}
+cc_list$Linear
+```
+
+# Non Linear
+
+```{r}
+cc_list$`Non Linear`
+```
+
+# Outlier Vertical
+
+```{r}
+cc_list$`Outlier Vertical`
+```
+
+# Outlier Horizontal
+
+```{r}
+cc_list$`Outlier Horizontal`
+```
+
+# a
+
+## b
+
+```{r}
+cc_list$a$b
+```
+
+```{r}
+cc_list$a$``
+```
