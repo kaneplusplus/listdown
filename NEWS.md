@@ -26,5 +26,8 @@
 
 * donttest was turned into dontrun per CRAN feedback.
 * vignette no longer writes files.
-* listdown() function can take a strig literal for read expression.
+* listdown() function can take a string literal for read expression.
 
+# listdown 0.2.16
+
+* example fiddling for CRAN
