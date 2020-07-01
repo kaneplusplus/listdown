@@ -30,8 +30,12 @@
 
 # listdown 0.2.16
 
-* example fiddling for CRAN
+* Example fiddling for CRAN.
 
 # listdown 0.2.17
 
 * Gave up on ld_write_file. 
+
+# listdown 0.2.18
+
+* Added rmarkdown Suggestion back.
