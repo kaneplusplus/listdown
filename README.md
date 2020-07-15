@@ -5,11 +5,13 @@
 
 <!-- badges: start -->
 
+[![](https://www.r-pkg.org/badges/version/listdown?color=blue)](https://cran.r-project.org/package=listdown)
 [![Build
 Status](https://travis-ci.org/kaneplusplus/listdown.svg?branch=master)](https://travis-ci.org/kaneplusplus/listdown)
 [![AppVeyor build
 status](https://ci.appveyor.com/api/projects/status/github/kaneplusplus/listdown?branch=master&svg=true)](https://ci.appveyor.com/project/kaneplusplus/listdown)
 [![codecov](https://codecov.io/gh/kaneplusplus/listdown/branch/master/graph/badge.svg)](https://codecov.io/gh/kaneplusplus/listdown)
+[![](http://cranlogs.r-pkg.org/badges/last-month/listdown?color=blue)](https://cran.r-project.org/package=listdown)
 <!-- badges: end -->
 
 ## Overview
