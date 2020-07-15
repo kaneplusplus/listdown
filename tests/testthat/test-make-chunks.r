@@ -41,10 +41,14 @@ ld <- listdown(load_cc_expr = readRDS("reference-data/test_list.rds"),
                  }
                })
 
-
 test_that("A listdown object can be created.", {
   expect_true(inherits(ld, "listdown"))
 })
+
+print(ld)
+#test_that("A listdown object can be printed.", {
+#  expect_equal(ld, print.listdown(ld))
+#})
 
 # Create the RMarkdown string.
 

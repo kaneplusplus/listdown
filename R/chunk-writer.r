@@ -95,6 +95,100 @@ listdown <- function(load_cc_expr,
   ret
 }
 
+#' @importFrom crayon yellow bold
+#' @export
+print.listdown <- function(x, ...) {
+  cat(bold("\nListdown object description\n"))
+  cat("\n")
+  if ("package" %in% names(x)) {
+    cat(bold("Package(s) imported:\n"))
+    for (package in x$package) {
+      cat("\t", package, "\n", sep = "")
+    }
+  } else {
+    warning(yellow("No packages imported."))
+  }
+  if ("init_expr" %in% names(x)) {
+    cat("\n")
+    cat(bold("Initial expression(s) (run after packages are loaded):\n"))
+    cat("\t")
+    if (length(x$init_expr) == 0) {
+      cat("(none)\n")
+    } else {
+      cat(deparse(x$init_expr), sep = "\n\t")
+    }
+  }
+  if ("load_cc_expr" %in% names(x)) {
+    cat("\n")
+    cat(bold("Expression to read data:\n"))
+    cat("\t", deparse(x$load_cc_expr), "\n", sep = "")
+  } else {
+    warning(yellow("No load_cc expression provided."))
+  }
+  if ("decorator" %in% names(x)) {
+    cat("\n")
+    cat(bold("Decorator(s):\n"))
+    if (length(x$decorators) == 0) {
+      cat("\t(none)\n")
+    } else {
+      ns <- format(c("Type", names(x$decorator)))
+      cv <- c("Method", as.vector(unlist(sapply(x$decorator, deparse))))
+      for (i in seq_along(ns)) {
+        if (i == 1) {
+          cat("\t", bold(ns[i]), "\t", bold(cv[i]), "\n", sep = "")
+        } else {
+          cat("\t", ns[i], "\t", cv[i], "\n", sep = "")
+        }
+      }
+    }
+  }
+  if ("default_decorator" %in% names(x)) {
+    cat("\n")
+    cat(bold("Defaut decorator:\n"))
+    cat("\t", deparse(x$default_decorator), "\n", sep = "")
+  }
+  if ("chunk_opts" %in% names(x)) { 
+    cat("\n")
+    cat(bold("Chunk option(s):\n"))
+    if (length(x$chunk_opts) == 0) {
+      cat("\t(none)\n")
+    } else {
+      for (i in seq_len(x$chunk_opts)) {
+        cat("\t", names(x$chunk_opts)[i], " ", deparse(x$chunk_opts[[i]]), "\n",
+            sep = "")
+      }
+    }
+  }
+  if ("decorator_chunk_opts" %in% names(x)) {
+    cat("\n")
+    cat(bold("Decorator chunk option(s):\n"))
+    if (length(x$decorator_chunk_opts) == 0) {
+      cat("\t(none)\n")
+    } else {
+      for (i in seq_along(x$decorator_chunk_opts)) {
+        cat("\t", bold("Type: "), names(x$decorator_chunk_opts)[i], ":", 
+            sep = "")
+        ns <- names(x$decorator_chunk_opts[[i]])
+        ns[ns == ''] <- "(chunk name)"
+        ns <- c("Option", ns)
+        ns <- format(ns)
+        cv <- unlist(x$decorator_chunk_opts[[i]])
+        cv <- c("Value", cv)
+        for (j in seq_along(ns)) {
+          if (j == 1) {
+            cat("\n\t\t", bold(ns[j]), " ", bold(cv[j]))
+          } else {
+            cat("\n\t\t", ns[j], " ", cv[j])
+          }
+        }
+        cat("\n")
+      }
+    }
+  }
+  cat("\n")
+  invisible(x)
+}
+
 #' @title Write a listdown Object to a String
 #'
 #' @description After a presentation list and listdown object have been

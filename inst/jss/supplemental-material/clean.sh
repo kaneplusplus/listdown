@@ -1,7 +1,8 @@
 #! /bin/sh
-rm *.rds 
-rm *.pdf 
-rm *.tex 
-rm *.html 
+rm -f *.rds 
+rm -f *.pdf 
+rm -f *.tex 
+rm -f *.html 
+rm -f *.md
 rm -rf figure 
-rm trial-report.rmd
+rm -f trial-report.rmd
