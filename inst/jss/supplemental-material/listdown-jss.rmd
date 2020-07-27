@@ -8,7 +8,7 @@ author:
     - New Haven, CT 06510, USA
     email: michael.kane@yale.edu
   - name: Xun (Tony) Jiang
-    affiliation: Amgen Inc
+    affiliation: Amgen Inc.
     address:
     - One Amgen Center Drive
     - Thousand Oaks, CA 91320-1799, USA

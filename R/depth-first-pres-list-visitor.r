@@ -23,7 +23,7 @@ list_loc_ind_to_name <- function(pl, env = parent.frame(n = 2)) {
     idx <- substr(pl, re[i], re[i] + re_len[i] - 1)
     idx_name <- names(epp(ret, last_index_as_list(idx)))
     # Wrap in backticks if the names isn't a valid variable name.
-    if (idx_name != make.names(idx_name)) {
+    if (!is.null(idx_name) && idx_name != make.names(idx_name)) {
       idx_name <- paste0("`", idx_name, "`")
     }
     ret <- paste0(
