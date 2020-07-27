@@ -39,3 +39,7 @@
 # listdown 0.2.18
 
 * Added rmarkdown Suggestion back.
+
+# listdown 0.2.21
+
+* Fixed a bug related to unnamed computational component lists elements.
