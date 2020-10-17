@@ -64,7 +64,11 @@ listdown <- function(load_cc_expr,
   if ( !("decorator" %in% names(match.call())) ) {
     decorator <- NULL
   } else {
-    decorator <- as.list(match.call()$decorator)[-1]
+    if (as.character(as.list(match.call()$decorator)[[1]]) == "list") {
+      decorator <- as.list(match.call()$decorator)[-1]
+    } else {
+      decorator <- eval(match.call()$decorator)
+    }
   }
   if (is.character(match.call()$load_cc_expr)) {
     # If it's a string literal, then call str2lang on it.

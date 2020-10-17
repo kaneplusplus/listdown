@@ -1,0 +1,81 @@
+---
+title: Simple Trial Report
+output: html_document
+---
+
+```{r echo = FALSE, message = FALSE, warning = FALSE, fig.width = 7, fig.height = 4.5}
+library(gtsummary)
+library(flextable)
+library(DT)
+library(ggplot2)
+
+cc_list <- readRDS("surv-cc.rds")
+```
+
+# Table 1
+
+```{r echo = FALSE, message = FALSE, warning = FALSE, fig.width = 7, fig.height = 4.5}
+cc_list$`Table 1`
+```
+
+# Survival Plots
+
+## Overall {.tabset}
+
+### Plot
+
+```{r echo = FALSE, message = FALSE, warning = FALSE, fig.width = 8, fig.height = 6}
+cc_list$`Survival Plots`$`Overall {.tabset}`$Plot
+```
+
+### Data
+
+```{r echo = FALSE, message = FALSE, warning = FALSE, fig.width = 7, fig.height = 4.5}
+datatable(cc_list$`Survival Plots`$`Overall {.tabset}`$Data)
+```
+
+### Table
+
+```{r echo = FALSE, message = FALSE, warning = FALSE, fig.width = 7, fig.height = 4.5}
+datatable(cc_list$`Survival Plots`$`Overall {.tabset}`$Table)
+```
+
+## Stage {.tabset}
+
+### Plot
+
+```{r echo = FALSE, message = FALSE, warning = FALSE, fig.width = 8, fig.height = 6}
+cc_list$`Survival Plots`$`Stage {.tabset}`$Plot
+```
+
+### Data
+
+```{r echo = FALSE, message = FALSE, warning = FALSE, fig.width = 7, fig.height = 4.5}
+datatable(cc_list$`Survival Plots`$`Stage {.tabset}`$Data)
+```
+
+### Table
+
+```{r echo = FALSE, message = FALSE, warning = FALSE, fig.width = 7, fig.height = 4.5}
+datatable(cc_list$`Survival Plots`$`Stage {.tabset}`$Table)
+```
+
+## Grade {.tabset}
+
+### Plot
+
+```{r echo = FALSE, message = FALSE, warning = FALSE, fig.width = 8, fig.height = 6}
+cc_list$`Survival Plots`$`Grade {.tabset}`$Plot
+```
+
+### Data
+
+```{r echo = FALSE, message = FALSE, warning = FALSE, fig.width = 7, fig.height = 4.5}
+datatable(cc_list$`Survival Plots`$`Grade {.tabset}`$Data)
+```
+
+### Table
+
+```{r echo = FALSE, message = FALSE, warning = FALSE, fig.width = 7, fig.height = 4.5}
+datatable(cc_list$`Survival Plots`$`Grade {.tabset}`$Table)
+```
