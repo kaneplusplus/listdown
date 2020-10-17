@@ -132,7 +132,7 @@ print.listdown <- function(x, ...) {
   if ("decorator" %in% names(x)) {
     cat("\n")
     cat(bold("Decorator(s):\n"))
-    if (length(x$decorators) == 0) {
+    if (length(x$decorator) == 0) {
       cat("\t(none)\n")
     } else {
       ns <- format(c("Type", names(x$decorator)))
