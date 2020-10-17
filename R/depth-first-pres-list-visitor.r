@@ -93,12 +93,11 @@ depth_first_concat <- function(cc_list, ld, heading = "#",
       decorator_index <- which(
         vapply(names(ld$decorator),
                function(x) inherits(eval(parse(text = pl)), x), NA))
-
+    
       if (length(decorator_index) > 1) {
-        warning(yellow("Multiple matches to decorator of types:",
-                       paste(names(decorator_index), collapse = " "),
-                       ".\n\nUsing the first.", sep = " "))
+        decorator_index <- decorator_index[1]
       }
+
 
       chunk_opts <- ld$chunk_opts
 
@@ -107,9 +106,7 @@ depth_first_concat <- function(cc_list, ld, heading = "#",
                function(x) inherits(eval(parse(text = pl)), x), NA))
 
       if (length(chunk_option_index) > 1) {
-        warning(yellow("Multiple matches to chunk elemet option of types:",
-                       paste(names(decorator_index), collapse = " "),
-                       ".\n\nUsing the first.", sep = " "))
+        chunk_option_index <- chunk_option_index[1]
       }
 
       if (length(chunk_option_index) == 1) {
