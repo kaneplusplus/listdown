@@ -232,8 +232,6 @@ ld_make_chunks.listdown <- function(ld) {
                      NA_character_)),
         "")
   }
-  ret_string <- c(ret_string, 
-    sprintf("cc_list <- %s", deparse(ld$load_cc_expr)))
   if (length(ld$init_expr)) {
     ret_string <-
       c(ret_string,
@@ -241,9 +239,11 @@ ld_make_chunks.listdown <- function(ld) {
           unlist(lapply(ld$init_expr[-1], function(x) c(deparse(x))))
         } else {
           deparse(ld$init_expr)
-        })
+        },
+        "")
   }
   c(ret_string, 
+    sprintf("cc_list <- %s", deparse(ld$load_cc_expr)),
     "```",
     depth_first_concat(cc_list, ld))
 }
