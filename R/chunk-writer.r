@@ -216,40 +216,34 @@ ld_make_chunks.default <- function(ld) {
 
 #' @export
 ld_make_chunks.listdown <- function(ld) {
-
   cc_list <- eval(ld$load_cc_expr)
   if (is.character(cc_list)) {
     cc_list <- eval(parse(text = cc_list))
   }
   ret_string <- ""
-  if (length(ld$package) > 0 || length(ld$init_expr)) {
+  ret_string <-
+    c(ret_string,
+      sprintf("```{r%s}", make_chunk_option_string(ld$chunk_opts)))
+  if (length(ld$package) > 0) {
     ret_string <-
       c(ret_string,
-        sprintf("```{r%s}", make_chunk_option_string(ld$chunk_opts)))
-    if (length(ld$package) > 0) {
-      ret_string <-
-        c(ret_string,
-          as.character(vapply(eval(ld$package),
-                       function(x) sprintf("library(%s)", as.character(x)),
-                       NA_character_)),
-          "",
-          sprintf("cc_list <- %s", deparse(ld$load_cc_expr)))
-      if (length(ld$init_expr)) {
-        ret_string <- c(ret_string, "")
-      }
-    }
-    if (length(ld$init_expr)) {
-      ret_string <-
-        c(ret_string,
-          if (deparse(ld$init_expr[[1]]) == "{") {
-            unlist(lapply(ld$init_expr[-1], function(x) c(deparse(x))))
-          } else {
-            deparse(ld$init_expr)
-          })
-    }
-    ret_string <- c(ret_string, "```")
+        as.character(vapply(eval(ld$package),
+                     function(x) sprintf("library(%s)", as.character(x)),
+                     NA_character_)),
+        "")
   }
-  ret_string <- c(ret_string,
+  ret_string <- c(ret_string, 
+    sprintf("cc_list <- %s", deparse(ld$load_cc_expr)))
+  if (length(ld$init_expr)) {
+    ret_string <-
+      c(ret_string,
+        if (deparse(ld$init_expr[[1]]) == "{") {
+          unlist(lapply(ld$init_expr[-1], function(x) c(deparse(x))))
+        } else {
+          deparse(ld$init_expr)
+        })
+  }
+  c(ret_string, 
+    "```",
     depth_first_concat(cc_list, ld))
-  ret_string
 }
