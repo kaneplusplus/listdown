@@ -5,14 +5,9 @@
 #' unquoted expression indicating how the presentation list will be loaded.
 #' In addition, libraries required by the outputted document and other
 #' parameters can be specified.
-#' @param load_cc_expr either an unquoted expression or a character string
-#' that will be turned into an unquoted expression via str2lang to load the 
-#' presentation list.
 #' @param package a quoted list of package required by the outputted document.
 #' @param decorator a named list mapping the potential types of list elements
 #' to a decorator function.
-#' @param init_expr an initial expression that will be added to the outputted
-#' document after the libraries have been called.
 #' @param decorator_chunk_opts a named list mapping the potential types of list
 #' elements to chunk options that should be included for those types.
 #' @param default_decorator the decorator to use for list elements whose type
@@ -20,17 +15,22 @@
 #' elements will not be included when the chunks are written. By default
 #' this is identity, meaning that the elements will be passed directly
 #' (through the identity() function).
+#' @param load_cc_expr either an unquoted expression or a character string
+#' that will be turned into an unquoted expression via str2lang to load the 
+#' presentation list.
+#' @param init_expr an initial expression that will be added to the outputted
+#' document after the libraries have been called.
 #' @param ... default options sent to the chunks of the outputted document.
 #' @param chunk_opts a named list of options sent to the chunks of outputted
 #' documents. Note: takes priority over argument provided to ...
 #' @importFrom crayon red
 #' @export
-listdown <- function(load_cc_expr,
-                     package = NULL,
+listdown <- function(package = NULL,
                      decorator = list(),
-                     init_expr = NULL,
                      decorator_chunk_opts = list(),
                      default_decorator = identity,
+                     init_expr = NULL,
+                     load_cc_expr = NULL,
                      ...,
                      chunk_opts = NULL) {
 
@@ -70,23 +70,26 @@ listdown <- function(load_cc_expr,
       decorator <- eval(match.call()$decorator)
     }
   }
-  if (is.character(match.call()$load_cc_expr)) {
-    # If it's a string literal, then call str2lang on it.
-    load_cc_expr <- str2lang(match.call()$load_cc_expr)
-  } else {
-    load_cc_expr <- tryCatch( {
-        lce <- eval(match.call()$load_cc_expr)
-        if (is.character(lce)) {
-          # It's a variable holding a string. Call str2lang on it.
-          str2lang(lce)
-        } else {
-          # It's a bare expression.
-          match.call()$load_cc_expr
-        }
-      },
-      # It's a bare expression.
-      finally = match.call()$load_cc_expr)
+  if (!is.null(load_cc_expr)) {
+    load_cc_expr <- create_load_cc_expr(match.call()$load_cc_expr)
   }
+#  if (is.character(match.call()$load_cc_expr)) {
+#    # If it's a string literal, then call str2lang on it.
+#   load_cc_expr <- str2lang(match.call()$load_cc_expr)
+#  } else {
+#    load_cc_expr <- tryCatch( {
+#        lce <- eval(match.call()$load_cc_expr)
+#        if (is.character(lce)) {
+#          # It's a variable holding a string. Call str2lang on it.
+#          str2lang(lce)
+#        } else {
+#          # It's a bare expression.
+#          match.call()$load_cc_expr
+#        }
+#      },
+#      # It's a bare expression.
+#      finally = match.call()$load_cc_expr)
+#  }
   ret <- list(load_cc_expr = load_cc_expr,
               decorator = decorator,
               package = package,
@@ -216,6 +219,10 @@ ld_make_chunks.default <- function(ld) {
 
 #' @export
 ld_make_chunks.listdown <- function(ld) {
+  if (is.null(ld$load_cc_expr)) {
+    stop("The load_cc_expr needs to be specified. ",
+         "Use `create_load_cc_expr()` to set it.")
+  }
   cc_list <- eval(ld$load_cc_expr)
   if (is.character(cc_list)) {
     cc_list <- eval(parse(text = cc_list))

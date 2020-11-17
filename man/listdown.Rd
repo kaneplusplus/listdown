@@ -5,28 +5,21 @@
 \title{Create a listdown Object}
 \usage{
 listdown(
-  load_cc_expr,
   package = NULL,
   decorator = list(),
-  init_expr = NULL,
   decorator_chunk_opts = list(),
   default_decorator = identity,
+  init_expr = NULL,
+  load_cc_expr = NULL,
   ...,
   chunk_opts = NULL
 )
 }
 \arguments{
-\item{load_cc_expr}{either an unquoted expression or a character string
-that will be turned into an unquoted expression via str2lang to load the 
-presentation list.}
-
 \item{package}{a quoted list of package required by the outputted document.}
 
 \item{decorator}{a named list mapping the potential types of list elements
 to a decorator function.}
-
-\item{init_expr}{an initial expression that will be added to the outputted
-document after the libraries have been called.}
 
 \item{decorator_chunk_opts}{a named list mapping the potential types of list
 elements to chunk options that should be included for those types.}
@@ -36,6 +29,13 @@ is not inherited from the decorator list. If NULL then the those
 elements will not be included when the chunks are written. By default
 this is identity, meaning that the elements will be passed directly
 (through the identity() function).}
+
+\item{init_expr}{an initial expression that will be added to the outputted
+document after the libraries have been called.}
+
+\item{load_cc_expr}{either an unquoted expression or a character string
+that will be turned into an unquoted expression via str2lang to load the 
+presentation list.}
 
 \item{...}{default options sent to the chunks of the outputted document.}
 

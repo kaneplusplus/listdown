@@ -12,7 +12,7 @@ pres_list <- list(iris = iris,
 
 saveRDS(pres_list, "reference-data/option-check.rds")
 
-ld <- listdown(readRDS("reference-data/option-check.rds"),
+ld <- listdown(load_cc_expr = readRDS("reference-data/option-check.rds"),
                package = "knitr",
                decorator = list(data.frame = kable))
 

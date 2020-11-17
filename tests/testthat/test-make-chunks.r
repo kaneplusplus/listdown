@@ -56,7 +56,6 @@ if (make_reference) {
   saveRDS(ld_make_chunks(ld),
            file.path("reference-data", "test-make-chunks-1.rds"))
 }
-
 test_that("The listdown object is the same as before.", {
   expect_equal(ld_make_chunks(ld),
                readRDS(file.path("reference-data", "test-make-chunks-1.rds")))

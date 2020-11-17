@@ -21,7 +21,7 @@ saveRDS(cc_list, file = rds_file)
 
 read_rds_str <- paste0("readRDS('", rds_file, "')")
 
-ld <- listdown(readRDS("cc-list.rds"), package = "ggplot2")
+ld <- listdown(load_cc_expr = readRDS("cc-list.rds"), package = "ggplot2")
 
 ld_write_file(
   ld_rmarkdown_header(title = "The Anscombe Quartet",

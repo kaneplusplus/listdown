@@ -3,7 +3,7 @@ context("Chunk Options")
 
 library(knitr)
 
-ld <- listdown(readRDS("reference-data/option-check.rds"),
+ld <- listdown(load_cc_expr = readRDS("reference-data/option-check.rds"),
                package = "knitr",
                decorator = list(data.frame = kable))
 

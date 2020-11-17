@@ -17,7 +17,7 @@ rds_file <- "cc-list-2.rds"
 
 saveRDS(cc_list, file = rds_file)
 
-ld <- listdown(readRDS("cc-list-2.rds"), package = "ggplot2")
+ld <- listdown(load_cc_expr = readRDS("cc-list-2.rds"), package = "ggplot2")
 
 test <- ld_make_chunks(ld)
 

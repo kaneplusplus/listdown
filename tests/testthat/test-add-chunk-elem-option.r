@@ -12,13 +12,13 @@ pres_list <- list(iris = iris,
 saveRDS(pres_list, "reference-data/option-chunk-check.rds")
 
 expect_error(
-  listdown(readRDS("reference-data/option-check.rds"),
+  listdown(load_cc_expr = readRDS("reference-data/option-check.rds"),
            package = "knitr",
            decorator = list(data.frame = kable),
            decorator_chunk_opts =
              list(data.frame = list("test_chunk", bunk = FALSE))))
 
-ld <- listdown(readRDS("reference-data/option-check.rds"),
+ld <- listdown(load_cc_expr = readRDS("reference-data/option-check.rds"),
                package = "knitr",
                decorator = list(data.frame = kable),
                decorator_chunk_opts =
