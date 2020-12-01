@@ -43,7 +43,7 @@ ld_workflowr_header <- function(title, toc = FALSE) {
 #' @export
 print.listdown_header <- function(x, ...) {
   ret <- as.character(x)
-  cat(ret, "\n", sep = "")
+  cat(ret, "\n", sep = "\n")
   invisible(ret)
 }
 

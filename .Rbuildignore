@@ -7,3 +7,7 @@
 ^CODE_OF_CONDUCT\.md$
 ^cran-comments\.md$
 ^CRAN-RELEASE$
+^inst/JSS4145_prescreened.zip$
+^inst/JSS4145_prescreened$
+^inst/jss$
+^inst/r-medicine-2020$

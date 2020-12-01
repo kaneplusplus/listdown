@@ -1,6 +1,6 @@
 Package: listdown
 Title: Create R Markdown from Lists
-Version: 0.3.0
+Version: 0.3.1
 Authors@R: c(
   person("Michael J.", "Kane",
     role = c("aut", "cph", "cre"),
@@ -22,6 +22,8 @@ Suggests:
   purrr,
   rmarkdown,
   knitr
+Enhances:
+  workflowr
 URL: https://github.com/kaneplusplus/listdown
 BugReports: https://github.com/kaneplusplus/listdown/issues
 RoxygenNote: 7.1.1
