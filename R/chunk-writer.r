@@ -15,11 +15,17 @@
 #' elements will not be included when the chunks are written. By default
 #' this is identity, meaning that the elements will be passed directly
 #' (through the identity() function).
+#' @param setup_expr an expression that is added before package are 
+#' loaded. The expression is put into a chunk named `setup` with option
+#' `include = FALSE` and is intended for initializing the document. For
+#' example the expression `knitr::opts_chunk$set(echo = FALSE)` could be
+#' used to turn echo'ing off for the entire document.
+#' @param init_expr an initial expression that will be added to the outputted
+#' document after the libraries have been called. This expression appears
+#' after packages are loaded and before data is read.
 #' @param load_cc_expr either an unquoted expression or a character string
 #' that will be turned into an unquoted expression via str2lang to load the 
 #' presentation list.
-#' @param init_expr an initial expression that will be added to the outputted
-#' document after the libraries have been called.
 #' @param ... default options sent to the chunks of the outputted document.
 #' @param chunk_opts a named list of options sent to the chunks of outputted
 #' documents. Note: takes priority over argument provided to ...
@@ -29,6 +35,7 @@ listdown <- function(package = NULL,
                      decorator = list(),
                      decorator_chunk_opts = list(),
                      default_decorator = identity,
+                     setup_expr = NULL,
                      init_expr = NULL,
                      load_cc_expr = NULL,
                      ...,
@@ -73,27 +80,11 @@ listdown <- function(package = NULL,
   if (!is.null(load_cc_expr)) {
     load_cc_expr <- create_load_cc_expr(match.call()$load_cc_expr)
   }
-#  if (is.character(match.call()$load_cc_expr)) {
-#    # If it's a string literal, then call str2lang on it.
-#   load_cc_expr <- str2lang(match.call()$load_cc_expr)
-#  } else {
-#    load_cc_expr <- tryCatch( {
-#        lce <- eval(match.call()$load_cc_expr)
-#        if (is.character(lce)) {
-#          # It's a variable holding a string. Call str2lang on it.
-#          str2lang(lce)
-#        } else {
-#          # It's a bare expression.
-#          match.call()$load_cc_expr
-#        }
-#      },
-#      # It's a bare expression.
-#      finally = match.call()$load_cc_expr)
-#  }
   ret <- list(load_cc_expr = load_cc_expr,
               decorator = decorator,
               package = package,
               init_expr = match.call()$init_expr,
+              setup_expr = match.call()$setup_expr,
               decorator_chunk_opts = decorator_chunk_opts,
               default_decorator = default_decorator,
               chunk_opts = chunk_opts)

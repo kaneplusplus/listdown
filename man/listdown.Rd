@@ -9,6 +9,7 @@ listdown(
   decorator = list(),
   decorator_chunk_opts = list(),
   default_decorator = identity,
+  setup_expr = NULL,
   init_expr = NULL,
   load_cc_expr = NULL,
   ...,
@@ -30,8 +31,15 @@ elements will not be included when the chunks are written. By default
 this is identity, meaning that the elements will be passed directly
 (through the identity() function).}
 
+\item{setup_expr}{an expression that is added before package are 
+loaded. The expression is put into a chunk named `setup` with option
+`include = FALSE` and is intended for initializing the document. For
+example the expression `knitr::opts_chunk$set(echo = FALSE)` could be
+used to turn echo'ing off for the entire document.}
+
 \item{init_expr}{an initial expression that will be added to the outputted
-document after the libraries have been called.}
+document after the libraries have been called. This expression appears
+after packages are loaded and before data is read.}
 
 \item{load_cc_expr}{either an unquoted expression or a character string
 that will be turned into an unquoted expression via str2lang to load the 
