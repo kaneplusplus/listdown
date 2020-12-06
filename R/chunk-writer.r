@@ -106,6 +106,16 @@ print.listdown <- function(x, ...) {
   } else {
     warning(yellow("No packages imported."))
   }
+  if ("setup_expr" %in% names(x)) {
+    cat("\n")
+    cat(bold("    Setup expression(s) (run before packages are loaded):\n"))
+    cat("\t")
+    if (length(x$setup_expr) == 0) {
+      cat("(none)\n")
+    } else {
+      cat(deparse(x$setup_expr), sep = "\n\t")
+    }
+  }
   if ("init_expr" %in% names(x)) {
     cat("\n")
     cat(bold("    Initial expression(s) (run after packages are loaded):\n"))
@@ -209,6 +219,14 @@ ld_make_chunks.default <- function(ld) {
            paste(class(ld), collapse = ":"), ".", sep = ""))
 }
 
+expr_to_string <- function(expr) {
+  if (deparse(expr[[1]]) == "{") {
+    unlist(lapply(expr[-1], function(x) c(deparse(x))))
+  } else {
+    deparse(expr)
+  }
+}
+
 #' @export
 ld_make_chunks.listdown <- function(ld) {
   if (is.null(ld$load_cc_expr)) {
@@ -220,6 +238,13 @@ ld_make_chunks.listdown <- function(ld) {
     cc_list <- eval(parse(text = cc_list))
   }
   ret_string <- ""
+  if (length(ld$setup_expr)) {
+    ret_string <- c(ret_string, 
+      "```{r setup, include = FALSE}",
+      expr_to_string(ld$setup_expr),
+      "```",
+      "")
+  }
   ret_string <-
     c(ret_string,
       sprintf("```{r%s}", make_chunk_option_string(ld$chunk_opts)))
@@ -234,11 +259,7 @@ ld_make_chunks.listdown <- function(ld) {
   if (length(ld$init_expr)) {
     ret_string <-
       c(ret_string,
-        if (deparse(ld$init_expr[[1]]) == "{") {
-          unlist(lapply(ld$init_expr[-1], function(x) c(deparse(x))))
-        } else {
-          deparse(ld$init_expr)
-        },
+        expr_to_string(ld$init_expr),
         "")
   }
   c(ret_string, 

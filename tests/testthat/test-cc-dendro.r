@@ -2,9 +2,7 @@ context("Dendrogram")
 
 library(ggplot2)
 
-if (make_reference) {
-  dir.create("reference-data", showWarnings = FALSE)
-}
+source("make-reference.r")
 
 cc_list <-
   list(

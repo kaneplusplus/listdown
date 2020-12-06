@@ -3,16 +3,13 @@ context("Chunk Options")
 
 source("make-reference.r")
 
-if (make_reference) {
-  dir.create("reference-data", showWarnings = FALSE)
-}
-
 pres_list <- list(iris = iris,
                   mtcars = mtcars)
 
-saveRDS(pres_list, "reference-data/option-check.rds")
+saveRDS(pres_list, file.path("reference-data", "option-check.rds"))
 
-ld <- listdown(load_cc_expr = readRDS("reference-data/option-check.rds"),
+ld <- listdown(load_cc_expr = readRDS(file.path("reference-data", 
+                                                "option-check.rds")),
                package = "knitr",
                decorator = list(data.frame = kable))
 

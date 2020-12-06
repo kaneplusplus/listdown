@@ -2,10 +2,6 @@ context("Headers")
 
 source("make-reference.r")
 
-if (make_reference) {
-  dir.create("reference-data", showWarnings = FALSE)
-}
-
 as.character(ld_rmarkdown_header("Workflow R", author = "Some Dude",
                               date = "2020"))
 

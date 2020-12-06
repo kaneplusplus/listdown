@@ -5,10 +5,6 @@ context("Make Chunks")
 
 source("make-reference.r")
 
-if (make_reference) {
-  dir.create("reference-data", showWarnings = FALSE)
-}
-
 # The list we'll make an RMarkdown document from.
 test_list <- list(
     iris = iris,
@@ -28,8 +24,9 @@ test_list <- list(
 # If it sees a ggplot object, it does nothing. If it sees a dataframe
 # it decorates with datatable from the DT package.
 
-saveRDS(test_list, "reference-data/test_list.rds")
-ld <- listdown(load_cc_expr = readRDS("reference-data/test_list.rds"),
+saveRDS(test_list, file.path("reference-data", "test_list.rds"))
+ld <- listdown(load_cc_expr = readRDS(file.path("reference-data", 
+                                                "test_list.rds")),
                package = c("ggplot2", "DT", "purrr"),
                decorator = list(ggplot = identity,
                                 data.frame = datatable),
@@ -45,11 +42,6 @@ test_that("A listdown object can be created.", {
   expect_true(inherits(ld, "listdown"))
 })
 
-print(ld)
-#test_that("A listdown object can be printed.", {
-#  expect_equal(ld, print.listdown(ld))
-#})
-
 # Create the RMarkdown string.
 
 if (make_reference) {
@@ -61,7 +53,8 @@ test_that("The listdown object is the same as before.", {
                readRDS(file.path("reference-data", "test-make-chunks-1.rds")))
 })
 
-ld2 <- listdown(load_cc_expr = readRDS("reference-data/test_list.rds"),
+ld2 <- listdown(load_cc_expr = readRDS(file.path("reference-data", 
+                                                 "test_list.rds")),
                 package = c("ggplot2", "DT", "purrr"),
                 decorator = list(data.frame = datatable),
                 init_expr = {
