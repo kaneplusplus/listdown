@@ -43,3 +43,9 @@
 # listdown 0.2.21
 
 * Fixed a bug related to unnamed computational component lists elements.
+
+# listdown 0.4.0
+
+* Mulitple bug fixes.
+* The listdown() function now supports a `setup_expr` which, if specified 
+is placed in a setup block.
