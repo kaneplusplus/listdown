@@ -36,17 +36,13 @@ graphs and tables. The goal of the package is not to provide a finished, readabl
 
 ## Installation
 
-<!--
 You can install the released version of listdown from [CRAN](https://CRAN.R-project.org) with:
 
 ``` r
 install.packages("listdown")
 ```
 
-And the development version from [GitHub](https://github.com/) with:
--->
-
-You can install the development version of {listdown} from [GitHub](https://github.com/) with:
+The development version of {listdown} can be installed from [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("devtools")
