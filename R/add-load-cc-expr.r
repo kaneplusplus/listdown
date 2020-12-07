@@ -6,7 +6,6 @@
 #' return is an unevaluated expression. 
 #' @param load_cc_expr a string or expression that should be use to load 
 #' the computational components.
-#' @export
 create_load_cc_expr <- function(load_cc_expr) {
   if (is.character(load_cc_expr)) {
     # If it's a string literal, then call str2lang on it.

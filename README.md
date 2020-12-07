@@ -14,6 +14,7 @@ output: github_document
 [![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/kaneplusplus/listdown?branch=master&svg=true)](https://ci.appveyor.com/project/kaneplusplus/listdown)
 [![codecov](https://codecov.io/gh/kaneplusplus/listdown/branch/master/graph/badge.svg)](https://codecov.io/gh/kaneplusplus/listdown)
 [![](http://cranlogs.r-pkg.org/badges/last-month/listdown?color=blue)](https://cran.r-project.org/package=listdown)
+[![Travis build status](https://travis-ci.com/kaneplusplus/listdown.svg?branch=master)](https://travis-ci.com/kaneplusplus/listdown)
 <!-- badges: end -->
 
 ## Overview 

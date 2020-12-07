@@ -26,25 +26,11 @@ ld
 
 
 ## ----eval = FALSE-------------------------------------------------------------
-## doc <- c(
-##   as.character(ld_rmarkdown_header("Anscombe's Quartet",
-##                                    author = "Francis Anscombe",
-##                                    date = "1973")),
-##   ld_make_chunks(ld))
-## 
-## writeLines("anscome-example.rmd")
-## 
-## doc
-
-
-## ----eval = TRUE, echo = FALSE------------------------------------------------
-doc <- c(
-  as.character(ld_rmarkdown_header("Anscombe's Quartet",
-                                   author = "Francis Anscombe",
-                                   date = "1973")),
-  ld_make_chunks(ld))
-
-doc
+## ld_write_file(ld_rmarkdown_header("Anscombe's Quartet",
+##                                   author = "Francis Anscombe",
+##                                   date = "1973"),
+##               ld,
+##               "anscome-example.rmd")
 
 
 ## -----------------------------------------------------------------------------
@@ -94,13 +80,13 @@ ld <- listdown(load_cc_expr = readRDS("comp-comp2.rds"),
                package = c("ggplot2", "DT", "purrr"),
                decorator = list(ggplot = identity,
                                 data.frame = datatable_no_search),
+               setup_expr = knitr::opts_chunk$set(echo = FALSE),
                init_expr = {
                  datatable_no_search <- partial(datatable,
                                                 options = list(dom = 't'))
-                 },
-               echo = FALSE)
+                 })
 
-ld_make_chunks(ld)[2:10]
+ld_make_chunks(ld)[2:14]
 
 
 ## -----------------------------------------------------------------------------
@@ -134,7 +120,7 @@ library(rmarkdown)
 make_surv_cc <- function(trial, treat, surv_cond_chars) {
   table_1 <- trial %>%
     tbl_summary(by = all_of(treat)) %>%
-    gtsummary::as_flextable()
+    gtsummary::as_flex_table()
 
   scs <- lapply(c("1", surv_cond_chars),
                 function(sc) {

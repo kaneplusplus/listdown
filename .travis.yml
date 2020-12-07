@@ -2,9 +2,3 @@
 
 language: R
 cache: packages
-
-r_packages:
-  - covr
-  - testthat
-after_success:
-  - travis_wait 60 Rscript -e 'covr::codecov()'
