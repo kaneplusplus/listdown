@@ -76,6 +76,10 @@ listdown <- function(package = NULL,
     } else {
       decorator <- eval(match.call()$decorator)
     }
+    if ("list" %in% names(decorator)) {
+      stop("You may not decorate a list. Consider making a list element you ",
+           "would\nlike to present a class instance and define a decorator.")
+    }
   }
   if (!is.null(load_cc_expr)) {
     load_cc_expr <- create_load_cc_expr(match.call()$load_cc_expr)
