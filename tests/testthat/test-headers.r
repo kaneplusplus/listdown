@@ -1,33 +1,19 @@
 context("Headers")
 
-source("make-reference.r")
-
-as.character(ld_rmarkdown_header("Workflow R", author = "Some Dude",
-                              date = "2020"))
-
-if (make_reference) {
-  saveRDS(ld_rmarkdown_header("Workflow R", author = "Some Dude",
-                              date = "2020"),
-          file.path("reference-data", "test-rmarkdown-header.rds"))
-}
+source("reference.r")
 
 mdh <- ld_rmarkdown_header("Workflow R", author = "Some Dude", date = "2020")
+
+write_if_make_reference(mdh, "test-rmarkdown-header.rds")
+
 test_that("The R Markdown header hasn't changed.", {
-  expect_equal(mdh,
-               readRDS(file.path("reference-data",
-                       "test-rmarkdown-header.rds")))
+  expect_equal(mdh, read_reference("test-rmarkdown-header.rds"))
 })
 
-capture.output(mdh)
-
-if (make_reference) {
-  saveRDS(ld_workflowr_header("Workflow R"),
-          file.path("reference-data", "test-workflowr-header.rds"))
-}
-
 wfr <- ld_workflowr_header("Workflow R")
+
+write_if_make_reference(wfr, "test-workflowr-header.rds")
+
 test_that("The workflowrheader hasn't changed.", {
-  expect_equal(wfr,
-               readRDS(file.path("reference-data",
-                       "test-workflowr-header.rds")))
+  expect_equal(wfr, read_reference("test-workflowr-header.rds"))
 })

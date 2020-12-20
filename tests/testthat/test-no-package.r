@@ -1,6 +1,6 @@
-context("No packages can be specified.")
+context("No packages need to be specified.")
 
-source("make-reference.r")
+source("reference.r")
 
 ld <- listdown(load_cc_expr = list(x = 1))
 
@@ -9,6 +9,11 @@ if (make_reference) {
           file.path("reference-data", "test-no-package.rds"))
 }
 
-expect_equal(readRDS(file.path("reference-data", "test-no-package.rds")),
-             paste(ld_make_chunks(ld), collapse = "\n"))
+write_if_make_reference(paste(ld_make_chunks(ld), collapse = "\n"),
+                        "test-no-package.rds")
+
+test_that("No packages need to be specified.", {
+  expect_equal(paste(ld_make_chunks(ld), collapse = "\n"),
+               read_reference("test-no-package.rds"))
+})
 

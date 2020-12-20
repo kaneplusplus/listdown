@@ -1,15 +1,12 @@
-
 context("Chunk Options")
 
-source("make-reference.r")
+source("reference.r")
 
-pres_list <- list(iris = iris,
-                  mtcars = mtcars)
+pres_list <- list(iris = iris, mtcars = mtcars)
 
-saveRDS(pres_list, file.path("reference-data", "option-check.rds"))
+write_if_make_reference(pres_list, "option-check.rds")
 
-ld <- listdown(load_cc_expr = readRDS(file.path("reference-data", 
-                                                "option-check.rds")),
+ld <- listdown(load_cc_expr = read_reference("option-check.rds"),
                package = "knitr",
                decorator = list(data.frame = kable))
 
@@ -17,51 +14,39 @@ test_that("Only listdown objects can be used to make chunks.", {
   expect_error(ld_make_chunks(letters, 1:10))
 })
 
-if (make_reference) {
-  saveRDS(ld_make_chunks(ld),
-          file.path("reference-data", "chunk-option-1.rds"))
-}
+write_if_make_reference(ld_make_chunks(ld), "chunk-option-1.rds")
 
 test_that("Output with no options works.", {
   expect_equal(ld_make_chunks(ld),
-               readRDS(file.path("reference-data", "chunk-option-1.rds")))
+               read_reference("chunk-option-1.rds"))
 })
 
 pres_list$mtcars <- ld_chunk_opts(pres_list$mtcars,
                                   echo = FALSE, results = "as.is")
 
-if (make_reference) {
-  saveRDS(ld_make_chunks(ld),
-          file.path("reference-data", "chunk-option-2.rds"))
-}
+write_if_make_reference(ld_make_chunks(ld), "chunk-option-2.rds")
 
 test_that("Chunk options can be added.", {
   expect_equal(ld_make_chunks(ld),
-               readRDS(file.path("reference-data", "chunk-option-2.rds")))
+               read_reference("chunk-option-2.rds"))
 })
 
 pres_list$iris <- ld_chunk_opts(pres_list$iris, chunk_name = "iris_chunk")
 
-if (make_reference) {
-  saveRDS(ld_make_chunks(ld),
-          file.path("reference-data", "chunk-option-3.rds"))
-}
+write_if_make_reference(ld_make_chunks(ld), "chunk-option-3.rds")
 
 test_that("Chunk names can be added.", {
   expect_equal(ld_make_chunks(ld),
-               readRDS(file.path("reference-data", "chunk-option-3.rds")))
+               read_reference("chunk-option-3.rds"))
 })
 
 pres_list$iris <- ld_chunk_opts(pres_list$iris, echo = TRUE)
 
-if (make_reference) {
-  saveRDS(ld_make_chunks(ld),
-          file.path("reference-data", "chunk-option-4.rds"))
-}
+write_if_make_reference(ld_make_chunks(ld), "chunk-option-4.rds")
 
 test_that("Chunks can have names and options.", {
   expect_equal(ld_make_chunks(ld),
-               readRDS(file.path("reference-data", "chunk-option-4.rds")))
+               read_reference("chunk-option-4.rds"))
 })
 
 test_that("Bad options can't be added.", {
@@ -79,3 +64,4 @@ test_that("Arg liststs can be created.", {
   attributes(plt)$listdown$chunk_name <- NULL
   expect_equal(attributes(plt)$listdown, list(echo = FALSE, eval = TRUE))
 })
+

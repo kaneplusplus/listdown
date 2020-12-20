@@ -2,7 +2,7 @@ context("Write file")
 
 library(ggplot2)
 
-source("make-reference.r")
+source("reference.r")
 
 cc_list <- list(
   Linear = ggplot(anscombe, aes(x = x1, y = y1)) + geom_point(),

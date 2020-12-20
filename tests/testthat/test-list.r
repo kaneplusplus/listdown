@@ -2,7 +2,7 @@ context("Write file")
 
 library(ggplot2)
 
-source("make-reference.r")
+source("reference.r")
 
 cc_list <- list(
   Linear = list(
@@ -17,11 +17,8 @@ ld <- listdown(load_cc_expr = readRDS("cc-list-2.rds"), package = "ggplot2")
 
 test <- ld_make_chunks(ld)
 
-if (make_reference) {
-  saveRDS(test, file.path("reference-data", "ld-cc-list-2-output.rds"))
-}
+write_if_make_reference(test, "ld-cc-list-2-output.rds")
 
-expect_equal(readRDS(file.path("reference-data", "ld-cc-list-2-output.rds")),
-             test)
+expect_equal(test, read_reference("ld-cc-list-2-output.rds"))
 
 unlink("cc-list-2.rds")

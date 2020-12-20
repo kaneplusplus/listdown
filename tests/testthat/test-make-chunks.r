@@ -3,7 +3,7 @@ library(DT)
 
 context("Make Chunks")
 
-source("make-reference.r")
+source("reference.r")
 
 # The list we'll make an RMarkdown document from.
 test_list <- list(
@@ -24,7 +24,8 @@ test_list <- list(
 # If it sees a ggplot object, it does nothing. If it sees a dataframe
 # it decorates with datatable from the DT package.
 
-saveRDS(test_list, file.path("reference-data", "test_list.rds"))
+write_if_make_reference(test_list, "test_list.rds")
+
 ld <- listdown(load_cc_expr = readRDS(file.path("reference-data", 
                                                 "test_list.rds")),
                package = c("ggplot2", "DT", "purrr"),
@@ -44,13 +45,11 @@ test_that("A listdown object can be created.", {
 
 # Create the RMarkdown string.
 
-if (make_reference) {
-  saveRDS(ld_make_chunks(ld),
-           file.path("reference-data", "test-make-chunks-1.rds"))
-}
+write_if_make_reference(ld_make_chunks(ld), "test-make-chunks-1.rds")
+
 test_that("The listdown object is the same as before.", {
   expect_equal(ld_make_chunks(ld),
-               readRDS(file.path("reference-data", "test-make-chunks-1.rds")))
+               read_reference("test-make-chunks-1.rds"))
 })
 
 ld2 <- listdown(load_cc_expr = readRDS(file.path("reference-data", 
@@ -71,12 +70,9 @@ test_that("A listdown object with initial expression can be created.", {
 
 # Create the RMarkdown string.
 
-if (make_reference) {
-  saveRDS(ld_make_chunks(ld2),
-           file.path("reference-data", "test-make-chunks-2.rds"))
-}
+write_if_make_reference(ld_make_chunks(ld2), "test-make-chunks-2.rds")
 
 test_that("The listdown object with init expr is the same as before.", {
   expect_equal(ld_make_chunks(ld2),
-               readRDS(file.path("reference-data", "test-make-chunks-2.rds")))
+               read_reference("test-make-chunks-2.rds"))
 })
