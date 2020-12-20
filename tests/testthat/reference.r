@@ -5,7 +5,7 @@ write_if_make_reference <-
            write_reference = make_reference) {
 
   if (!dir.exists(reference_data_dir)) {
-    dir.create(reference_dat_dir)
+    dir.create(reference_data_dir)
   }
 
   if (write_reference) {
