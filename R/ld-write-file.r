@@ -35,19 +35,29 @@
 #' information on how a presentation object should be displayed in the
 #' output.
 #' @param file_name the output file to write to.
-#' @importFrom crayon red
+#' @importFrom checkmate assert check_class check_character
 #' @export
 ld_write_file <- function(rmd_header, ld, file_name) {
+
+  assert(
+    check_class(rmd_header, "listdown_header"),
+    check_character(rmd_header),
+    combine = "or"
+  )
+
+  assert(
+    check_class(ld, "listdown"),
+    check_character(ld),
+    combine = "or"
+  )
+
   if (inherits(rmd_header, "listdown_header")) {
     rmd_header <- as.character(rmd_header)
-  } else if ( !is.character(rmd_header) ) {
-    stop(red("Argument rmd_header should be of type listdown_header or",
-             "character."))
-  }
+  } 
+
   if (inherits(ld, "listdown")) {
     ld <- ld_make_chunks(ld)
-  } else if ( !is.character(ld) ) {
-    stop(red("Argument ld should be of type listdown or character."))
   }
+
   writeLines(c(rmd_header, ld), file_name)
 }

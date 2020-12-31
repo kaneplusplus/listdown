@@ -6,7 +6,6 @@
 #' creating a dendrogram of the the computational components of a listdown
 #' object allowing the user to view the components hierarchically.
 #' @param x a named list of computational components
-#' @importFrom crayon red
 #' @examples
 #' if (require("ggplot2")) {
 #' 
@@ -19,11 +18,13 @@
 #'
 #'   ld_cc_dendro(cc_list)
 #' }
+#' @importFrom checkmate assert check_list
 #' @export
 ld_cc_dendro <- function(x) {
-  if (!is.list(x)) {
-    stop(red("Argument should be a list type."))
-  }
+
+  assert(
+    check_list(x)
+  )
 
   tdt_impl <- function(x, prefix_string) {
     for (i in seq_along(x)) {

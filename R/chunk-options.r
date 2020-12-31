@@ -80,9 +80,9 @@ ld_chunk_opts <- function(pres_obj, chunk_name = NULL, ..., chunk_opts = NULL) {
   }
   not_r_chunk_opts <- not_r_chunk_opts(names(chunk_opts))
   if (length(not_r_chunk_opts) > 0) {
-    stop(red("Unrecognized options:\n\t",
-             paste(not_r_chunk_opts, collapse = "\n\t"),
-             "\n", sep = ""))
+    stop("Unrecognized options:\n\t",
+         paste(not_r_chunk_opts, collapse = "\n\t"),
+         "\n", sep = "")
   }
   a$listdown <- c(chunk_name, chunk_opts)
   attributes(pres_obj) <- a

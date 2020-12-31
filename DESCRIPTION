@@ -1,6 +1,6 @@
 Package: listdown
 Title: Create R Markdown from Lists
-Version: 0.4.3
+Version: 0.4.4
 Authors@R: c(
   person("Michael J.", "Kane",
     role = c("aut", "cph", "cre"),
@@ -13,14 +13,15 @@ Encoding: UTF-8
 LazyData: true
 Depends: R (>= 3.5.0)
 Imports:
-  crayon,
+  checkmate,
+  rmarkdown,
+  tibble,
   yaml
 Suggests: 
   DT,
   ggplot2,
   testthat,
   purrr,
-  rmarkdown,
   knitr
 Enhances:
   workflowr
