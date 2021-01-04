@@ -4,7 +4,7 @@
 \alias{ld_make_chunks}
 \title{Write a listdown Object to a String}
 \usage{
-ld_make_chunks(ld)
+ld_make_chunks(ld, rmd_dir)
 }
 \arguments{
 \item{ld}{the listdown object that provides

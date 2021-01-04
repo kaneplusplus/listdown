@@ -325,7 +325,7 @@ recycle <- function(ind, len) {
 #' @param ... options to send to the rmarkdown::render() function.
 #' @importFrom checkmate assert check_class
 #' @importFrom rmarkdown render
-#' @importFrom fs path_rel
+#' @importFrom fs path_rel path_abs
 #' @export
 ld_create_doc <- 
   function(
@@ -359,7 +359,8 @@ ld_create_doc <-
               cc_file_name, " will be used.")
     }
     data_path <- file.path(rmd_dir, data_dir, cc_file_name)
-    saveRDS(ldb$cc, data_path)
+    make_dirs_as_needed(dirname(path_abs(data_path)))
+    saveRDS(ldb$cc, path_abs(data_path))
     ldb$ld$load_cc_expr <- 
       create_load_cc_expr(
         paste0('readRDS("', file.path(data_dir, cc_file_name), '")'))

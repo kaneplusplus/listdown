@@ -58,7 +58,7 @@ site_yaml <-
 site_path <- ld_build_html_site(
   pages,
   site_yaml,
-  view = FALSE,
+  view = TRUE,
   quiet = TRUE)
 
 test_that("Site can be built.", {

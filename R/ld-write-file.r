@@ -60,7 +60,7 @@ ld_write_file <- function(rmd_header, ld, file_name) {
   }
 
   if (inherits(ld, "listdown")) {
-    ld <- ld_make_chunks(ld)
+    ld <- ld_make_chunks(ld, rmd_dir = dirname(file_name))
   }
 
   writeLines(c(rmd_header, ld), file_name)

@@ -211,12 +211,12 @@ print.listdown <- function(x, ...) {
 #' output.
 #' @seealso \code{\link{listdown}}
 #' @export
-ld_make_chunks <- function(ld) {
+ld_make_chunks <- function(ld, rmd_dir) {
   UseMethod("ld_make_chunks", ld)
 }
 
 
-ld_make_chunks.default <- function(ld) {
+ld_make_chunks.default <- function(ld, rmd_dir) {
   stop("Don't know how to render an object of class ",
        paste(class(ld), collapse = ":"), ".", sep = "")
 }
@@ -230,15 +230,46 @@ expr_to_string <- function(expr) {
 }
 
 #' @export
-ld_make_chunks.listdown <- function(ld) {
+ld_make_chunks.listdown <- function(ld, rmd_dir = ".") {
   if (is.null(ld$load_cc_expr)) {
     stop("The load_cc_expr needs to be specified. ",
          "Use `create_load_cc_expr()` to set it.")
   }
+
+  wd <- getwd()
+  make_dirs_as_needed(path_abs(rmd_dir))
+  cc_list <- tryCatch(
+    {
+      setwd(rmd_dir)
+      ret <- eval(ld$load_cc_expr)
+      setwd(wd)
+      ret
+    },
+    error = function(e) {
+      setwd(wd)
+      stop("Can't evaluate ", expr_to_string(ld$load_cc_expr), 
+           " from directory ", rmd_dir)
+    })
+  
+  if (is.character(cc_list)) {	   
+    cc_list <- tryCatch(
+      {
+        setwd(rmd_dir)
+        ret <- eval(parse(text = cc_list))
+        setwd(wd)
+        ret
+      },
+      error = function(e) {
+        setwd(wd)
+        stop("Can't evaluate", ld$load_cc_expr, "from directory", rmd_dir)
+      })
+    cc_list <- eval(parse(text = cc_list))
+  }
+
   if (inherits(ld$load_cc_expr, "call")) {
     cc_list <- expr_to_string(ld$load_cc_expr)
   } else {
-    stop("The load_cc_exp element should be a call object.")
+    stop("The load_cc_expr element should be a call object.")
   }
   ret_string <- ""
   if (length(ld$setup_expr)) {
