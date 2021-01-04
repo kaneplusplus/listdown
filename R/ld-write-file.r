@@ -36,12 +36,14 @@
 #' output.
 #' @param file_name the output file to write to.
 #' @importFrom checkmate assert check_class check_character
+#' @importFrom yaml as.yaml
 #' @export
 ld_write_file <- function(rmd_header, ld, file_name) {
 
   assert(
     check_class(rmd_header, "listdown_header"),
     check_character(rmd_header),
+    check_list(rmd_header),
     combine = "or"
   )
 
@@ -53,7 +55,9 @@ ld_write_file <- function(rmd_header, ld, file_name) {
 
   if (inherits(rmd_header, "listdown_header")) {
     rmd_header <- as.character(rmd_header)
-  } 
+  } else if (is.list(rmd_header)) {
+    rmd_header <- as.yaml(rmd_header)
+  }
 
   if (inherits(ld, "listdown")) {
     ld <- ld_make_chunks(ld)

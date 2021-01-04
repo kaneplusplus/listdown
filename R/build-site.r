@@ -188,7 +188,7 @@ ld_build_html_site <-
     doc_bundles, 
     site_yaml,
     rmd_dir = file.path(tempdir(), "rmarkdown"), 
-    data_dir = file.path(tempdir(), "data"),
+    data_dir = file.path("..", "data"),
     html_dir = file.path("..", "html"),
     render_site = TRUE,
     view = interactive(),
@@ -332,7 +332,7 @@ ld_create_doc <-
     rmd_file_name = basename(tempfile(pattern = "rmarkdown", fileext = ".rmd")),
     rmd_dir = tempdir(), 
     output_dir = file.path(rmd_dir, "pres"),
-    render_doc= TRUE,
+    render_doc = TRUE,
     cc_file_name = NULL,
     data_dir = NULL,
     view = interactive(),
@@ -357,7 +357,7 @@ ld_create_doc <-
       warning("Argument `cc_file_name` not specified ", 
               cc_file_name, " will be used.")
     }
-    data_path <- file.path(data_dir, cc_file_name)
+    data_path <- file.path(path_rel(data_dir, rmd_dir), cc_file_name)
     saveRDS(ldb$cc, data_path)
     ldb$ld$load_cc_expr <- 
       create_load_cc_expr(paste0('readRDS("', data_path, '")'))
