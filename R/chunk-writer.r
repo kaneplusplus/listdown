@@ -235,9 +235,10 @@ ld_make_chunks.listdown <- function(ld) {
     stop("The load_cc_expr needs to be specified. ",
          "Use `create_load_cc_expr()` to set it.")
   }
-  cc_list <- eval(ld$load_cc_expr)
-  if (is.character(cc_list)) {
-    cc_list <- eval(parse(text = cc_list))
+  if (inherits(ld$load_cc_expr, "call")) {
+    cc_list <- expr_to_string(ld$load_cc_expr)
+  } else {
+    stop("The load_cc_exp element should be a call object.")
   }
   ret_string <- ""
   if (length(ld$setup_expr)) {

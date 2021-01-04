@@ -56,7 +56,7 @@ site_yaml <-
     rmd_name = c("index.rmd", "iris.rmd"))
 
 site_path <- ld_build_html_site(
-  list(Anscombe = anscombe_page, Iris = iris_page),
+  pages,
   site_yaml,
   view = FALSE,
   quiet = TRUE)

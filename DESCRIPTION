@@ -1,6 +1,6 @@
 Package: listdown
 Title: Create R Markdown from Lists
-Version: 0.4.4
+Version: 0.4.5
 Authors@R: c(
   person("Michael J.", "Kane",
     role = c("aut", "cph", "cre"),
@@ -16,7 +16,8 @@ Imports:
   checkmate,
   rmarkdown,
   tibble,
-  yaml
+  yaml,
+  fs
 Suggests: 
   DT,
   ggplot2,

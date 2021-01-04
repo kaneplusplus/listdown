@@ -210,7 +210,7 @@ ld_build_html_site <-
   )
 
   if (make_data_dir) {
-    make_dirs_as_needed(data_dir)
+    make_dirs_as_needed(file.path(rmd_dir, data_dir))
   }
   if (make_rmd_dir) {
     make_dirs_as_needed(rmd_dir)
@@ -234,7 +234,7 @@ ld_build_html_site <-
           ("" %in% names(doc_bundles)) ) ) {
     stop("An index.html file must be specified.")
   }
- 
+
   # See if we have an unnamed bundle. It should be the index.rmd file. 
   if (any(names(doc_bundles) == "")) {
     if (sum(names(doc_bundles) == "") > 1) {
@@ -325,12 +325,13 @@ recycle <- function(ind, len) {
 #' @param ... options to send to the rmarkdown::render() function.
 #' @importFrom checkmate assert check_class
 #' @importFrom rmarkdown render
+#' @importFrom fs path_rel
 #' @export
 ld_create_doc <- 
   function(
     ldb, 
     rmd_file_name = basename(tempfile(pattern = "rmarkdown", fileext = ".rmd")),
-    rmd_dir = tempdir(), 
+    rmd_dir = file.path(tempdir(), "rmarkdown"),
     output_dir = file.path(rmd_dir, "pres"),
     render_doc = TRUE,
     cc_file_name = NULL,
@@ -345,22 +346,23 @@ ld_create_doc <-
 
   if (ldb$cc_in_memory) {
     if (is.null(data_dir) && is.null(cc_file_name)) {
-      data_dir <- tempdir()
+      data_dir <- "../data"
       cc_file_name <- basename(tempfile(pattern = "data", fileext = ".rds"))
     }
     if (is.null(data_dir)) {
-      data_dir <- tempdir()
-      warning("Argument `data_dir` is not specified, `tempdir()` will be used.")
+      data_dir <- "../data"
+      warning("Argument `data_dir` is not specified, ../data will be used.")
     }
     if (is.null(cc_file_name)) {
       cc_file_name <- basename(tempfile(pattern = "data", fileext = ".rds"))
       warning("Argument `cc_file_name` not specified ", 
               cc_file_name, " will be used.")
     }
-    data_path <- file.path(path_rel(data_dir, rmd_dir), cc_file_name)
+    data_path <- file.path(rmd_dir, data_dir, cc_file_name)
     saveRDS(ldb$cc, data_path)
     ldb$ld$load_cc_expr <- 
-      create_load_cc_expr(paste0('readRDS("', data_path, '")'))
+      create_load_cc_expr(
+        paste0('readRDS("', file.path(data_dir, cc_file_name), '")'))
   }
 
   rmd_path <- file.path(rmd_dir, rmd_file_name)
