@@ -251,26 +251,26 @@ ld_make_chunks.listdown <- function(ld, rmd_dir = ".") {
            " from directory ", rmd_dir)
     })
   
-  if (is.character(cc_list)) {	   
-    cc_list <- tryCatch(
-      {
-        setwd(rmd_dir)
-        ret <- eval(parse(text = cc_list))
-        setwd(wd)
-        ret
-      },
-      error = function(e) {
-        setwd(wd)
-        stop("Can't evaluate", ld$load_cc_expr, "from directory", rmd_dir)
-      })
-    cc_list <- eval(parse(text = cc_list))
-  }
+#  if (is.character(cc_list)) {	   
+#    cc_list <- tryCatch(
+#      {
+#        setwd(rmd_dir)
+#        ret <- eval(parse(text = cc_list))
+#        setwd(wd)
+#        ret
+#      },
+#      error = function(e) {
+#        setwd(wd)
+#        stop("Can't evaluate", ld$load_cc_expr, "from directory", rmd_dir)
+#      })
+#    cc_list <- eval(parse(text = cc_list))
+#  }
 
-  if (inherits(ld$load_cc_expr, "call")) {
-    cc_list <- expr_to_string(ld$load_cc_expr)
-  } else {
-    stop("The load_cc_expr element should be a call object.")
-  }
+#  if (inherits(ld$load_cc_expr, "call")) {
+#    cc_list <- expr_to_string(ld$load_cc_expr)
+#  } else {
+#    stop("The load_cc_expr element should be a call object.")
+#  }
   ret_string <- ""
   if (length(ld$setup_expr)) {
     ret_string <- c(ret_string, 

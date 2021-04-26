@@ -345,10 +345,6 @@ ld_create_doc <-
   )
 
   if (ldb$cc_in_memory) {
-    if (is.null(data_dir) && is.null(cc_file_name)) {
-      data_dir <- "../data"
-      cc_file_name <- basename(tempfile(pattern = "data", fileext = ".rds"))
-    }
     if (is.null(data_dir)) {
       data_dir <- "../data"
       warning("Argument `data_dir` is not specified, ../data will be used.")
