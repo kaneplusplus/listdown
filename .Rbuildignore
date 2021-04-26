@@ -2,6 +2,7 @@
 ^\.travis\.yml$
 ^README\.Rmd$
 ^README\.md$
+^README\.html$
 ^codecov\.yml$
 ^appveyor\.yml$
 ^CODE_OF_CONDUCT\.md$
@@ -9,6 +10,7 @@
 ^CRAN-RELEASE$
 ^inst/JSS4145_prescreened.zip$
 ^inst/JSS4145_prescreened$
-^inst/jss$
+^inst/jss*
 ^inst/r-medicine-2020$
 ^\.github$
+^docs$

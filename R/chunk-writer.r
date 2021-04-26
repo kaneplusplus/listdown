@@ -209,6 +209,7 @@ print.listdown <- function(x, ...) {
 #' @param ld the listdown object that provides
 #' information on how a presentation object should be displayed in the
 #' output.
+#' @param rmd_dir the R Markdown directory.
 #' @seealso \code{\link{listdown}}
 #' @export
 ld_make_chunks <- function(ld, rmd_dir) {

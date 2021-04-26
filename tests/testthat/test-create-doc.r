@@ -28,8 +28,8 @@ test_that("Create page bundle works", {
 })
 
 
-ldcp <- ld_create_doc(ldb, view = FALSE, quiet = TRUE)
 test_that("A document has been created", {
+  ldcp <- expect_warning(ld_create_doc(ldb, view = FALSE, quiet = TRUE))
   expect_s3_class(ldcp, "ld_page_bundle")
 })
 
@@ -50,6 +50,9 @@ cc_path <- file.path(getwd(), "cc.rds")
 
 read_cc_path_str <- paste0('readRDS("', cc_path, '")')
 ld_bundle_doc(read_cc_path_str, header, ld)
-ld_create_doc(ldb, view = FALSE, quiet = TRUE)
+
+test_that("A document can be created.", {
+  expect_warning(ld_create_doc(ldb, view = FALSE, quiet = TRUE))
+})
 
 unlink("cc.rds")

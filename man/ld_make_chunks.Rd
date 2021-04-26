@@ -10,6 +10,8 @@ ld_make_chunks(ld, rmd_dir)
 \item{ld}{the listdown object that provides
 information on how a presentation object should be displayed in the
 output.}
+
+\item{rmd_dir}{the R Markdown directory.}
 }
 \description{
 After a presentation list and listdown object have been
