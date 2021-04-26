@@ -20,6 +20,28 @@ R Markdown header, and listdown object. Together, these three objects
 are sufficient to create a document, which can be written with the
 `ld_create_document()` function.
 }
+\examples{
+library(ggplot2)
+cc <- list(
+    iris = iris,
+     Sepal.Length = list(
+       Sepal.Width = ggplot(iris, aes(x = Sepal.Length, y = Sepal.Width)) +
+            geom_point(),
+       Petal.Length = ggplot(iris, aes(x = Sepal.Length, y = Sepal.Width)) +
+            geom_point(),
+     Colored = list(
+          Sepal.Width = ggplot(iris, aes(x = Sepal.Length, y = Sepal.Width,
+            color = Species)) + geom_point(),
+          Petal.Length = ggplot(iris, aes(x = Sepal.Length, y = Petal.Length,
+            color = Species)) + geom_point())))
+
+header <- ld_rmarkdown_header("Test header", author = "Some Dude",
+                              date = "2020")
+
+ld <- listdown(package = "ggplot2")
+
+ld_bundle_doc(cc, header, ld)
+}
 \seealso{
 ld_create_document
 }
