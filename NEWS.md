@@ -49,3 +49,13 @@
 * Mulitple bug fixes.
 * The listdown() function now supports a `setup_expr` which, if specified 
 is placed in a setup block.
+
+# listdown 0.4.1
+
+* Bug fixes.
+* Experimental "bundling" added.
+
+# listdown 0.4.5
+
+* Added class_and_tag() function for convenience.
+* Bundling functionality added with testing.
