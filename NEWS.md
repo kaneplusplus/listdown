@@ -55,7 +55,7 @@ is placed in a setup block.
 * Bug fixes.
 * Experimental "bundling" added.
 
-# listdown 0.4.5
+# listdown 0.4.6
 
 * Added class_and_tag() function for convenience.
 * Bundling functionality added with testing.
