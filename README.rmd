@@ -18,6 +18,7 @@ knitr::opts_chunk$set(
 <!-- badges: start -->
 [![](https://www.r-pkg.org/badges/version/listdown?color=blue)](https://cran.r-project.org/package=listdown)
 [![R-CMD-check](https://github.com/kaneplusplus/listdown/workflows/R-CMD-check/badge.svg)](https://github.com/kaneplusplus/listdown/actions)
+[![Codecov test coverage](https://codecov.io/gh/kaneplusplus/listdown/branch/master/graph/badge.svg)](https://codecov.io/gh/kaneplusplus/listdown?branch=master)
 <!-- badges: end -->
 
 ## Overview 

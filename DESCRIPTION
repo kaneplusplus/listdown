@@ -18,11 +18,12 @@ Imports:
   yaml,
   fs
 Suggests: 
-  DT,
-  ggplot2,
-  testthat,
-  purrr,
-  knitr
+    DT,
+    ggplot2,
+    testthat,
+    purrr,
+    knitr,
+    covr
 Enhances:
   workflowr
 URL: https://github.com/kaneplusplus/listdown
