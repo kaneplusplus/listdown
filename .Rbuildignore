@@ -14,3 +14,5 @@
 ^inst/r-medicine-2020$
 ^\.github$
 ^docs$
+^.*\.Rproj$
+^\.Rproj\.user$

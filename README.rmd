@@ -1,3 +1,9 @@
+---
+title: "listdown"
+output:
+  md_document:
+    variant: markdown_github
+---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
@@ -70,7 +76,7 @@ saveRDS(pres_list, "pres-list.rds")
 
 # Create a listdown object.
 ld <- listdown(load_cc_expr = readRDS("pres-list.rds"), # The expression to load pres_list.
-               package = "ggplot2"))                    # The packges needed to render plots.
+               package = "ggplot2")                     # The packages needed to render plots.
 
 # Output an html document to a string.
 doc <- c(
