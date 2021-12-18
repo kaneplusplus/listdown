@@ -199,18 +199,19 @@ make_dirs_as_needed <- function(dir_paths) {
 #' @importFrom checkmate assert check_character check_list
 #' @importFrom tibble tibble as_tibble
 #' @importFrom rmarkdown render_site
-#' @importFrom tools file_path_as_absolute
 #' @importFrom yaml write_yaml
 #' @importFrom stats na.omit
+#' @importFrom fs path_rel
 #' @importFrom utils browseURL
 #' @export
 ld_build_html_site <- 
   function(
     doc_bundles, 
     site_yaml,
-    rmd_dir = file.path(tempdir(), "rmarkdown"), 
-    data_dir = file.path("..", "data"),
-    html_dir = file.path("..", "html"),
+    site_dir = tempdir(),
+    rmd_dir = file.path(site_dir, "rmarkdown"), 
+    data_dir = file.path(site_dir, "data"),
+    html_dir = file.path(site_dir, "html"),
     render_site = TRUE,
     view = interactive(),
     make_data_dir = TRUE,
@@ -231,7 +232,7 @@ ld_build_html_site <-
   )
 
   if (make_data_dir) {
-    make_dirs_as_needed(file.path(rmd_dir, data_dir))
+    make_dirs_as_needed(data_dir)
   }
   if (make_rmd_dir) {
     make_dirs_as_needed(rmd_dir)
@@ -277,6 +278,9 @@ ld_build_html_site <-
     doc_bundles <- doc_bundles[-unnamed_id]
   }
   bundles <- tibble(name = names(doc_bundles), bundle = doc_bundles)
+  if ( !("name" %in% names(bundles)) ) { 
+    bundles$name <- out_fns$name
+  }
   bundles <- as_tibble(merge(bundles, out_fns, by = "name", all = TRUE))
   bundles$rds<- paste0(remove_file_extension(bundles$rmd), ".rds")
   if (nrow(bundles) != nrow(na.omit(bundles))) {
@@ -288,7 +292,7 @@ ld_build_html_site <-
       rmd_file_name = bundles$rmd[i],
       cc_file_name = bundles$rds[i],
       rmd_dir = rmd_dir,
-      data_dir = data_dir[recycle(i, length(rmd_dir))],
+      data_dir = path_rel(data_dir[recycle(i, length(rmd_dir))], rmd_dir),
       output_dir = html_dir,
       render_doc = FALSE)
   }
@@ -299,7 +303,7 @@ ld_build_html_site <-
       browseURL(file.path(rmd_dir, html_dir, "index.html"))
     }
   }
-  file_path_as_absolute(file.path(rmd_dir, html_dir, "index.html"))
+  normalizePath(file.path(html_dir, "index.html"), mustWork = FALSE)
 }
 
 #' @importFrom checkmate check_numeric

@@ -7,9 +7,10 @@
 ld_build_html_site(
   doc_bundles,
   site_yaml,
-  rmd_dir = file.path(tempdir(), "rmarkdown"),
-  data_dir = file.path("..", "data"),
-  html_dir = file.path("..", "html"),
+  site_dir = tempdir(),
+  rmd_dir = file.path(site_dir, "rmarkdown"),
+  data_dir = file.path(site_dir, "data"),
+  html_dir = file.path(site_dir, "html"),
   render_site = TRUE,
   view = interactive(),
   make_data_dir = TRUE,
