@@ -356,11 +356,11 @@ ld_create_doc <-
   function(
     ldb, 
     rmd_file_name = basename(tempfile(pattern = "rmarkdown", fileext = ".rmd")),
-    rmd_dir = file.path(tempdir(), "rmarkdown"),
-    output_dir = file.path(rmd_dir, "pres"),
+    rmd_dir = tempdir(),
+    output_dir = rmd_dir,
     render_doc = TRUE,
     cc_file_name = NULL,
-    data_dir = NULL,
+    data_dir = ".",
     view = interactive(),
     ...) {
 

@@ -273,26 +273,6 @@ ld_make_chunks.listdown <- function(ld, rmd_dir = ".") {
            " from directory ", rmd_dir)
     })
   
-#  if (is.character(cc_list)) {	   
-#    cc_list <- tryCatch(
-#      {
-#        setwd(rmd_dir)
-#        ret <- eval(parse(text = cc_list))
-#        setwd(wd)
-#        ret
-#      },
-#      error = function(e) {
-#        setwd(wd)
-#        stop("Can't evaluate", ld$load_cc_expr, "from directory", rmd_dir)
-#      })
-#    cc_list <- eval(parse(text = cc_list))
-#  }
-
-#  if (inherits(ld$load_cc_expr, "call")) {
-#    cc_list <- expr_to_string(ld$load_cc_expr)
-#  } else {
-#    stop("The load_cc_expr element should be a call object.")
-#  }
   ret_string <- ""
   if (length(ld$setup_expr)) {
     ret_string <- c(ret_string, 
@@ -319,7 +299,7 @@ ld_make_chunks.listdown <- function(ld, rmd_dir = ".") {
         "")
   }
   c(ret_string, 
-    sprintf("cc_list <- %s", deparse(ld$load_cc_expr)),
+    sprintf("cc_list <- %s", paste(deparse(ld$load_cc_expr), collapse = "\n")),
     "```",
     depth_first_concat(cc_list, ld))
 }
