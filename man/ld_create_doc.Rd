@@ -6,7 +6,7 @@
 \usage{
 ld_create_doc(
   ldb,
-  rmd_file_name = basename(tempfile(pattern = "rmarkdown", fileext = ".rmd")),
+  rmd_file_name = basename(tempfile(pattern = "rmarkdown", fileext = ".Rmd")),
   rmd_dir = tempdir(),
   output_dir = rmd_dir,
   render_doc = TRUE,

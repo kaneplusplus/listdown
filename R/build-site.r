@@ -250,7 +250,7 @@ ld_build_html_site <-
   }
 
   out_fns <- tabs_and_href(site_yaml)
-  out_fns$rmd <- paste0(remove_file_extension(out_fns$href), ".rmd")
+  out_fns$rmd <- paste0(remove_file_extension(out_fns$href), ".Rmd")
 
   if ( !( ("index.html" %in% out_fns$href) || 
           ("" %in% names(doc_bundles)) ) ) {
@@ -268,7 +268,7 @@ ld_build_html_site <-
     unnamed_id <- which(names(doc_bundles) == "")
     ld_create_doc(
       ldb = doc_bundles[[unnamed_id]], 
-      rmd_file_name = "index.rmd",
+      rmd_file_name = "index.Rmd",
       cc_file_name = "index.rds",
       rmd_dir = rmd_dir,
       data_dir = data_dir[recycle(unnamed_id, length(rmd_dir))],
@@ -355,7 +355,7 @@ recycle <- function(ind, len) {
 ld_create_doc <- 
   function(
     ldb, 
-    rmd_file_name = basename(tempfile(pattern = "rmarkdown", fileext = ".rmd")),
+    rmd_file_name = basename(tempfile(pattern = "rmarkdown", fileext = ".Rmd")),
     rmd_dir = tempdir(),
     output_dir = rmd_dir,
     render_doc = TRUE,
