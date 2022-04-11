@@ -172,6 +172,8 @@ make_dirs_as_needed <- function(dir_paths) {
 #' unnamed bundle, which will be assumed to correspond to an index.rmd file.
 #' @param site_yaml a list of site information, which will be written
 #' to the _site.yml file.
+#' @param site_dir the directory where the site (rmd, data, and html files)
+#' will be written to.
 #' @param rmd_dir the directory where the R Markdown files will reside. By 
 #' default an "rmarkdown" file is written to `tempdir()`.
 #' @param data_dir the location where data can be found for each bundle.
