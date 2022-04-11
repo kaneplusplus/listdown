@@ -175,7 +175,7 @@ print.listdown <- function(x, ...) {
   }
   if ("default_decorator" %in% names(x)) {
     cat("\n")
-    cat("    Defaut decorator:\n")
+    cat("    Default decorator:\n")
     cat("\t", deparse(x$default_decorator), "\n", sep = "")
   }
   if ("chunk_opts" %in% names(x)) { 

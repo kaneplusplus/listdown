@@ -1,7 +1,7 @@
 ## ----cc1----------------------------------------------------------------------
-library(ggplot2)
+library("ggplot2")
 
-library(listdown)
+library("listdown")
 
 data(anscombe)
 
@@ -111,11 +111,11 @@ ld_make_chunks(ld)[12:16]
 
 
 ## ---- eval = TRUE, message=FALSE, warning=FALSE-------------------------------
-library(gtsummary)
-library(dplyr)
-library(survival)
-library(survminer)
-library(rmarkdown)
+library("gtsummary")
+library("dplyr")
+library("survival")
+library("survminer")
+library("rmarkdown")
 
 make_surv_cc <- function(trial, treat, surv_cond_chars) {
   table_1 <- trial %>%

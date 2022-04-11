@@ -33,7 +33,7 @@ requiring human-generation, providing guidelines for the generation of
 these documents, and identifying a use case in clinical trial reporting.
 These concepts and use case are illustrated through the \pkg{listdown}
 package for the \proglang{R} programming environment, which is is
-currently available on the Comprehensive R Archive Network (CRAN).
+currently available on the Comprehensive R Archive Network.
 }
 
 \Keywords{reproducibility, reproducible documents, data presentation}
@@ -196,25 +196,25 @@ exploration and reviewing analysis results as well as a starting point
 for a more formal write up. These methods include:
 
 \begin{itemize}
-\item{\bf as\_ld\_yml() }{- turn a computational component list into YAML with class information}
-\item{\bf ld\_cc\_dendro() }{- create a dendrogram from a list of computational components}
-\item{\bf ld\_chunk\_opts() }{- apply chunk options to a presentation object}
-\item{\bf ld\_ioslides\_header() }{- create an ioslides presentation header}
-\item{\bf ld\_make\_chunks() }{- write a listdown object to a string}
-\item{\bf ld\_rmarkdown\_header() }{- create an R Markdown header}
-\item{\bf ld\_workflowr\_header() }{- create a worflowr header}
-\item{\bf ld\_write\_file() }{- write to and R Markdown file}
-\item{\bf listdown() }{- create a listdown object to create an \proglang{R} Markdown document}
-\item{\bf print.listdown()}{- print the listdown options for \proglang{R} Markdown document creation}
+\item{\bf as\_ld\_yml() }{- turn a computational component list into YAML with class information.}
+\item{\bf ld\_cc\_dendro() }{- create a dendrogram from a list of computational components.}
+\item{\bf ld\_chunk\_opts() }{- apply chunk options to a presentation object.}
+\item{\bf ld\_ioslides\_header() }{- create an ioslides presentation header.}
+\item{\bf ld\_make\_chunks() }{- write a listdown object to a string.}
+\item{\bf ld\_rmarkdown\_header() }{- create an R Markdown header.}
+\item{\bf ld\_workflowr\_header() }{- create a worflowr header.}
+\item{\bf ld\_write\_file() }{- write to and R Markdown file.}
+\item{\bf listdown() }{- create a listdown object to create an \proglang{R} Markdown document.}
+\item{\bf print.listdown()}{- print the listdown options for \proglang{R} Markdown document creation.}
 \end{itemize}
 
 The rest of this paper is structured as follows. The next section goes
-over basic usage and commentary. This section is meant to convey the
+over basic usage and commentary. It is meant to convey the
 approach used by the package and shows how to describe an output
 document using \pkg{listdown}, create a document, and change how the
 presentation of computational components can be specialized using
 \pkg{listdown} decorators. With the user accustomed to the package's
-basic usage, section 3 describes the design of the package. Section 4
+basic usage, Section 3 describes the design of the package. Section 4
 goes over advanced usage of the package including adding initialization
 code to and outputted document as well as how to control chunk-level
 options. Section 5 provides a simplified case study of how the package
@@ -252,9 +252,9 @@ output is below.
 
 \begin{CodeChunk}
 \begin{CodeInput}
-R> library(ggplot2)
+R> library("ggplot2")
 R> 
-R> library(listdown)
+R> library("listdown")
 R> 
 R> data(anscombe)
 R> 
@@ -377,7 +377,7 @@ R> ld_make_chunks(ld)[1:7]
 \begin{CodeOutput}
 [1] ""                                     
 [2] "```{r echo = FALSE}"                  
-[3] "library(ggplot2)"                     
+[3] "library(\"ggplot2\")"                     
 [4] ""                                     
 [5] "cc_list <- readRDS(\"comp-comp.rds\")"
 [6] "```"                                  
@@ -595,9 +595,9 @@ R> ld_make_chunks(ld)[2:14]
  [3] "```"                                                                   
  [4] ""                                                                      
  [5] "```{r}"                                                                
- [6] "library(ggplot2)"                                                      
- [7] "library(DT)"                                                           
- [8] "library(purrr)"                                                        
+ [6] "library(\"ggplot2\")"
+ [7] "library(\"DT\")" 
+ [8] "library(\"purrr\")"
  [9] ""                                                                      
 [10] "datatable_no_search <- partial(datatable, options = list(dom = \"t\"))"
 [11] ""                                                                      
@@ -757,11 +757,11 @@ structure can be seen in the dendrogram below.
 
 \begin{CodeChunk}
 \begin{CodeInput}
-R> library(gtsummary)
-R> library(dplyr)
-R> library(survival)
-R> library(survminer)
-R> library(rmarkdown)
+R> library("gtsummary")
+R> library("dplyr")
+R> library("survival")
+R> library("survminer")
+R> library("rmarkdown")
 R> 
 R> make_surv_cc <- function(trial, treat, surv_cond_chars) {
 +   table_1 <- trial %>%
@@ -879,7 +879,7 @@ effectively reduce the the difficulty of generating documents in a
 variety of contexts and fits readily in data processing and analysis
 pipelines.
 
-\bibliography{../references}
+\bibliography{references}
 
 
 
