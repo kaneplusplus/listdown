@@ -1,0 +1,21 @@
+bibentry(bibtype = "Article",
+  title        = "On the Programmatic Generation of Reproducible Documents",
+  author       = c(person(given = "Michael",
+                          family = "Kane",
+                          email = "michael.kane@yale.edu"),
+                   person(given = c("Xun", "(Tony)"),
+                          family = "Jiang",
+                          email = "xunj@amgen.com",
+                          comment = "Tony"),
+                   person(given = "Simon",
+                          family = "Urbanek",
+                          email = "s.urbanek@auckland.ac.nz")),
+  journal      = "Journal of Statistical Software",
+  year         = "2022",
+  volume       = "103",
+  number       = "8",
+  pages        = "1--15",
+  doi          = "10.18637/jss.v103.i08",
+  header       = "To cite listdown in publications use:"
+)
+

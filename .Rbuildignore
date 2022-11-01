@@ -16,3 +16,4 @@
 ^docs$
 ^.*\.Rproj$
 ^\.Rproj\.user$
+^CRAN-SUBMISSION$

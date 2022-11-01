@@ -110,7 +110,7 @@ doc <- c(
 cat("\n", paste(doc, collapse = "\n"))
 ```
 
-The `listdown()` function provides *document-wide* R chunk options for displaying computational components. The chunk options are exactly the same as those in the R markdown document and can be used to tailor the default presentation for a variety of needs. The complete set of options can be found in the [R Markdown Reference Guide](https://rstudio.com/wp-content/uploads/2015/03/rmarkdown-reference.pdf). As a concrete example, the code used to create present the plots could be hidden in the output document using the following code.
+The `listdown()` function provides *document-wide* R chunk options for displaying computational components. The chunk options are exactly the same as those in the R markdown document and can be used to tailor the default presentation for a variety of needs. The complete set of options can be found in the [R Markdown Reference Guide](https://www.rstudio.com/wp-content/uploads/2015/03/rmarkdown-reference.pdf). As a concrete example, the code used to create present the plots could be hidden in the output document using the following code.
 
 ```{r}
 ld <- listdown(load_cc_expr = readRDS("comp-comp.rds"), 
