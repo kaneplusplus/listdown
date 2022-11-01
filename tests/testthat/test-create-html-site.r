@@ -49,18 +49,18 @@ anscombe_page <- ld_bundle_doc(anscombe_cc, header, ld)
 
 pages <- list(Anscombe = anscombe_page, Iris = iris_page)
 
-#test_that("Site can be built.", {
-#  site_yaml <- 
-#    ld_site_yaml(
-#      "Test Site", 
-#      tab_name = names(pages),
-#      rmd_name = c("index.Rmd", "iris.Rmd"))
-#
-#  site_path <- ld_build_html_site(
-#    pages,
-#    site_yaml,
-#    view = TRUE,
-#    quiet = TRUE)
-#  expect_equal(basename(site_path), "index.html")
-#})
+test_that("Site can be built.", {
+  site_yaml <- 
+    ld_site_yaml(
+      "Test Site", 
+      tab_name = names(pages),
+      rmd_name = c("index.Rmd", "iris.Rmd"))
+
+  site_path <- ld_build_html_site(
+    pages,
+    site_yaml,
+    view = TRUE,
+    quiet = TRUE)
+  expect_equal(basename(site_path), "index.html")
+})
 

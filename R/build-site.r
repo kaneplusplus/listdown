@@ -36,7 +36,7 @@ ld_bundle_doc <- function(cc, header, ld) {
   mc <- match.call()
 
   cc_in_memory <- FALSE
-  if (inherits(mc$cc, "name")) {
+  if (inherits(mc$cc, "name") || inherits(mc$cc, "call")) {
     if (is.list(cc)) {
       cc_in_memory <- TRUE
     } else if (is.character(cc)) {
