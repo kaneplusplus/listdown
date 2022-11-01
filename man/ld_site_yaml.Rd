@@ -2,7 +2,7 @@
 % Please edit documentation in R/build-site.r
 \name{ld_site_yaml}
 \alias{ld_site_yaml}
-\title{Create a Minimalist Site YAML List}
+\title{Create a Minimal Site YAML List}
 \usage{
 ld_site_yaml(site_name, tab_name, rmd_name, navbar_title = site_name)
 }
@@ -18,5 +18,5 @@ respective tabs.}
 `site_name` argument.}
 }
 \description{
-Create a Minimalist Site YAML List
+Create a Minimal Site YAML List
 }

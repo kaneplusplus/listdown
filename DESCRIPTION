@@ -27,5 +27,5 @@ Enhances:
   workflowr
 URL: https://github.com/kaneplusplus/listdown
 BugReports: https://github.com/kaneplusplus/listdown/issues
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.1
 VignetteBuilder: knitr

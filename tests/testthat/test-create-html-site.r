@@ -60,7 +60,7 @@ test_that("Site can be built.", {
     pages,
     site_yaml,
     view = TRUE,
-    quiet = TRUE)
+    quiet = FALSE)
   expect_equal(basename(site_path), "index.html")
 })
 

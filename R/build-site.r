@@ -104,7 +104,7 @@ remove_file_extension <- function(x) {
   )
 }
 
-#' Create a Minimalist Site YAML List
+#' Create a Minimal Site YAML List
 #' 
 #' @param site_name the name of the site.
 #' @param tab_name the name of the tabs on the site.
@@ -243,9 +243,8 @@ ld_build_html_site <-
   if (length(data_dir) != 1 && length(data_dir) != length(doc_bundles)) {
     stop("The data directory must be a single directory or one per bundle.")
   }
-
   if (is.null(site_yaml$output_dir) || site_yaml$output_dir == "") {
-    site_yaml$output_dir <- html_dir
+    site_yaml$output_dir <- path_rel(html_dir, rmd_dir)
   } else {
     warning(paste("Output dir specified in yaml list. The `html_dir`", 
                   "argument will be ignored."))
@@ -299,10 +298,11 @@ ld_build_html_site <-
       render_doc = FALSE)
   }
   write_yaml(site_yaml, file.path(rmd_dir, "_site.yml"))
+  
   if (render_site) {
     render_site(rmd_dir, ...)
     if (view) {
-      browseURL(file.path(rmd_dir, html_dir, "index.html"))
+      browseURL(file.path(rmd_dir, site_yaml$output_dir, "index.html"))
     }
   }
   normalizePath(file.path(html_dir, "index.html"), mustWork = FALSE)
