@@ -59,8 +59,8 @@ test_that("Site can be built.", {
   site_path <- ld_build_html_site(
     pages,
     site_yaml,
-    view = TRUE,
-    quiet = FALSE)
+    view = FALSE,
+    quiet = TRUE)
   expect_equal(basename(site_path), "index.html")
 })
 
