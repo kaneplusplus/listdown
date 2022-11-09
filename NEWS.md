@@ -59,3 +59,8 @@ is placed in a setup block.
 
 * Added class_and_tag() function for convenience.
 * Bundling functionality added with testing.
+
+# listdown 0.5.3
+
+* Fixed a path issue.
+* Fixed a regression test failure flagged by CRAN.
